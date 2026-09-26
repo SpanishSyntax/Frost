@@ -69,7 +69,7 @@ in {
         Type = "simple";
         # -batch means non-interactive (accept non-conflicting changes automatically)
         # -confirmbigdeletes=false keeps it silent unless things go horribly wrong
-        ExecStart = 
+        ExecStart =
           "${pkgs.unison}/bin/unison ${localWorkDir} ${gdriveMountDir} "
           + "-batch "
           + "-confirmbigdeletes=false "
@@ -78,6 +78,8 @@ in {
           + "-ignore 'Name .Trash-*' "
           + "-ignore 'Name __pycache__' "
           + "-ignore 'Name __marimo__' "
+          + "-ignore 'Name {.obsidian/workspace*,*.obsidian/workspace-mobile*}' "
+          + "-ignore 'Name .obsidian/cache' "
           + "-perms 0";
       };
     };
