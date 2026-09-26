@@ -1,0 +1,3 @@
+[profiles."localhost"]
+url = "http://localhost:6167"
+user_id = "@juan:localhost"

@@ -1,0 +1,36 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--mount",
+        "type=bind,src=${ALLOWED_DIRECTORY},dst=/projects",
+        "mcp/filesystem",
+        "/projects"
+      ],
+      "command": "docker"
+    },
+    "git": {
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "--mount",
+        "type=bind,src=${REPOSITORY_PATH},dst=/workspace",
+        "mcp/git"
+      ],
+      "command": "docker"
+    },
+    "sequentialthinking": {
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "mcp/sequentialthinking"
+      ],
+      "command": "docker"
+    }
+  }
+}

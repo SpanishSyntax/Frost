@@ -1,0 +1,77 @@
+{
+    "appearance": {
+        "transparency": {
+            "enabled": false
+        }
+    },
+    "background": {
+        "desktopClock": {
+            "background": {
+                "blur": true,
+                "enabled": false,
+                "opacity": 0.7
+            },
+            "enabled": true,
+            "invertColors": false,
+            "position": "bottom-right",
+            "scale": 1,
+            "shadow": {
+                "blur": 0.4,
+                "enabled": true,
+                "opacity": 0.7
+            }
+        },
+        "wallpaperEnabled": false
+    },
+    "bar": {
+        "clock": {
+            "showIcon": false
+        },
+        "workspaces": {
+            "activeIndicator": true,
+            "activeTrail": true,
+            "occupiedBg": false,
+            "showWindows": false,
+            "showWindowsOnSpecialWorkspaces": false,
+            "shown": 5
+        }
+    },
+    "general": {
+        "apps": {
+            "audio": [
+                "pwvucontrol"
+            ],
+            "explorer": [
+                "thunar"
+            ],
+            "playback": [
+                "spotify"
+            ],
+            "terminal": [
+                "kitty"
+            ]
+        }
+    },
+    "launcher": {
+        "useFuzzy": {
+            "apps": true
+        }
+    },
+    "services": {
+        "sensorUnits": "Celsius",
+        "weatherUnits": "Celsius"
+    },
+    "session": {
+        "commands": {
+            "logout": [
+                "uwsm",
+                "stop"
+            ]
+        }
+    },
+    "utilities": {
+        "cards": {
+            "recorder": false
+        }
+    }
+}

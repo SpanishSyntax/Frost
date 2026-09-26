@@ -1,0 +1,6 @@
+[[Accounts]]
+Name = 'tut'
+Server = 'https://fosstodon.org'
+ClientID = '!CMD!gopass show -o -f misc/tut-id'
+ClientSecret = '!CMD!gopass show -o -f misc/tut-secret'
+AccessToken = '!CMD!gopass show -o -f misc/tut-token'

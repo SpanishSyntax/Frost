@@ -1,0 +1,61 @@
+{
+  "lockfile-version": 1,
+  "manifest": {
+    "schema-version": "1.12.0",
+    "install": {
+      "ollama": {
+        "pkg-path": "flox-cuda/ollama"
+      }
+    },
+    "vars": {
+      "LD_LIBRARY_PATH": "/run/opengl-driver/lib:/run/opengl-driver-32/lib"
+    },
+    "hook": {},
+    "profile": {},
+    "options": {
+      "systems": [
+        "x86_64-linux"
+      ],
+      "cuda-detection": true
+    },
+    "services": {
+      "ollama-daemon": {
+        "command": "ollama serve",
+        "vars": {
+          "OLLAMA_HOST": "0.0.0.0"
+        }
+      }
+    }
+  },
+  "packages": [
+    {
+      "attr_path": "ollama",
+      "broken": false,
+      "derivation": "/nix/store/inm556l56qzmnfgjpd3kfag5g3dr4h4k-ollama-0.24.0.drv",
+      "description": "Get up and running with large language models locally, using CUDA for NVIDIA GPU acceleration",
+      "install_id": "ollama",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=29916453413845e54a65b8a1cf996842300cd299",
+      "name": "ollama-0.24.0",
+      "pname": "ollama",
+      "rev": "29916453413845e54a65b8a1cf996842300cd299",
+      "rev_count": 1003640,
+      "rev_date": "2026-05-23T03:54:30Z",
+      "scrape_date": "2026-05-28T17:13:11.368572371Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.24.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/f98r3428i6hvf8drs6vkm0zy4p3kl5iw-ollama-0.24.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    }
+  ]
+}
