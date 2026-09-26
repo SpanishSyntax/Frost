@@ -1,53 +1,252 @@
 # ❄️ Frost
 
-A clean, modular, Flake-based **NixOS configuration** repository designed for reproducing system environments, dotfiles, and automated setups.
+> **Modular, Declarative NixOS Starter Framework & Flake Distribution**
 
-## 📂 Repository Structure
+Frost is an opinionated, highly modular NixOS framework and starter distribution. It separates reusable system and desktop infrastructure from personal fleet configuration, providing **110+ granular, toggleable modules** across system services, modern Wayland desktops, development tools, and user environments.
 
-The configuration follows a modular structural layout:
-
-* **`installer/`** — Declarative system installation and recovery flake apps (`frost-install`, `frost-recover`).
-* **`home/`** — Home Manager configurations (user-specific dotfiles, applications, and shell configurations).
-* **`hosts/`** — Host-specific configurations (hardware layouts, system options, and bootloaders).
-* **`lib/`** — Custom helper functions and shared utility libraries for Nix expressions.
-* **`modules/`** — Reusable NixOS system modules grouped by features (services, desktop environments, apps).
-* **`secrets/`** — Enforced safety boundary for secrets text management (handled via SOPS).
+Frost is built from the ground up to be:
+* **Zero Burnt-in Identity**: Purely anonymized and parameterized with no hardcoded credentials, secret keys, or personal paths.
+* **Dual Consumption Model**: Use it directly as a standalone starter template (fork and customize) or consume it as an external Flake library in a private fleet repository.
+* **Declarative Storage**: Integrated [Disko](https://github.com/nix-community/disko) partitioning with root-on-tmpfs / Btrfs ephemeral impermanence support.
+* **Rapid Iteration**: Live dotfile hot-reloading via parameterized out-of-store symlinks without requiring full system rebuilds.
+* **Automated Life-cycle**: Declarative installer and emergency recovery CLI apps (`frost-install` and `frost-recover`).
 
 ---
 
-## 🛠️ Management Commands
+## 📂 Repository Layout
 
-This configuration wraps commands using standard flake operations.
-
-### 1. Build and Test Configuration
-To test modifications safely without replacing the current boot system:
-```bash
-nixos-rebuild test --flake .#your-host-name
-```
-
-### 2. Switch and Apply System Layouts
-To permanently build and switch to a targeted host configuration:
-```bash
-sudo nixos-rebuild switch --flake .#your-host-name
-```
-
-### 3. Update Lockfile Inputs
-To bring the channels and inputs tracked in `flake.lock` up to current releases:
-```bash
-nix flake update
-```
-
-### 4. Optimize and Garbage Collect Store
-To purge orphaned derivations, packages, and old systemic history links:
-```bash
-nix-store --gc
-nix-env --delete-generations old
+```text
+Frost/
+├── flake.nix               # Flake inputs, library exports, and starter configurations
+├── installer/              # Automated installation & rescue tools (frost-install, frost-recover)
+│   ├── install.sh
+│   └── recover.sh
+├── lib/                    # Helpers (mkSystem generator, recursive file scraper)
+│   └── helpers/
+├── hosts/                  # Host profiles & archetypes
+│   ├── base.nix            # Core Nix settings (GC, flakes, trusted-users)
+│   ├── boot.nix            # Standard systemd-boot loader configuration
+│   ├── workstation/        # Starter graphical workstation (Hyprland + GNOME)
+│   └── server/             # Starter headless server (Docker + SSH)
+├── modules/                # System-level modules (frost.* namespace)
+│   ├── desktop/            # Window managers, desktop environments, display managers
+│   ├── hardware/           # Audio (PipeWire), Bluetooth, Networking, Power
+│   ├── oci/                # OCI containerized services (Jellyfin, Immich, pgAdmin)
+│   ├── security/           # Polkit, PAM (U2F), SOPS-nix, 1Password
+│   ├── services/           # Tailscale, SSH, Cloudflared, Syncthing, AdGuard
+│   ├── storage/            # Disko, Btrfs rollback, Impermanence, ZFS
+│   └── virtualization/     # MicroVM, Docker, Podman, Libvirt, Bottles
+└── home/                   # User-level Home Manager modules (frost.home.* namespace)
+    ├── home.nix            # Central user module collector
+    ├── applications/       # 110+ granular app modules (dev, creative, shell, office)
+    ├── configs/            # Managed configuration dotfiles (Hyprland, Kitty, Zsh, etc.)
+    └── users/              # User profiles
+        └── frost.nix       # Generic starter user environment
 ```
 
 ---
 
-## 🔒 Security & Secrets Management
+## 🚀 Getting Started
 
-This repository uses **SOPS-Nix** to manage sensitive settings securely:
-* Public encryption targets are defined inside `.sops.yaml`.
-* Actual raw values reside as encrypted assets within the `secrets/` directory.
+You can adopt Frost in two ways depending on your workflow:
+
+### Option A: As a Starter Template (Fork & Clone)
+
+Ideal if you want a complete, self-contained NixOS setup for your personal machines.
+
+1. **Clone or fork this repository**:
+   ```bash
+   git clone https://github.com/SpanishSyntax/Frost.git ~/Frost
+   cd ~/Frost
+   ```
+
+2. **Inspect and adjust starter configurations**:
+   * [`hosts/workstation/`](hosts/workstation) — Pre-configured with Hyprland, GNOME, PipeWire, SDDM, and Disko NVMe partitioning.
+   * [`hosts/server/`](hosts/server) — Pre-configured headless setup with Docker, OpenSSH, and standard Disko SATA partitioning.
+   * [`home/users/frost.nix`](home/users/frost.nix) — Starter user dotfiles (Zsh, Starship, Neovim, Kitty, Git).
+
+3. **Customize credentials**:
+   In `hosts/workstation/users.nix`, change the initial password or add your SSH authorized keys:
+   ```nix
+   users.users.frost = {
+     isNormalUser = true;
+     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
+     initialPassword = "your-password-here";
+     # openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAA..." ];
+   };
+   ```
+
+4. **Build and switch**:
+   ```bash
+   # Test without modifying bootloader
+   nixos-rebuild test --flake .#workstation
+
+   # Switch permanently
+   sudo nixos-rebuild switch --flake .#workstation
+   ```
+
+---
+
+### Option B: As an External Flake Library (Private Fleet Architecture)
+
+Ideal if you want to keep your personal configurations, encrypted secrets, and private hostnames in a separate private repository (e.g. `Glacier`) while pulling modules and updates from Frost.
+
+Create a private repository with the following minimal `flake.nix`:
+
+```nix
+{
+  description = "Personal Fleet Configuration";
+
+  inputs = {
+    frost.url = "github:SpanishSyntax/Frost";
+    nixpkgs.follows = "frost/nixpkgs";
+  };
+
+  outputs = { self, frost, nixpkgs, ... } @ inputs: let
+    inherit (frost.lib) mkSystem;
+  in {
+    nixosConfigurations = {
+      my-laptop = mkSystem {
+        host = "my-laptop";
+        modules = [
+          ./hosts/my-laptop/configuration.nix
+        ];
+        specialArgs = { inherit self; };
+      };
+    };
+  };
+}
+```
+
+In your host's `configuration.nix`, you have instant access to all `frost.*` system and user options with baseline system settings pre-injected:
+
+```nix
+{ pkgs, ... }: {
+  imports = [
+    ./hardware-configuration.nix
+    ./disko.nix
+    ./users.nix
+  ];
+
+  frost = {
+    desktop.wms.hyprland.enable = true;
+    hardware.pipewire.enable = true;
+    hardware.bluetooth.enable = true;
+    security.polkit.enable = true;
+    system.home_manager.enable = true;
+  };
+}
+```
+
+---
+
+## 💿 Declarative Installation & Recovery
+
+Frost packages declarative installer and recovery tools available as Flake apps:
+
+### 1. `frost-install` — Automated Partitioning & Deployment
+
+Runs [Disko](https://github.com/nix-community/disko) to partition and format disks, initializes persistent directory layouts (`/persist`), sets up host SSH keys, and installs NixOS:
+
+```bash
+# Install directly from the live installer image:
+sudo nix run github:SpanishSyntax/Frost#install -- workstation
+
+# Or from a local clone:
+sudo nix run .#install -- workstation
+```
+
+> [!WARNING]
+> Running `frost-install` will repartition and **format** the target drive declared in the host's `disko.nix`. Ensure your disk devices match your machine before proceeding.
+
+### 2. `frost-recover` — Dynamic Rescue Mounting
+
+Detects Btrfs root partitions (including LUKS-encrypted roots), automatically discovers historical root snapshots under `old_roots/`, mounts subvolumes (`@`, `@nix`, `@persist`, `@home`, `@boot`), and enters the environment:
+
+```bash
+# Auto-detects and mounts root filesystem to /mnt
+sudo nix run github:SpanishSyntax/Frost#recover
+
+# Enter the system environment
+sudo nixos-enter
+```
+
+---
+
+## 🧩 Option Namespaces Overview
+
+Frost utilizes a unified, predictable option hierarchy:
+
+### System Options (`frost.*`)
+
+| Namespace | Key Capabilities |
+| :--- | :--- |
+| `frost.desktop.wms` | `hyprland` (UWSM, Waybar, Caelestia integration) |
+| `frost.desktop.des` | `gnome` |
+| `frost.desktop.dms` | `sddm`, `caelestia-greeter` |
+| `frost.hardware` | `pipewire`, `bluetooth`, `power`, `networking` (NetworkManager or Networkd) |
+| `frost.security` | `pam` (YubiKey U2F), `sops_nix`, `polkit`, `gnome_keyring`, `onepassword` |
+| `frost.services` | `ssh`, `tailscale`, `wireguard`, `cloudflared`, `syncthing`, `adguard` |
+| `frost.storage` | `disko`, `impermanence` (root-on-tmpfs), `btrfs_rollback`, `zfs` |
+| `frost.virtualization` | `microvm` (declarative hypervisor guest VMs), `docker`, `podman`, `libvirt` |
+| `frost.system` | `home_manager` (shared module injection), `keymap`, `autoTimezone` |
+
+### User Options (`frost.home.apps.*`)
+
+Over 110 modular application wrappers managed by Home Manager:
+
+* **`ai`**: `antigravity`, `mcp_hub`, `n8n`, `opencode`
+* **`creative`**: `blender`, `kdenlive`, `inkscape`, `obs`, `parabolic`, `sly`
+* **`development`**: `git`, `nvim`, `flaker`, `heimdall`, `android_studio`, `vscode`, `zed`
+* **`shell`**: `zsh`, `starship`, `bat`, `eza`, `fzf`, `kitty`, `tmux`, `zoxide`, `fastfetch`
+* **`networking`**: `zen_browser`, `brave`, `tor`, `wireguard`, `openvpn`, `remmina`
+* **`office`**: `libreoffice`, `onlyoffice`, `zotero`, `marktext`, `folio`, `todoist`
+* **`system`**: `btop`, `ripgrep`, `thunar`, `pwvucontrol`, `sops`, `zip`
+
+---
+
+## ⚡ Dotfiles Hot-Reloading
+
+Frost supports live editing of dotfiles without full NixOS rebuilding. When enabled, dotfiles are linked out-of-store via `mkOutOfStoreSymlink`:
+
+```nix
+frost.home = {
+  dotfiles = {
+    enableSymlinks = true;
+    symlinkSourcePath = "/home/youruser/Frost/home/configs";
+  };
+};
+```
+
+Any edits made inside `home/configs/` (such as Hyprland keybinds, Waybar CSS, or Kitty themes) take effect immediately on reload without triggering `nixos-rebuild switch`.
+
+---
+
+## 🔐 Secrets Management
+
+Frost does not store private credentials. When integrating secrets via [SOPS-nix](https://github.com/Mic92/sops-nix), all sensitive modules accept declarative, optional path inputs:
+
+```nix
+frost.security.sops_nix = {
+  enable = true;
+  defaultSopsFile = ./secrets/passwords.yaml;
+};
+
+frost.security.pam = {
+  enable = true;
+  sopsFile = ./secrets/pam.yaml;
+};
+
+frost.oci.jellyfin = {
+  enable = true;
+  sopsFile = ./secrets/services/jellyfin.yaml;
+};
+```
+
+If `sopsFile` is omitted or set to `null`, secret extraction is cleanly bypassed, ensuring modules can still be evaluated and run in public or unencrypted environments.
+
+---
+
+## 📜 License
+
+Licensed under the [MIT License](LICENSE) (or applicable project license). Contributions and improvements are welcome!
