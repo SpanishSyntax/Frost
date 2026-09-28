@@ -39,8 +39,28 @@ in {
       default = [];
     };
 
+    extraTCPPortRanges = lib.mkOption {
+      type = lib.types.listOf (lib.types.submodule {
+        options = {
+          from = lib.mkOption {type = lib.types.port;};
+          to = lib.mkOption {type = lib.types.port;};
+        };
+      });
+      default = [];
+    };
+
     extraUDPPorts = lib.mkOption {
       type = lib.types.listOf lib.types.port;
+      default = [];
+    };
+
+    extraUDPPortRanges = lib.mkOption {
+      type = lib.types.listOf (lib.types.submodule {
+        options = {
+          from = lib.mkOption {type = lib.types.port;};
+          to = lib.mkOption {type = lib.types.port;};
+        };
+      });
       default = [];
     };
 
@@ -163,11 +183,15 @@ in {
             config.services.openssh.ports
           );
 
+          allowedTCPPortRanges = lib.optionals (!cfg.panicMode) cfg.extraTCPPortRanges;
+
           allowedUDPPorts = lib.optionals (!cfg.panicMode) (
             cfg.extraUDPPorts
             ++ lib.optionals tailscaleEnabled
             [config.services.tailscale.port]
           );
+
+          allowedUDPPortRanges = lib.optionals (!cfg.panicMode) cfg.extraUDPPortRanges;
         };
       };
     }
