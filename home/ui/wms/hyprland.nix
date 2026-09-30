@@ -6,13 +6,27 @@
 }: let
   cfg = config.frost.home.ui.wms.hyprland;
 in {
+  options.frost.home.ui.wms = {
+    hyprland = {
+      enable = lib.mkEnableOption "Hyprland feature set";
+
+      extraPackages = lib.mkOption {
+        type = lib.types.listOf lib.types.package;
+        default = [];
+        example = lib.literalExpression "[ pkgs.wl-clipboard pkgs.waybar ]";
+        description = "Extra packages to install alongside Hyprland.";
+      };
+    };
+  };
+
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      hyprpolkitagent
-    ];
+    home.packages =
+      [
+        pkgs.hyprpolkitagent
+      ]
+      ++ cfg.extraPackages;
 
     systemd.user.services = {
-      # Polkit Agent for 1Password / auth prompts
       hyprpolkitagent = {
         Unit = {
           Description = "Hyprland Polkit Authentication Agent";
@@ -32,7 +46,6 @@ in {
         };
       };
 
-      # Sensor listener for screen rotation
       iio-hyprland = {
         Unit = {
           Description = "iio-hyprland screen rotation daemon";
