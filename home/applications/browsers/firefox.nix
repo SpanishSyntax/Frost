@@ -9,8 +9,8 @@ in {
   options.frost.home.apps.browsers.firefox.enable = lib.mkEnableOption "Firefox Browser";
 
   config = lib.mkIf cfg.enable {
-    home.packages = [
-      pkgs.firefox
-    ];
+    programs.firefox = {
+      enable = true;
+    };
   };
 }

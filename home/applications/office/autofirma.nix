@@ -45,17 +45,16 @@ in {
     };
 
     # Configure Firefox
-    # programs.firefox = {
-    #   enable = true;
-    #   policies = {
-    #     SecurityDevices = {
-    #       "OpenSC PKCS11" = "${pkgs.opensc}/lib/opensc-pkcs11.so";
-    #       "DNIeRemote" = "${config.programs.dnieremote.finalPackage}/lib/libdnieremotepkcs11.so";
-    #     };
-    #   };
-    #   profiles.default = {
-    #     id = 0;
-    #   };
-    # };
+    programs.firefox = {
+      policies = {
+        SecurityDevices = {
+          "OpenSC PKCS11" = "${pkgs.opensc}/lib/opensc-pkcs11.so";
+          "DNIeRemote" = "${config.programs.dnieremote.finalPackage}/lib/libdnieremotepkcs11.so";
+        };
+      };
+      profiles.default = {
+        id = 0;
+      };
+    };
   };
 }
