@@ -5,7 +5,7 @@ return {
 
   -- Apps
   terminal = "kitty",
-  browser = "zen-twilight",
+  browser = "firefox",
   editor = "kitty -e nvim",
   -- fileExplorer = "thunar",
   audioSettings = "pwvucontrol",
