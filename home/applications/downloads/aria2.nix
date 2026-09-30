@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.apps.shell.aria2;
+  cfg = config.frost.home.apps.downloads.aria2;
 in {
-  options.frost.home.apps.shell = {
+  options.frost.home.apps.downloads = {
     aria2.enable = lib.mkEnableOption "Aria2 Download tool";
   };
 
