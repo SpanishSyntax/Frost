@@ -6,7 +6,6 @@
   ...
 }: let
   cfg = config.frost.security.pam;
-
 in {
   options.frost.security.pam = {
     enable = lib.mkEnableOption "PAM Yubi feature set";
@@ -17,7 +16,10 @@ in {
     };
     u2fKey = lib.mkOption {
       type = lib.types.str;
-      default = if host != null then "u2f_keys_${host}" else "u2f_keys";
+      default =
+        if host != null
+        then "u2f_keys_${host}"
+        else "u2f_keys";
       description = "SOPS secret key name for PAM U2F authentication.";
     };
   };
@@ -40,16 +42,24 @@ in {
 
     security.pam.u2f = {
       enable = true;
-      settings = {
-        cue = true;
-        interactive = true;
-      } // lib.optionalAttrs (cfg.sopsFile != null) {
-        authfile = config.sops.secrets.u2f_keys.path;
-      };
+      settings =
+        {
+          cue = true;
+          interactive = true;
+        }
+        // lib.optionalAttrs (cfg.sopsFile != null) {
+          authfile = config.sops.secrets.u2f_keys.path;
+        };
     };
 
     security.pam.services = {
       sudo.u2fAuth = true;
+      "1password" = {
+        u2fAuth = true;
+      };
+      polkit-1 = {
+        u2fAuth = true;
+      };
     };
   };
 }
