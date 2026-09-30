@@ -25,8 +25,4 @@ hl.monitor({
   scale = 1,
 })
 
-hl.on("hyprland.start", function()
-  hl.exec_cmd("iio-hyprland")
-end)
-
 hl.bind("SUPER + W", hl.dsp.exec_cmd("zapzap"))
