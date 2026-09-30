@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.apps.leisure.gamemode;
+  cfg = config.frost.home.apps.gaming.gamemode;
 in {
-  options.frost.home.apps.leisure.gamemode.enable = lib.mkEnableOption "Gamemode";
+  options.frost.home.apps.gaming.gamemode.enable = lib.mkEnableOption "Gamemode";
 
   config = lib.mkIf cfg.enable {
     home.packages = [

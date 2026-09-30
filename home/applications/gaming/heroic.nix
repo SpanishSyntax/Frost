@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.apps.leisure.heroic;
+  cfg = config.frost.home.apps.gaming.heroic;
 in {
-  options.frost.home.apps.leisure.heroic.enable = lib.mkEnableOption "Heroic";
+  options.frost.home.apps.gaming.heroic.enable = lib.mkEnableOption "Heroic";
 
   config = lib.mkIf cfg.enable {
     home.packages = [
