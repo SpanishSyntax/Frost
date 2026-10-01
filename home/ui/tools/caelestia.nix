@@ -6,7 +6,6 @@
   ...
 }: let
   cfg = config.frost.home.ui.tools.caelestia;
-  dotfiles = "${config.home.homeDirectory}/Frost/home/configs";
 in {
   imports = [
     inputs.caelestia.homeManagerModules.default
@@ -14,6 +13,17 @@ in {
 
   options.frost.home.ui.tools.caelestia = {
     enable = lib.mkEnableOption "caelestia";
+
+    configsPath = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = config.frost.home.environment.configsPath;
+      example = null;
+      description = ''
+        Path to flox configs for out-of-store symlinking.
+        Defaults to global `frost.home.environment.configsPath`.
+        Set to `null` to use the pure flake store.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -49,11 +59,17 @@ in {
     '';
 
     xdg.configFile."caelestia" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/caelestia";
+      source =
+        if cfg.configsPath != null
+        then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/caelestia"
+        else "${inputs.self}/home/configs/flox_ollama";
       recursive = true;
     };
     xdg.configFile."hypr" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/hypr";
+      source =
+        if cfg.configsPath != null
+        then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/hypr"
+        else "${inputs.self}/home/configs/flox_ollama";
       recursive = true;
     };
   };

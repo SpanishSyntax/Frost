@@ -6,7 +6,6 @@
   ...
 }: let
   cfg = config.frost.home.apps.development.nvim;
-  dotfiles = "${config.home.homeDirectory}/Frost/home/configs";
 
   mcpEnabled = config.frost.home.apps.ai.mcp_hub.enable or false;
   antigravityEnabled = config.frost.home.apps.ai.antigravity.enable or false;
@@ -15,6 +14,17 @@ in {
 
   options.frost.home.apps.development.nvim = {
     enable = lib.mkEnableOption "Neovim";
+
+    configsPath = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = config.frost.home.environment.configsPath;
+      example = null;
+      description = ''
+        Path to flox configs for out-of-store symlinking.
+        Defaults to global `frost.home.environment.configsPath`.
+        Set to `null` to use the pure flake store.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -54,7 +64,10 @@ in {
       plugins = {
         dev.frost = {
           pure = "${inputs.self}/home/configs/nvim";
-          impure = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/nvim";
+          impure =
+            if cfg.configsPath != null
+            then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/nvim"
+            else null;
         };
       };
     };
