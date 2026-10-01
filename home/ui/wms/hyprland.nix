@@ -6,17 +6,8 @@
   ...
 }: let
   cfg = config.frost.home.ui.wms.hyprland;
+  hyprpolkitagent = inputs.hyprpolkitagent.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in {
-  imports = [
-    {
-      nixpkgs.overlays = [
-        (final: prev: {
-          hyprpolkitagent = inputs.hyprpolkitagent.packages.${prev.stdenv.hostPlatform.system}.default;
-        })
-      ];
-    }
-  ];
-
   options.frost.home.ui.wms = {
     hyprland = {
       enable = lib.mkEnableOption "Hyprland feature set";
@@ -33,7 +24,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages =
       [
-        inputs.hyprpolkitagent.packages.${pkgs.stdenv.hostPlatform.system}.default
+        hyprpolkitagent
       ]
       ++ cfg.extraPackages;
 
@@ -47,7 +38,7 @@ in {
         };
         Service = {
           Type = "simple";
-          ExecStart = "${pkgs.hyprpolkitagent}/bin/hyprpolkitagent";
+          ExecStart = "${hyprpolkitagent}/bin/hyprpolkitagent";
           Restart = "on-failure";
           RestartSec = 1;
           TimeoutStopSec = 10;
