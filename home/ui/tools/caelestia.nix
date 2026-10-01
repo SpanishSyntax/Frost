@@ -72,5 +72,12 @@ in {
         else "${inputs.self}/home/configs/hypr";
       recursive = true;
     };
+    xdg.configFile."hyprtoolkit" = {
+      source =
+        if cfg.configsPath != null
+        then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/hyprtoolkit"
+        else "${inputs.self}/home/configs/hyprtoolkit";
+      recursive = true;
+    };
   };
 }
