@@ -2,11 +2,9 @@
   pkgs,
   config,
   lib,
-  inputs,
   ...
 }: let
   cfg = config.frost.home.ui.wms.hyprland;
-  hyprpolkitagent = inputs.hyprpolkitagent.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in {
   options.frost.home.ui.wms = {
     hyprland = {
@@ -24,7 +22,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages =
       [
-        hyprpolkitagent
+        pkgs.hyprpolkitagent
       ]
       ++ cfg.extraPackages;
 
