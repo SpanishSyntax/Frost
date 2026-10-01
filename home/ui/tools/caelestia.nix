@@ -3,10 +3,10 @@
   pkgs,
   lib,
   inputs,
-  linkConfig,
   ...
 }: let
   cfg = config.frost.home.ui.tools.caelestia;
+  dotfiles = "${config.home.homeDirectory}/Frost/home/configs";
 in {
   imports = [
     inputs.caelestia.homeManagerModules.default
@@ -49,11 +49,11 @@ in {
     '';
 
     xdg.configFile."caelestia" = {
-      source = linkConfig "caelestia";
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/caelestia";
       recursive = true;
     };
     xdg.configFile."hypr" = {
-      source = linkConfig "hypr";
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/hypr";
       recursive = true;
     };
   };

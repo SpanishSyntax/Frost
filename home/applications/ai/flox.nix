@@ -1,12 +1,12 @@
 {
   config,
   pkgs,
-  linkConfig,
   inputs,
   lib,
   ...
 }: let
   cfg = config.frost.home.apps.ai.flox;
+  dotfiles = "${config.home.homeDirectory}/Frost/home/configs";
 in {
   options.frost.home.apps.ai.flox = {
     enable = lib.mkEnableOption "Flox";
@@ -21,7 +21,7 @@ in {
     };
 
     xdg.configFile."flox_ollama" = {
-      source = linkConfig "flox_ollama";
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/flox_ollama";
       recursive = true;
     };
   };

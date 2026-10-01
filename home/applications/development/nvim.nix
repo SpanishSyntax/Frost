@@ -1,12 +1,12 @@
 {
   config,
   lib,
-  linkConfig,
   inputs,
   pkgs,
   ...
 }: let
   cfg = config.frost.home.apps.development.nvim;
+  dotfiles = "${config.home.homeDirectory}/Frost/home/configs";
 
   mcpEnabled = config.frost.home.apps.ai.mcp_hub.enable or false;
   antigravityEnabled = config.frost.home.apps.ai.antigravity.enable or false;
@@ -54,7 +54,7 @@ in {
       plugins = {
         dev.frost = {
           pure = "${inputs.self}/home/configs/nvim";
-          impure = linkConfig "nvim";
+          impure = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/nvim";
         };
       };
     };

@@ -2,10 +2,10 @@
   config,
   pkgs,
   lib,
-  linkConfig,
   ...
 }: let
   cfg = config.frost.home.apps.social.tut;
+  dotfiles = "${config.home.homeDirectory}/Frost/home/configs";
 in {
   options.frost.home.apps.social.tut = {
     enable = lib.mkEnableOption "tut";
@@ -17,7 +17,7 @@ in {
     ];
 
     xdg.configFile."tut" = {
-      source = linkConfig "tut";
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/tut";
       recursive = true;
     };
   };

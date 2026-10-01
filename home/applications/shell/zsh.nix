@@ -2,10 +2,10 @@
   config,
   lib,
   pkgs,
-  linkConfig,
   ...
 }: let
   cfg = config.frost.home.apps.shell.zsh;
+  dotfiles = "${config.home.homeDirectory}/Frost/home/configs";
 in {
   options.frost.home.apps.shell.zsh = {
     enable = lib.mkEnableOption "Zsh config";
@@ -13,7 +13,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     xdg.configFile."zsh.d" = {
-      source = linkConfig "zsh.d";
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/zsh.d";
       recursive = true;
     };
 
