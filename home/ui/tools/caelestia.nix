@@ -62,14 +62,14 @@ in {
       source =
         if cfg.configsPath != null
         then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/caelestia"
-        else "${inputs.self}/home/configs/flox_ollama";
+        else "${inputs.self}/home/configs/caelestia";
       recursive = true;
     };
     xdg.configFile."hypr" = {
       source =
         if cfg.configsPath != null
         then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/hypr"
-        else "${inputs.self}/home/configs/flox_ollama";
+        else "${inputs.self}/home/configs/hypr";
       recursive = true;
     };
   };
