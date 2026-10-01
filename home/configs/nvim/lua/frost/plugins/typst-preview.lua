@@ -13,7 +13,6 @@ return {
     },
 
     opts = {
-      open_cmd = "zen-twilight %s",
 
       dependencies_bin = {
         tinymist = "tinymist",
