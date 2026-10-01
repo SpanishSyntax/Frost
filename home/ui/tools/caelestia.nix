@@ -75,8 +75,8 @@ in {
     xdg.configFile."hyprtoolkit" = {
       source =
         if cfg.configsPath != null
-        then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/hyprtoolkit"
-        else "${inputs.self}/home/configs/hyprtoolkit";
+        then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/hyprpolkitagent"
+        else "${inputs.self}/home/configs/hyprpolkitagent";
       recursive = true;
     };
   };
