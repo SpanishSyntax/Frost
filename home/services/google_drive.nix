@@ -5,27 +5,167 @@
   ...
 }: let
   cfg = config.frost.home.services.google_drive;
-
-  localWorkDir = "${config.home.homeDirectory}/Workspace";
-  gdriveMountDir = "${config.home.homeDirectory}/GDrive";
-  rcloneConfig = "${config.home.homeDirectory}/.config/rclone/rclone.conf";
 in {
-  options.frost.home.services = {
-    google_drive.enable = lib.mkEnableOption "Google Drive FUSE Mount";
+  options.frost.home.services.google_drive = {
+    enable = lib.mkEnableOption "Google Drive FUSE Mount & Direct Sync Tool";
+
+    workspaceDir = lib.mkOption {
+      type = lib.types.str;
+      default = "${config.home.homeDirectory}/Workspace";
+      description = "Local workspace root directory to sync.";
+    };
+
+    mountDir = lib.mkOption {
+      type = lib.types.str;
+      default = "${config.home.homeDirectory}/GDrive";
+      description = "Mount point directory for rclone FUSE mount.";
+    };
+
+    remoteName = lib.mkOption {
+      type = lib.types.str;
+      default = "gdrive";
+      description = "Name of the rclone remote configured in rclone.conf.";
+    };
+
+    rcloneConfigFile = lib.mkOption {
+      type = lib.types.str;
+      default = "${config.home.homeDirectory}/.config/rclone/rclone.conf";
+      description = "Path to the rclone configuration file.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
     home.file.".config/rclone/.keep".text = "";
 
-    # Ensure both your fast workspace and the mountpoint exist
     home.activation = {
       createGDriveDirs = config.lib.dag.entryAfter ["writeBoundary"] ''
-        mkdir -p "${localWorkDir}"
-        mkdir -p "${gdriveMountDir}"
+        mkdir -p "${cfg.workspaceDir}"
+        mkdir -p "${cfg.mountDir}"
       '';
     };
 
-    home.packages = [pkgs.rclone];
+    home.packages = [
+      pkgs.rclone
+      (pkgs.writeShellApplication {
+        name = "sync-workspace";
+        runtimeInputs = [pkgs.rclone];
+        text = ''
+          set -euo pipefail
+
+          DEFAULT_SRC="${cfg.workspaceDir}"
+          DEFAULT_REMOTE="${cfg.remoteName}:"
+          CONFIG="${cfg.rcloneConfigFile}"
+
+          SRC_OVERRIDE=""
+          DEST_OVERRIDE=""
+          SUBDIR=""
+          EXTRA_ARGS=()
+
+          usage() {
+            cat <<EOF
+          Usage: sync-workspace [SUBDIR] [OPTIONS] [-- RCLONE_FLAGS...]
+
+          Syncs local workspace directories directly to Google Drive.
+
+          Positional:
+            SUBDIR                  Relative subfolder inside workspace (e.g. 'TUDelft')
+
+          Options:
+            -s, --src PATH          Explicit source directory (overrides default workspace root)
+            -d, --dest REMOTE:PATH  Explicit destination remote target (overrides default remote)
+            -h, --help              Show this help message
+
+          Defaults:
+            Source Root:            $DEFAULT_SRC
+            Target Remote:          $DEFAULT_REMOTE
+            Rclone Config:          $CONFIG
+
+          Any unmatched flags (e.g. --dry-run, -P, --transfers 8) are forwarded to rclone.
+          EOF
+            exit 0
+          }
+
+          while [ "$#" -gt 0 ]; do
+            case "$1" in
+              -h|--help)
+                usage
+                ;;
+              -s|--src)
+                SRC_OVERRIDE="$2"
+                shift 2
+                ;;
+              -d|--dest)
+                DEST_OVERRIDE="$2"
+                shift 2
+                ;;
+              --)
+                shift
+                while [ "$#" -gt 0 ]; do
+                  EXTRA_ARGS+=("$1")
+                  shift
+                done
+                break
+                ;;
+              -*)
+                EXTRA_ARGS+=("$1")
+                shift
+                ;;
+              *)
+                if [ -z "$SUBDIR" ]; then
+                  SUBDIR="$1"
+                else
+                  EXTRA_ARGS+=("$1")
+                fi
+                shift
+                ;;
+            esac
+          done
+
+          # Resolve source directory
+          if [ -n "$SRC_OVERRIDE" ]; then
+            SRC="$SRC_OVERRIDE"
+          elif [ -n "$SUBDIR" ]; then
+            SRC="$DEFAULT_SRC/''${SUBDIR#/}"
+          else
+            SRC="$DEFAULT_SRC"
+          fi
+
+          # Resolve destination target
+          if [ -n "$DEST_OVERRIDE" ]; then
+            DEST="$DEST_OVERRIDE"
+          elif [ -n "$SUBDIR" ]; then
+            DEST="$DEFAULT_REMOTE''${SUBDIR#/}"
+          else
+            DEST="$DEFAULT_REMOTE"
+          fi
+
+          if [ ! -d "$SRC" ]; then
+            echo "Error: Source directory '$SRC' does not exist." >&2
+            exit 1
+          fi
+
+          echo "Syncing: $SRC -> $DEST"
+          if [ "''${#EXTRA_ARGS[@]}" -gt 0 ]; then
+            echo "Forwarding flags: ''${EXTRA_ARGS[*]}"
+          fi
+
+          rclone copy "$SRC" "$DEST" \
+            --config "$CONFIG" \
+            --exclude ".direnv/**" \
+            --exclude ".venv/**" \
+            --exclude "__pycache__/**" \
+            --exclude ".git/**" \
+            --exclude "*.pyc" \
+            --exclude ".stversions/**" \
+            --exclude ".syncthing*" \
+            --fast-list \
+            -P \
+            ''${EXTRA_ARGS+"''${EXTRA_ARGS[@]}"}
+
+          echo "Upload complete!"
+        '';
+      })
+    ];
 
     # Background FUSE Mount: browse, copy in, or copy out whenever needed
     systemd.user.services.rclone-gdrive-mount = {
@@ -38,8 +178,11 @@ in {
       Service = {
         Type = "simple";
         ExecStart =
-          "${pkgs.rclone}/bin/rclone mount gdrive: ${gdriveMountDir} "
-          + "--config=${rcloneConfig} "
+          "${pkgs.rclone}/bin/rclone mount ${cfg.remoteName}: ${cfg.mountDir} "
+          + "--config=${cfg.rcloneConfigFile} "
+          + "--rc "
+          + "--rc-no-auth "
+          + "--links "
           + "--vfs-cache-mode full "
           + "--vfs-cache-max-size 10G "
           + "--vfs-read-chunk-size 32M "
@@ -48,7 +191,7 @@ in {
           + "--dir-cache-time 72h "
           + "--poll-interval 15s "
           + "--allow-non-empty";
-        ExecStop = "/run/wrappers/bin/fusermount3 -u ${gdriveMountDir}";
+        ExecStop = "/run/wrappers/bin/fusermount3 -u ${cfg.mountDir}";
         Restart = "on-failure";
         RestartSec = "10s";
         Environment = ["PATH=/run/wrappers/bin:$PATH"];
