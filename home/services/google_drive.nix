@@ -5,6 +5,76 @@
   ...
 }: let
   cfg = config.frost.home.services.google_drive;
+
+  excludeList = [
+    # Nix / Env
+    ".direnv/**"
+    ".devenv/**"
+    "result"
+    "result-*"
+
+    # Rust
+    "target/**"
+
+    # C / C++ / CMake
+    "build/**"
+    "cmake-build-*/**"
+    ".cache/**"
+
+    # Go
+    "vendor/**"
+
+    # Java / Gradle / Maven
+    ".gradle/**"
+    "*.class"
+
+    # Node / JS
+    "node_modules/**"
+    ".next/**"
+    "dist/**"
+    ".pnpm-store/**"
+    ".turbo/**"
+
+    # Python
+    ".venv/**"
+    "env/**"
+    "__pycache__/**"
+    "*.pyc"
+    ".pytest_cache/**"
+    ".mypy_cache/**"
+    ".ruff_cache/**"
+    ".ipynb_checkpoints/**"
+
+    # LaTeX
+    "*.aux"
+    "*.fls"
+    "*.fdb_latexmk"
+    "*.synctex.gz"
+    "*.log"
+    "*.bbl"
+    "*.blg"
+    "*.toc"
+    "*.out"
+    "_minted*/**"
+
+    # MATLAB
+    "*.asv"
+    "*.m~"
+    "slprj/**"
+
+    # Obsidian / Editors / Syncthing / OS
+    ".obsidian/cache/**"
+    ".trash/**"
+    ".git/**"
+    ".stversions/**"
+    ".syncthing*"
+    ".DS_Store"
+    "Thumbs.db"
+    "*.swp"
+    "*~"
+  ];
+
+  excludeFlags = lib.concatMapStringsSep " " (pattern: "--exclude \"${pattern}\"") excludeList;
 in {
   options.frost.home.services.google_drive = {
     enable = lib.mkEnableOption "Google Drive FUSE Mount & Direct Sync Tool";
@@ -66,6 +136,8 @@ in {
           Usage: sync-workspace [SUBDIR] [OPTIONS] [-- RCLONE_FLAGS...]
 
           Syncs local workspace directories directly to Google Drive.
+          If invoked inside a workspace subdirectory without arguments, it will
+          automatically sync that subdirectory.
 
           Positional:
             SUBDIR                  Relative subfolder inside workspace (e.g. 'TUDelft')
@@ -80,7 +152,7 @@ in {
             Target Remote:          $DEFAULT_REMOTE
             Rclone Config:          $CONFIG
 
-          Any unmatched flags (e.g. --dry-run, -P, --transfers 8) are forwarded to rclone.
+          Any unmatched flags (e.g. --dry-run, -P) are forwarded to rclone.
           EOF
             exit 0
           }
@@ -121,6 +193,15 @@ in {
             esac
           done
 
+          # Auto-detect SUBDIR from $PWD if inside DEFAULT_SRC and not explicitly set
+          if [ -z "$SUBDIR" ] && [ -z "$SRC_OVERRIDE" ]; then
+            case "$PWD" in
+              "$DEFAULT_SRC"/*)
+                SUBDIR="''${PWD#"$DEFAULT_SRC"/}"
+                ;;
+            esac
+          fi
+
           # Resolve source directory
           if [ -n "$SRC_OVERRIDE" ]; then
             SRC="$SRC_OVERRIDE"
@@ -151,15 +232,10 @@ in {
 
           rclone copy "$SRC" "$DEST" \
             --config "$CONFIG" \
-            --exclude ".direnv/**" \
-            --exclude ".venv/**" \
-            --exclude "__pycache__/**" \
-            --exclude ".git/**" \
-            --exclude "*.pyc" \
-            --exclude ".stversions/**" \
-            --exclude ".syncthing*" \
+            --links \
             --fast-list \
             -P \
+            ${excludeFlags} \
             ''${EXTRA_ARGS+"''${EXTRA_ARGS[@]}"}
 
           echo "Upload complete!"
@@ -167,7 +243,6 @@ in {
       })
     ];
 
-    # Background FUSE Mount: browse, copy in, or copy out whenever needed
     systemd.user.services.rclone-gdrive-mount = {
       Unit = {
         Description = "Automated Rclone Google Drive Mount (FUSE Mode)";
