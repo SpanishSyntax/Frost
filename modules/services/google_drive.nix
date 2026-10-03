@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.storage.google_drive;
+  cfg = config.frost.services.google_drive;
 in {
-  options.frost.storage.google_drive.enable = lib.mkEnableOption "Google Drive";
+  options.frost.services.google_drive.enable = lib.mkEnableOption "Google Drive";
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [
