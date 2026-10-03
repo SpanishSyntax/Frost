@@ -5,6 +5,20 @@ local external_openers = {
   epub = "sioyek",
 }
 
+-- Convert canonical ignores into Snacks glob exclusions
+local snacks_excludes = {}
+
+for _, dir in
+  ipairs(vim.g.frost_ignore_directories or { ".git", ".direnv", ".venv", "node_modules" })
+do
+  table.insert(snacks_excludes, "**/" .. dir)
+  table.insert(snacks_excludes, "**/" .. dir .. "/**")
+end
+
+for _, file in ipairs(vim.g.frost_ignore_files or { ".DS_Store", "Thumbs.db" }) do
+  table.insert(snacks_excludes, "**/" .. file)
+end
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -148,7 +162,7 @@ return {
       enabled = true,
       filters = {
         dotfiles = true,
-        exclude = { "**/.git", "**/.direnv", "**/node_modules" },
+        exclude = snacks_excludes,
       },
     },
 
@@ -171,10 +185,16 @@ return {
     picker = {
       enabled = true,
       sources = {
+        files = {
+          exclude = snacks_excludes,
+        },
+        grep = {
+          exclude = snacks_excludes,
+        },
         explorer = {
           hidden = true,
           ignored = true,
-          exclude = { "**/.git", "**/.DS_Store", "**/.venv" },
+          exclude = snacks_excludes,
           win = {
             list = {
               keys = {

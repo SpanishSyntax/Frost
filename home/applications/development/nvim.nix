@@ -6,6 +6,7 @@
   ...
 }: let
   cfg = config.frost.home.apps.development.nvim;
+  envIgnores = config.frost.home.environment.ignores;
 
   mcpEnabled = config.frost.home.apps.ai.mcp_hub.enable or false;
   antigravityEnabled = config.frost.home.apps.ai.antigravity.enable or false;
@@ -43,6 +44,10 @@ in {
       enable = true;
       initLua = ''
         vim.g.mapleader = " "
+
+        vim.g.frost_ignore_directories = vim.json.decode('${builtins.toJSON envIgnores.directories}')
+        vim.g.frost_ignore_files = vim.json.decode('${builtins.toJSON envIgnores.files}')
+
         require("frost")
       '';
 
