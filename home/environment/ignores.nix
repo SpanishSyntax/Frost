@@ -41,6 +41,18 @@
         ".git"
         ".stversions"
         "_minted*"
+
+        # Android / OneUI / Tablet Readers (Tab S10)
+        ".trashed-*"
+        ".thumbnails"
+        "Android"
+        "LOST.DIR"
+        ".cloud"
+        ".sec"
+        ".samsung*"
+        ".SEMarkdownTemp"
+        ".xodo"
+        ".koreader"
       ];
       description = "Directory names to ignore across sync engines.";
     };
@@ -52,10 +64,8 @@
         "result"
         "result-*"
 
-        # Java
+        # Java / Python
         "*.class"
-
-        # Python
         "*.pyc"
 
         # LaTeX
@@ -73,12 +83,18 @@
         "*.asv"
         "*.m~"
 
-        # OS / Editors / Sync
+        # OS / Sync / Editors
         ".syncthing*"
         ".DS_Store"
         "Thumbs.db"
         "*.swp"
         "*~"
+
+        # Android / Mobile Reader temp files
+        ".nomedia"
+        "*.tmp"
+        "*.temp"
+        "*.~*"
       ];
       description = "File glob patterns to ignore across sync engines.";
     };
