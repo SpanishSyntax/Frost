@@ -5,8 +5,11 @@
   ...
 }: let
   cfg = config.frost.home.services.syncthing;
-  ignores = import ../environment/ignores.nix {inherit lib;};
-  defaultDevIgnores = ignores.toSyncthing;
+
+  envIgnores = config.frost.home.environment.ignores;
+  defaultDevIgnores =
+    (map (d: "(?d)${d}") envIgnores.directories)
+    ++ envIgnores.files;
 in {
   options.frost.home.services.syncthing = {
     enable = lib.mkEnableOption "Frost Syncthing user service";

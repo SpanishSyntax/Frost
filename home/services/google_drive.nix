@@ -5,10 +5,13 @@
   ...
 }: let
   cfg = config.frost.home.services.google_drive;
-  ignores = import ../environment/ignores.nix {inherit lib;};
 
+  envIgnores = config.frost.home.environment.ignores;
+  rclonePatterns =
+    (map (d: "- ${d}/**") envIgnores.directories)
+    ++ (map (f: "- ${f}") envIgnores.files);
   excludeFile = pkgs.writeText "rclone-workspace-excludes.txt" (
-    lib.concatStringsSep "\n" (map (p: "- ${p}") ignores.toRclone) + "\n"
+    lib.concatStringsSep "\n" rclonePatterns + "\n"
   );
 in {
   options.frost.home.services.google_drive = {
