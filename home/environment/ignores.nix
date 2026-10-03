@@ -79,9 +79,13 @@
         "*.toc"
         "*.out"
 
-        # MATLAB
+        # MATLAB / Simulink
         "*.asv"
         "*.m~"
+        "*.autosave"
+        "*.slxc"
+        "*.mex*"
+        "matlab_crash_dump.*"
 
         # OS / Sync / Editors
         ".syncthing*"
@@ -89,12 +93,18 @@
         "Thumbs.db"
         "*.swp"
         "*~"
+        "*.un~" # Neovim persistent undo files
+        "*.orig" # Git merge conflict backups
+        "*.rej" # Git rejected patches
+        ".~lock.*" # LibreOffice lock files
+        "~$*" # Office lock files
 
         # Android / Mobile Reader temp files
         ".nomedia"
         "*.tmp"
         "*.temp"
         "*.~*"
+        "*.annot"
       ];
       description = "File glob patterns to ignore across sync engines.";
     };
