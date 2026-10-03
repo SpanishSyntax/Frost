@@ -5,76 +5,11 @@
   ...
 }: let
   cfg = config.frost.home.services.google_drive;
+  ignores = import ../environment/ignores.nix {inherit lib;};
 
-  excludeList = [
-    # Nix / Env
-    ".direnv/**"
-    ".devenv/**"
-    "result"
-    "result-*"
-
-    # Rust
-    "target/**"
-
-    # C / C++ / CMake
-    "build/**"
-    "cmake-build-*/**"
-    ".cache/**"
-
-    # Go
-    "vendor/**"
-
-    # Java / Gradle / Maven
-    ".gradle/**"
-    "*.class"
-
-    # Node / JS
-    "node_modules/**"
-    ".next/**"
-    "dist/**"
-    ".pnpm-store/**"
-    ".turbo/**"
-
-    # Python
-    ".venv/**"
-    "env/**"
-    "__pycache__/**"
-    "*.pyc"
-    ".pytest_cache/**"
-    ".mypy_cache/**"
-    ".ruff_cache/**"
-    ".ipynb_checkpoints/**"
-
-    # LaTeX
-    "*.aux"
-    "*.fls"
-    "*.fdb_latexmk"
-    "*.synctex.gz"
-    "*.log"
-    "*.bbl"
-    "*.blg"
-    "*.toc"
-    "*.out"
-    "_minted*/**"
-
-    # MATLAB
-    "*.asv"
-    "*.m~"
-    "slprj/**"
-
-    # Obsidian / Editors / Syncthing / OS
-    ".obsidian/cache/**"
-    ".trash/**"
-    ".git/**"
-    ".stversions/**"
-    ".syncthing*"
-    ".DS_Store"
-    "Thumbs.db"
-    "*.swp"
-    "*~"
-  ];
-
-  excludeFlags = lib.concatMapStringsSep " " (pattern: "--exclude \"${pattern}\"") excludeList;
+  excludeFile = pkgs.writeText "rclone-workspace-excludes.txt" (
+    lib.concatStringsSep "\n" (map (p: "- ${p}") ignores.toRclone) + "\n"
+  );
 in {
   options.frost.home.services.google_drive = {
     enable = lib.mkEnableOption "Google Drive FUSE Mount & Direct Sync Tool";
@@ -107,18 +42,14 @@ in {
   config = lib.mkIf cfg.enable {
     home.file.".config/rclone/.keep".text = "";
 
-    home.activation = {
-      createGDriveDirs = config.lib.dag.entryAfter ["writeBoundary"] ''
-        mkdir -p "${cfg.workspaceDir}"
-        mkdir -p "${cfg.mountDir}"
-      '';
-    };
-
     home.packages = [
       pkgs.rclone
       (pkgs.writeShellApplication {
         name = "sync-workspace";
-        runtimeInputs = [pkgs.rclone];
+        runtimeInputs = [
+          pkgs.rclone
+          pkgs.coreutils
+        ];
         text = ''
           set -euo pipefail
 
@@ -234,8 +165,8 @@ in {
             --config "$CONFIG" \
             --links \
             --fast-list \
+            --filter-from "${excludeFile}" \
             -P \
-            ${excludeFlags} \
             ''${EXTRA_ARGS+"''${EXTRA_ARGS[@]}"}
 
           echo "Upload complete!"
@@ -252,6 +183,7 @@ in {
 
       Service = {
         Type = "simple";
+        ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p ${cfg.mountDir}";
         ExecStart =
           "${pkgs.rclone}/bin/rclone mount ${cfg.remoteName}: ${cfg.mountDir} "
           + "--config=${cfg.rcloneConfigFile} "
@@ -266,7 +198,7 @@ in {
           + "--dir-cache-time 72h "
           + "--poll-interval 15s "
           + "--allow-non-empty";
-        ExecStop = "/run/wrappers/bin/fusermount3 -u ${cfg.mountDir}";
+        ExecStop = "/run/wrappers/bin/fusermount3 -uz ${cfg.mountDir}";
         Restart = "on-failure";
         RestartSec = "10s";
         Environment = ["PATH=/run/wrappers/bin:$PATH"];

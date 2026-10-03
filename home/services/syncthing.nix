@@ -4,76 +4,11 @@
   pkgs,
   ...
 }: let
-  cfg = config.frost.home.apps.networking.syncthing;
-
-  # Default development ignore patterns matching your rclone setup
-  defaultDevIgnores = [
-    # Nix / Env
-    "(?d).direnv"
-    "(?d).devenv"
-    "result"
-    "result-*"
-
-    # Rust
-    "(?d)target"
-
-    # C / C++ / CMake
-    "(?d)build"
-    "(?d)cmake-build-*"
-    "(?d).cache"
-
-    # Go
-    "(?d)vendor"
-
-    # Java / Gradle / Maven
-    "(?d).gradle"
-    "*.class"
-
-    # Node / JS
-    "(?d)node_modules"
-    "(?d).next"
-    "(?d)dist"
-    "(?d).pnpm-store"
-    "(?d).turbo"
-
-    # Python
-    "(?d).venv"
-    "(?d)env"
-    "(?d)__pycache__"
-    "*.pyc"
-    "(?d).pytest_cache"
-    "(?d).mypy_cache"
-    "(?d).ruff_cache"
-    "(?d).ipynb_checkpoints"
-
-    # LaTeX
-    "*.aux"
-    "*.fls"
-    "*.fdb_latexmk"
-    "*.synctex.gz"
-    "*.log"
-    "*.bbl"
-    "*.blg"
-    "*.toc"
-    "*.out"
-    "(?d)_minted*"
-
-    # MATLAB
-    "*.asv"
-    "*.m~"
-    "(?d)slprj"
-
-    # Obsidian / Editors / Syncthing / OS
-    "(?d).obsidian/cache"
-    "(?d).trash"
-    "(?d).git"
-    ".DS_Store"
-    "Thumbs.db"
-    "*.swp"
-    "*~"
-  ];
+  cfg = config.frost.home.services.syncthing;
+  ignores = import ../environment/ignores.nix {inherit lib;};
+  defaultDevIgnores = ignores.toSyncthing;
 in {
-  options.frost.home.apps.networking.syncthing = {
+  options.frost.home.services.syncthing = {
     enable = lib.mkEnableOption "Frost Syncthing user service";
 
     tray = lib.mkOption {
@@ -192,7 +127,6 @@ in {
       lib.mapAttrsToList (
         name: folder: let
           patterns = (lib.optionals folder.useDefaultDevIgnores defaultDevIgnores) ++ folder.extraIgnores;
-          # Strip homeDirectory prefix if path is absolute inside $HOME
           relPath = lib.removePrefix "${config.home.homeDirectory}/" folder.path;
         in
           lib.mkIf (patterns != []) {
