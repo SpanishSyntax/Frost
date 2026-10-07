@@ -14,6 +14,7 @@ in {
     home.packages = [
       pkgs.fd
       pkgs.ripgrep
+      pkgs.pdfgrep
     ];
     programs.fzf = {
       enable = true;
