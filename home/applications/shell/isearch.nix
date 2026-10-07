@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  cfg = config.frost.home.apps.shell.search;
+  cfg = config.frost.home.apps.shell.isearch;
 
   # Build the script as a standalone executable binary
   isearchPackage = pkgs.writeShellApplication {
