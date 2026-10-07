@@ -34,6 +34,10 @@
     '';
   };
 in {
+  options.frost.home.apps.shell = {
+    isearch.enable = lib.mkEnableOption "Search";
+  };
+
   config = lib.mkIf cfg.enable {
     home.packages = [
       isearchPackage # Installs the binary natively to /bin/isearch
