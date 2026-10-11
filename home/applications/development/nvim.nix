@@ -73,11 +73,13 @@ in {
             with ps; [
               pynvim
               jupyter-client
-              nbformat
-              pyperclip
               cairosvg
               plotly
-              pnglatex
+              kaleido
+              pyperclip
+              nbformat
+              pillow
+              # pnglatex # Note: Uncomment this only if it exists in your specific nixpkgs channel. It is occasionally missing.
             ]);
         };
       };
