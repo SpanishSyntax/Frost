@@ -62,9 +62,24 @@ in {
         ++ (lib.optional mcpEnabled inputs.mcp-hub-server.packages.${pkgs.stdenv.hostPlatform.system}.default);
 
       # Keeps node loops active for background JS script tracking
-      providers.nodeJs = {
-        enable = mcpEnabled;
-        package = pkgs.nodejs_22;
+      providers = {
+        nodeJs = {
+          enable = mcpEnabled;
+          package = pkgs.nodejs_22;
+        };
+        python3 = {
+          enable = true;
+          package = pkgs.python3.withPackages (ps:
+            with ps; [
+              pynvim
+              jupyter-client
+              nbformat
+              pyperclip
+              cairosvg
+              plotly
+              pnglatex
+            ]);
+        };
       };
       plugins = {
         dev.frost = {
