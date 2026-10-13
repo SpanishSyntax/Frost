@@ -1,5 +1,9 @@
 # home/environment/ignores.nix
-{lib, ...}: {
+{
+  lib,
+  config,
+  ...
+}: {
   options.frost.home.environment.ignores = {
     directories = lib.mkOption {
       type = lib.types.listOf lib.types.str;
@@ -108,5 +112,16 @@
       ];
       description = "File glob patterns to ignore across sync engines.";
     };
+  };
+
+  config = {
+    # Nix will generate a plain text file from your lists
+    home.file.".config/frost/global_ignores".text = lib.concatStringsSep "\n" (
+      config.frost.home.environment.ignores.directories
+      ++ config.frost.home.environment.ignores.files
+    );
+
+    # And expose its path to the system
+    home.sessionVariables.FROST_IGNORES = "${config.home.homeDirectory}/.config/frost/global_ignores";
   };
 }
