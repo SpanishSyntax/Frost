@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.apps.development.devbox;
+  cfg = config.frost.home.apps.virtualization.devbox;
 in {
-  options.frost.home.apps.development.devbox.enable = lib.mkEnableOption "Devbox development environment";
+  options.frost.home.apps.virtualization.devbox.enable = lib.mkEnableOption "Devbox development environment";
 
   config = lib.mkIf cfg.enable {
     home.packages = [
