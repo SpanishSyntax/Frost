@@ -5,9 +5,9 @@
   inputs,
   ...
 }: let
-  cfg = config.frost.home.apps.music.spotify;
+  cfg = config.frost.home.apps.audio.spotify;
 in {
-  options.frost.home.apps.music.spotify.enable = lib.mkEnableOption "Spotify";
+  options.frost.home.apps.audio.spotify.enable = lib.mkEnableOption "Spotify";
 
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
