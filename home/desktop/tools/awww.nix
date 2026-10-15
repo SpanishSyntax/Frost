@@ -5,9 +5,9 @@
   inputs,
   ...
 }: let
-  cfg = config.frost.home.ui.tools.awww;
+  cfg = config.frost.home.desktop.tools.awww;
 in {
-  options.frost.home.ui.tools.awww = {
+  options.frost.home.desktop.tools.awww = {
     enable = lib.mkEnableOption "awww";
 
     configsPath = lib.mkOption {

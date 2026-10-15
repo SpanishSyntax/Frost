@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.ui.wms.hyprland;
+  cfg = config.frost.home.desktop.wms.hyprland;
 in {
-  options.frost.home.ui.wms = {
+  options.frost.home.desktop.wms = {
     hyprland = {
       enable = lib.mkEnableOption "Hyprland feature set";
 

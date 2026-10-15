@@ -9,7 +9,7 @@ in {
   options.frost.home.apps.settings.security.onepassword = {
     enable = lib.mkOption {
       type = lib.types.bool;
-      default = config.frost.home.ui.wms.hyprland.enable;
+      default = config.frost.home.desktop.wms.hyprland.enable;
       description = "Enable 1password (defaults to true when Hyprland is enabled).";
     };
   };
