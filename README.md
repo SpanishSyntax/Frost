@@ -195,13 +195,18 @@ Frost utilizes a unified, predictable option hierarchy:
 
 Over 110 modular application wrappers managed by Home Manager:
 
-* **`ai`**: `antigravity`, `mcp_hub`, `n8n`, `opencode`
-* **`creative`**: `blender`, `kdenlive`, `inkscape`, `obs`, `parabolic`, `sly`
-* **`development`**: `git`, `nvim`, `flaker`, `heimdall`, `android_studio`, `vscode`, `zed`
-* **`shell`**: `zsh`, `starship`, `bat`, `eza`, `fzf`, `kitty`, `tmux`, `zoxide`, `fastfetch`
-* **`networking`**: `zen_browser`, `brave`, `tor`, `wireguard`, `openvpn`, `remmina`
-* **`office`**: `libreoffice`, `onlyoffice`, `zotero`, `marktext`, `folio`, `todoist`
-* **`system`**: `btop`, `ripgrep`, `thunar`, `pwvucontrol`, `sops`, `zip`
+* **`development`**: `editors` (nvim, vscode, zed, android_studio), `tools` (git, heimdall, postman, dbeaver), `langs` (bash, cpp, go, java, js, latex, lua, markdown, nginx, nix, python, rust, toml, typst, yaml)
+* **`graphics`**: `raster` (gimp, sly), `vector` (inkscape), `cad` (blender, model_viewer), `viewers` (gnome_image_viewer, gnome_image_editor), `scanning` (gnome_scanner, gnome_ocr)
+* **`media`**: `audio` (spotify, gnome_radio, pwvucontrol), `video` (anime, netflix, obs, kdenlive, gnome_video_player)
+* **`network`**: `browsers` (chrome, firefox, tor, zen), `chat` (discord, teams, telegram, tut, whatsapp), `transfer` (aria2, gnome_torrents, parabolic), `remote` (dnsutils, eduvpn, gnome_network_displays, iperf, kde_connect, mappers, openssl, remmina)
+* **`office`**: `docs` (libreoffice, obsidian, marktext, rnote, gnome_markdown, todoist), `readers` (zathura, sioyek, calibre, foliate, zlibrary, gnome_document_viewer), `tools` (pandoc, ghostscript, mermaid, stirling, autofirma, bento_pdf, gnome_pomodoro, zotero)
+* **`science`**: `math` (octave), `gis` (qgis), `diagrams` (drawio), `electronics` (kicad)
+* **`settings`**: `desktop` (nwg_look), `security` (gnome_seahorse, pass, sops, vulnix), `packages` (gnome_software)
+* **`system`**: `shell` (bat, curl, eza, fastfetch, file, fzf, glow, jq, kitty, magika, pay_respects, pdfgrep, ripgrep, secret_tool, starship, tmux, tree, wget, zoxide, zsh), `core` (sqlite, usbutils, zip), `desktop` (gnome_characters, gnome_file_roller, gnome_files, gnome_system_monitor, thunar), `virtualization` (boxbuddy, devbox, distrobox, docker, kontainer, virt_manager)
+* **`utility`**: `accessories` (calculator, gnome_calculator, gnome_calendar, gnome_clocks, gnome_fretboard, gnome_typing, gnome_weather, memorado, rss)
+* **`gaming`**: `launchers` (gamemode, heroic)
+* **`icebergs`**: `borealis`, `flaker`, `folio`, `glaze`, `permafrost`
+* **`ai`**: `antigravity`, `flox`, `mcp_hub`, `n8n`, `opencode`
 
 ---
 
