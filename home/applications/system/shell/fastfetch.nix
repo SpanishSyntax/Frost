@@ -7,7 +7,6 @@
 }: let
   cfg = config.frost.home.apps.system.shell.fastfetch;
 
-  # Compile assets/logo.svg directly into a high-DPI transparent PNG at build time
   frostBadge =
     pkgs.runCommand "frost-badge.png" {
       nativeBuildInputs = [pkgs.resvg];
@@ -28,8 +27,8 @@ in {
         logo = {
           type = "kitty-direct";
           source = "${frostBadge}";
-          width = 26;
-          height = 13;
+          width = 36;
+          height = 18;
           padding = {
             top = 1;
             left = 2;
@@ -38,16 +37,9 @@ in {
         };
 
         display = {
-          separator = " ";
-          constants = [
-            "\u001b[38;2;137;220;235m" # $1: Frost Cyan (#89dceb)
-            "\u001b[38;2;148;226;213m" # $2: Polar Mint (#94e2d5)
-            "\u001b[38;2;180;190;254m" # $3: Glacial Lavender (#b4befe)
-            "\u001b[38;2;205;214;244m" # $4: Alpine White (#cdd6f4)
-            "\u001b[38;2;88;91;112m" # $5: Muted Frost Grey (#585b70)
-          ];
+          separator = "";
           percent = {
-            type = 9; # Renders custom filled gauge blocks [■■■■□□□□]
+            type = 3; # Renders both numbers and graphical bars globally
           };
           bar = {
             char = {
@@ -58,79 +50,103 @@ in {
           };
         };
 
+        # Color Palette Mapping Guide:
+        # #89dceb = Frost Cyan
+        # #94e2d5 = Polar Mint
+        # #b4befe = Glacial Lavender
+        # #cdd6f4 = Alpine White
+        # #585b70 = Muted Frost Grey
+
         modules = [
           "break"
           {
             type = "title";
-            format = "{$1}╭─ ❄ {$4}{user-name} {$5}at {$1}{host-name} {$1}──────────────────────────────────╮";
+            format = "{##cdd6f4}❄ {user-name}{##585b70}@{##89dceb}{host-name} {##89dceb}";
+          }
+          "break"
+          {
+            type = "title";
+            format = "{##89dceb}╭───── ABOUT ─────╮";
           }
           {
             type = "os";
-            key = "{$1}│ {$2}󱄅 distro    ";
-            format = "{$4}{name} {version-id}";
+            key = "│     Distro      │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#cdd6f4";
           }
           {
             type = "kernel";
-            key = "{$1}│ {$2}󰌽 kernel    ";
-            format = "{$4}{release} {$5}({arch})";
+            key = "│     kernel      │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#cdd6f4";
           }
           {
             type = "wm";
-            key = "{$1}│ {$2} desktop   ";
-            format = "{$4}{name} {$5}[Hyprland/Wayland]";
+            key = "│     Desktop     │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#cdd6f4";
           }
           {
             type = "terminal";
-            key = "{$1}│ {$2} term      ";
-            format = "{$4}{name} {$5}[GPU Accel]";
+            key = "│     Term        │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#cdd6f4";
           }
           {
             type = "shell";
-            key = "{$1}│ {$2}󰞷 shell     ";
-            format = "{$4}{pretty-name} {$5}{version}";
+            key = "│     Shell       │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#cdd6f4";
           }
           {
             type = "packages";
-            key = "{$1}│ {$2} pkgs      ";
-            format = "{$4}{all} {$5}(nix-store)";
+            key = "│     Pkgs        │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#cdd6f4";
           }
           {
             type = "uptime";
-            key = "{$1}│ {$2}󰅐 uptime    ";
-            format = "{$4}{days}d {hours}h {minutes}m";
+            key = "│     Uptime      │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#cdd6f4";
           }
           {
             type = "custom";
-            format = "{$1}├─ 󰻠 HARDWARE TELEMETRY ─────────────────────────────────────┤";
+            format = "{##89dceb}├─── TELEMETRY ───┤";
           }
           {
             type = "cpu";
-            key = "{$1}│ {$2}󰻠 cpu       ";
-            format = "{$4}{name} {$5}({cores-logical}T @ {freq-max})";
+            key = "│     Cpu         │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#cdd6f4";
           }
           {
             type = "cpuusage";
-            key = "{$1}│ {$2}󱐋 load      ";
-            format = "{$3}{bar} {$4}{percentage}";
+            key = "│     Load        │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#b4befe";
           }
           {
             type = "memory";
-            key = "{$1}│ {$2}󰍛 memory    ";
-            format = "{$3}{bar} {$4}{percentage} {$5}({used} / {total})";
+            key = "│     Memory      │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#b4befe";
           }
           {
             type = "disk";
-            key = "{$1}│ {$2}󰋊 storage   ";
-            format = "{$3}{bar} {$4}{percentage} {$5}({used} / {total})";
+            key = "│     Storage     │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#b4befe";
           }
           {
             type = "battery";
-            key = "{$1}│ {$2}󰂄 power     ";
-            format = "{$3}{bar} {$4}{percentage} {$5}[{status}]";
+            key = "│     Power       │    ";
+            keyColor = "#94e2d5";
+            outputColor = "#b4befe";
           }
           {
             type = "custom";
-            format = "{$1}╰─────────────────────────────────────── ◈ ◈ ◈ ◈ ◈ ◈ ◈ ◈ ────╯";
+            format = "{##89dceb}╰─────────────────╯";
           }
           {
             type = "colors";
