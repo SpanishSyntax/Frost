@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.apps.creative.inkscape;
+  cfg = config.frost.home.apps.graphics.inkscape;
 in {
-  options.frost.home.apps.creative.inkscape.enable = lib.mkEnableOption "Inkscape";
+  options.frost.home.apps.graphics.inkscape.enable = lib.mkEnableOption "Inkscape";
 
   config = lib.mkIf cfg.enable {
     home.packages = [
