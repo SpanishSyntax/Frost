@@ -14,6 +14,7 @@ in {
       nerd-fonts.jetbrains-mono
       nerd-fonts.iosevka
       nerd-fonts.victor-mono
+      # (google-fonts.override {fonts = ["Michroma"];})
 
       font-awesome
       material-design-icons
@@ -23,11 +24,20 @@ in {
       enable = true;
 
       defaultFonts = {
+        sansSerif = [
+          "Michroma"
+          "Noto Sans"
+        ];
+
         monospace = [
           "JetBrainsMono Nerd Font"
           "Iosevka Nerd Font"
           "Iosevka"
           "Noto Sans Mono"
+        ];
+
+        serif = [
+          "Noto Serif"
         ];
       };
     };
