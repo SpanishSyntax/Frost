@@ -1,18 +1,36 @@
 {
   config,
-  pkgs,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.frost.home.apps.shell.bat;
 in {
-  options.frost.home.apps.shell = {
-    bat.enable = lib.mkEnableOption "Bat";
+  options.frost.home.apps.shell.bat = {
+    enable = lib.mkEnableOption "Bat (cat clone with syntax highlighting and Git integration)";
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [
-      pkgs.bat # cat but better
-    ];
+    programs.bat = {
+      enable = true;
+
+      config = {
+        theme = "TwoDark";
+        style = "numbers,changes,header";
+        italic-text = "always";
+      };
+
+      extraPackages = with pkgs.bat-extras; [
+        batman
+        batpipe
+        batdiff
+        batwatch
+      ];
+    };
+
+    home.shellAliases = {
+      cat = "bat";
+      man = "batman";
+    };
   };
 }
