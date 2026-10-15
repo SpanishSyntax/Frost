@@ -1,5 +1,11 @@
 {...}: {
   frost.home = {
+    environment = {
+      fonts.enable = true;
+      gtk.enable = true;
+      xdg.enable = true;
+    };
+
     apps = {
       development = {
         editors.nvim.enable = true;
