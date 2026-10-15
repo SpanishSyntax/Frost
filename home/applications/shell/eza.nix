@@ -1,18 +1,31 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }: let
   cfg = config.frost.home.apps.shell.eza;
+  zshCfg = config.frost.home.apps.shell.zsh;
 in {
-  options.frost.home.apps.shell = {
-    eza.enable = lib.mkEnableOption "Eza";
+  options.frost.home.apps.shell.eza = {
+    enable = lib.mkEnableOption "Eza (modern, maintained ls replacement)";
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [
-      pkgs.eza # ls replacement
-    ];
+    programs.eza = {
+      enable = true;
+      enableZshIntegration = zshCfg.enable;
+
+      # Enable icons for directories and files (requires a Nerd Font)
+      icons = "auto";
+
+      # Show Git status indicators in long listings
+      git = true;
+
+      # Extra default flags: sort directories first
+      extraOptions = [
+        "--group-directories-first"
+        "--header"
+      ];
+    };
   };
 }
