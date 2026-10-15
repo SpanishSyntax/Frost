@@ -20,19 +20,37 @@ for _, file in ipairs(vim.g.frost_ignore_files or { ".DS_Store", "Thumbs.db" }) 
 end
 
 -- ============================================================================
--- Pre-calculate Dashboard Conditions (Fixes snacks.nvim concat layout crashes)
+-- Synchronously Resolve Dashboard Header (Pure text, colored by Neovim theme)
 -- ============================================================================
 local logo_path = vim.g.frost_logo_svg or ""
 local has_logo = logo_path ~= "" and vim.fn.filereadable(logo_path) == 1
 local has_chafa = vim.fn.executable("chafa") == 1
-local use_terminal_logo = has_logo and has_chafa
 
-local logo_cmd = ""
-if use_terminal_logo then
-  logo_cmd = string.format(
-    "chafa --format=symbols --symbols=vhalf+block+braille --color-space=din99d --size=32x15 %s",
-    vim.fn.shellescape(logo_path)
-  )
+local dashboard_header = [[
+ ███████╗██████╗   ██████╗ ███████╗████████╗
+ ██╔════╝██╔══██╗ ██╔═══██╗██╔════╝╚══██╔══╝
+ █████╗  ██████╔╝ ██║   ██║███████╗   ██║   
+ ██╔══╝  ██╔══██╗ ██║   ██║╚════██║   ██║   
+ ██║     ██║  ██║ ╚██████╔╝███████║   ██║   
+ ╚═╝     ╚═╝  ╚═╝  ╚═════╝ ╚══════╝   ╚═╝   ]]
+
+if has_logo and has_chafa then
+  local out = vim.fn.system({
+    "chafa",
+    "--colors",
+    "none",
+    "--format=symbols",
+    "--symbols=vhalf+block",
+    "--bg",
+    "black",
+    "--threshold",
+    "0.45",
+    "--size=72x13",
+    logo_path,
+  })
+  if vim.v.shell_error == 0 and out and vim.trim(out) ~= "" then
+    dashboard_header = out:gsub("[\n\r%s]+$", "")
+  end
 end
 
 return {
@@ -128,67 +146,45 @@ return {
     -- Beautiful declarative dashboards. Trigger: Startup
     dashboard = {
       enabled = true,
+      preset = {
+        header = dashboard_header,
+        keys = {
+          {
+            icon = " ",
+            key = "f",
+            desc = "Find File",
+            action = function()
+              Snacks.picker.files()
+            end,
+          },
+          { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+          {
+            icon = " ",
+            key = "t",
+            desc = "Find Text",
+            action = function()
+              Snacks.picker.grep()
+            end,
+          },
+          {
+            icon = " ",
+            key = "r",
+            desc = "Recent Files",
+            action = function()
+              Snacks.picker.recent()
+            end,
+          },
+          { icon = "   ", key = "l", desc = "Lazy", action = ":Lazy" },
+          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+        },
+      },
       sections = {
-        -- 1. Chafa Logo Section (Pure string primitives only)
-        {
-          section = "terminal",
-          cmd = logo_cmd,
-          enabled = use_terminal_logo,
-          height = 15,
-          width = 32,
-          align = "center",
-          padding = 1,
-          ttl = 3600,
-        },
-        -- 2. Text Fallback Section (Inverted static boolean verification)
-        {
-          section = "header",
-          padding = 1,
-          enabled = not use_terminal_logo,
-          header = [[
- ███████╗██████╗  ██████╗ ███████╗████████╗
- ██╔════╝██╔══██╗██╔═══██╗██╔════╝╚══██╔══╝
- █████╗  ██████╔╝██║   ██║███████╗   ██║   
- ██╔══╝  ██╔══██╗██║   ██║╚════██║   ██║   
- ██║     ██║  ██║╚██████╔╝███████║   ██║   
- ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝   ]],
-        },
-        -- 3. Keys Section
+        { section = "header", padding = 1 },
         {
           section = "keys",
           gap = 1,
           padding = 1,
-          keys = {
-            {
-              icon = " ",
-              key = "f",
-              desc = "Find File",
-              action = function()
-                Snacks.picker.files()
-              end,
-            },
-            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-            {
-              icon = " ",
-              key = "t",
-              desc = "Find Text",
-              action = function()
-                Snacks.picker.grep()
-              end,
-            },
-            {
-              icon = " ",
-              key = "r",
-              desc = "Recent Files",
-              action = function()
-                Snacks.picker.recent()
-              end,
-            },
-            { icon = "   ", key = "l", desc = "Lazy", action = ":Lazy" },
-            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
-          },
         },
-        -- 4. Startup Section
         { section = "startup" },
       },
     },
