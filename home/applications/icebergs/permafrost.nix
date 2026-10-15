@@ -4,11 +4,11 @@
   pkgs,
   ...
 }: let
-  cfg = config.frost.home.apps.shell.isearch;
+  cfg = config.frost.home.apps.icebergs.permafrost;
 
   # Build the script as a standalone executable binary
-  isearchPackage = pkgs.writeShellApplication {
-    name = "isearch";
+  permafrostPackage = pkgs.writeShellApplication {
+    name = "permafrost";
 
     # Isolated runtime dependencies required by this tool
     runtimeInputs = [
@@ -19,7 +19,7 @@
 
     text = ''
       if [ -z "''${1:-}" ]; then
-        echo "Usage: isearch <search-term>"
+        echo "Usage: permafrost <search-term>"
         exit 1
       fi
 
@@ -34,13 +34,13 @@
     '';
   };
 in {
-  options.frost.home.apps.shell = {
-    isearch.enable = lib.mkEnableOption "Search";
+  options.frost.home.apps.icebergs = {
+    permafrost.enable = lib.mkEnableOption "Permafrost pdf grep";
   };
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      isearchPackage # Installs the binary natively to /bin/isearch
+      permafrostPackage # Installs the binary natively to /bin/permafrost
     ];
   };
 }

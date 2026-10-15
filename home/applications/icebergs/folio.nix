@@ -4,11 +4,11 @@
   inputs,
   ...
 }: let
-  cfg = config.frost.home.apps.office.folio;
+  cfg = config.frost.home.apps.icebergs.folio;
 in {
   imports = [inputs.folio.homeManagerModules.default];
 
-  options.frost.home.apps.office.folio = {
+  options.frost.home.apps.icebergs.folio = {
     enable = lib.mkEnableOption "Typst and Markdown document build tool";
   };
 

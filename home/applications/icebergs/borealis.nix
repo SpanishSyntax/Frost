@@ -4,11 +4,12 @@
   inputs,
   ...
 }: let
-  cfg = config.frost.home.ui.tools.borealis;
+  cfg = config.frost.home.apps.icebergs.borealis;
 in {
   imports = [inputs.borealis.homeManagerModules.default];
-  options.frost.home.ui.tools.borealis = {
-    enable = lib.mkEnableOption "borealis";
+
+  options.frost.home.apps.icebergs.borealis = {
+    enable = lib.mkEnableOption "Borealis wallpaper engine.";
   };
 
   config = lib.mkIf cfg.enable {
