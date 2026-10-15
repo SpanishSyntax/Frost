@@ -26,6 +26,8 @@ local logo_path = vim.g.frost_logo_svg or ""
 local has_logo = logo_path ~= "" and vim.fn.filereadable(logo_path) == 1
 local has_chafa = vim.fn.executable("chafa") == 1
 
+local use_terminal_logo = has_logo and has_chafa
+
 local dashboard_header = [[
  ███████╗██████╗   ██████╗ ███████╗████████╗
  ██╔════╝██╔══██╗ ██╔═══██╗██╔════╝╚══██╔══╝
@@ -34,23 +36,12 @@ local dashboard_header = [[
  ██║     ██║  ██║ ╚██████╔╝███████║   ██║   
  ╚═╝     ╚═╝  ╚═╝  ╚═════╝ ╚══════╝   ╚═╝   ]]
 
-if has_logo and has_chafa then
-  local out = vim.fn.system({
-    "chafa",
-    "--colors",
-    "none",
-    "--format=symbols",
-    "--symbols=vhalf+block",
-    "--bg",
-    "black",
-    "--threshold",
-    "0.45",
-    "--size=72x13",
-    logo_path,
-  })
-  if vim.v.shell_error == 0 and out and vim.trim(out) ~= "" then
-    dashboard_header = out:gsub("[\n\r%s]+$", "")
-  end
+local logo_cmd = ""
+if use_terminal_logo then
+  logo_cmd = string.format(
+    "chafa --format=symbols --symbols=vhalf+block --color-space=din99d --size=58x10 %s",
+    vim.fn.shellescape(logo_path)
+  )
 end
 
 return {
@@ -179,7 +170,18 @@ return {
         },
       },
       sections = {
-        { section = "header", padding = 1 },
+        use_terminal_logo and {
+          section = "terminal",
+          cmd = logo_cmd,
+          height = 10,
+          width = 58,
+          align = "center",
+          padding = 1,
+          ttl = 3600,
+        } or {
+          section = "header",
+          padding = 1,
+        },
         {
           section = "keys",
           gap = 1,
