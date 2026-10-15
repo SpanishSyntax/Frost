@@ -45,6 +45,7 @@ in {
       initLua = ''
         vim.g.mapleader = " "
 
+        vim.g.frost_logo_svg = "${inputs.self}/assets/wordmark.svg"
         vim.g.frost_ignore_directories = vim.json.decode('${builtins.toJSON envIgnores.directories}')
         vim.g.frost_ignore_files = vim.json.decode('${builtins.toJSON envIgnores.files}')
 
@@ -56,7 +57,11 @@ in {
 
       extraBinPath =
         [
-          # Put your other core tools like pkgs.ripgrep or pkgs.fd here if needed
+          pkgs.ripgrep
+          pkgs.fd
+          # pkgs.imagemagick # For on-the-fly SVG to JPG rasterization
+          # pkgs.jp2a # Converts the rasterized image into ASCII Art
+          pkgs.chafa # Native SVG-to-ANSI symbol renderer for Snacks dashboard
         ]
         ++ (lib.optional antigravityEnabled inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli)
         ++ (lib.optional mcpEnabled inputs.mcp-hub-server.packages.${pkgs.stdenv.hostPlatform.system}.default);

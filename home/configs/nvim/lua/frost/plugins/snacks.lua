@@ -19,6 +19,22 @@ for _, file in ipairs(vim.g.frost_ignore_files or { ".DS_Store", "Thumbs.db" }) 
   table.insert(snacks_excludes, "**/" .. file)
 end
 
+-- ============================================================================
+-- Pre-calculate Dashboard Conditions (Fixes snacks.nvim concat layout crashes)
+-- ============================================================================
+local logo_path = vim.g.frost_logo_svg or ""
+local has_logo = logo_path ~= "" and vim.fn.filereadable(logo_path) == 1
+local has_chafa = vim.fn.executable("chafa") == 1
+local use_terminal_logo = has_logo and has_chafa
+
+local logo_cmd = ""
+if use_terminal_logo then
+  logo_cmd = string.format(
+    "chafa --format=symbols --symbols=vhalf+block+braille --color-space=din99d --size=32x15 %s",
+    vim.fn.shellescape(logo_path)
+  )
+end
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -112,48 +128,68 @@ return {
     -- Beautiful declarative dashboards. Trigger: Startup
     dashboard = {
       enabled = true,
-      preset = {
-        sections = {
-          { section = "header" },
-          { section = "keys", gap = 1, padding = 1 },
-          { section = "startup" },
+      sections = {
+        -- 1. Chafa Logo Section (Pure string primitives only)
+        {
+          section = "terminal",
+          cmd = logo_cmd,
+          enabled = use_terminal_logo,
+          height = 15,
+          width = 32,
+          align = "center",
+          padding = 1,
+          ttl = 3600,
         },
-        header = [[
+        -- 2. Text Fallback Section (Inverted static boolean verification)
+        {
+          section = "header",
+          padding = 1,
+          enabled = not use_terminal_logo,
+          header = [[
  ███████╗██████╗  ██████╗ ███████╗████████╗
  ██╔════╝██╔══██╗██╔═══██╗██╔════╝╚══██╔══╝
  █████╗  ██████╔╝██║   ██║███████╗   ██║   
  ██╔══╝  ██╔══██╗██║   ██║╚════██║   ██║   
  ██║     ██║  ██║╚██████╔╝███████║   ██║   
  ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝   ]],
-        keys = {
-          {
-            icon = " ",
-            key = "f",
-            desc = "Find File",
-            action = function()
-              Snacks.picker.files()
-            end,
-          },
-          { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-          {
-            icon = " ",
-            key = "t",
-            desc = "Find Text",
-            action = function()
-              Snacks.picker.grep()
-            end,
-          },
-          {
-            icon = " ",
-            key = "r",
-            desc = "Recent Files",
-            action = function()
-              Snacks.picker.recent()
-            end,
-          },
-          { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
-          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
         },
+        -- 3. Keys Section
+        {
+          section = "keys",
+          gap = 1,
+          padding = 1,
+          keys = {
+            {
+              icon = " ",
+              key = "f",
+              desc = "Find File",
+              action = function()
+                Snacks.picker.files()
+              end,
+            },
+            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+            {
+              icon = " ",
+              key = "t",
+              desc = "Find Text",
+              action = function()
+                Snacks.picker.grep()
+              end,
+            },
+            {
+              icon = " ",
+              key = "r",
+              desc = "Recent Files",
+              action = function()
+                Snacks.picker.recent()
+              end,
+            },
+            { icon = "   ", key = "l", desc = "Lazy", action = ":Lazy" },
+            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+          },
+        },
+        -- 4. Startup Section
+        { section = "startup" },
       },
     },
 
