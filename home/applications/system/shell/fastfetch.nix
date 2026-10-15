@@ -15,7 +15,7 @@
     '';
 in {
   options.frost.home.apps.system.shell.fastfetch = {
-    enable = lib.mkEnableOption "Hyper-dense Frost Fastfetch HUD with native Kitty graphics";
+    enable = lib.mkEnableOption "Clean Frost Fastfetch HUD with native Kitty graphics";
   };
 
   config = lib.mkIf cfg.enable {
@@ -27,131 +27,96 @@ in {
         logo = {
           type = "kitty-direct";
           source = "${frostBadge}";
-          width = 36;
-          height = 18;
+          width = 32;
+          height = 16;
           padding = {
             top = 1;
             left = 2;
-            right = 3;
+            right = 4;
           };
         };
 
         display = {
-          separator = "";
+          separator = "  ";
+          key = {
+            width = 14;
+          };
           percent = {
-            type = 3; # Renders both numbers and graphical bars globally
+            type = 3;
           };
           bar = {
             char = {
               elapsed = "■";
               total = "□";
             };
-            width = 15;
+            width = 12;
           };
         };
-
-        # Color Palette Mapping Guide:
-        # #89dceb = Frost Cyan
-        # #94e2d5 = Polar Mint
-        # #b4befe = Glacial Lavender
-        # #cdd6f4 = Alpine White
-        # #585b70 = Muted Frost Grey
 
         modules = [
           "break"
           {
             type = "title";
-            format = "{##cdd6f4}❄ {user-name}{##585b70}@{##89dceb}{host-name} {##89dceb}";
+            format = "{##cdd6f4}❄ {user-name}{##585b70}@{*##89dceb}{host-name}";
           }
-          "break"
           {
-            type = "title";
-            format = "{##89dceb}╭───── ABOUT ─────╮";
+            type = "custom";
+            format = "{##585b70}──────────────────────────────────";
           }
           {
             type = "os";
-            key = "│     Distro      │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#cdd6f4";
+            key = "{##89dceb}  distro";
           }
           {
             type = "kernel";
-            key = "│     kernel      │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#cdd6f4";
+            key = "{##89dceb}󰌽  kernel";
           }
           {
             type = "wm";
-            key = "│     Desktop     │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#cdd6f4";
+            key = "{##89dceb}  desktop";
           }
           {
             type = "terminal";
-            key = "│     Term        │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#cdd6f4";
+            key = "{##89dceb}󰞷  term";
           }
           {
             type = "shell";
-            key = "│     Shell       │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#cdd6f4";
+            key = "{##89dceb}󰞧  shell";
           }
           {
             type = "packages";
-            key = "│     Pkgs        │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#cdd6f4";
+            key = "{##89dceb}󰏓  packages";
           }
           {
             type = "uptime";
-            key = "│     Uptime      │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#cdd6f4";
+            key = "{##89dceb}󱑎  uptime";
           }
-          {
-            type = "custom";
-            format = "{##89dceb}├─── TELEMETRY ───┤";
-          }
+          "break"
           {
             type = "cpu";
-            key = "│     Cpu         │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#cdd6f4";
+            key = "{##94e2d5}  cpu";
           }
           {
             type = "cpuusage";
-            key = "│     Load        │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#b4befe";
+            key = "{##94e2d5}󰓅  load";
           }
           {
             type = "memory";
-            key = "│     Memory      │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#b4befe";
+            key = "{##94e2d5}󰘚  memory";
           }
           {
             type = "disk";
-            key = "│     Storage     │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#b4befe";
+            key = "{##94e2d5}󰋊  storage";
           }
           {
             type = "battery";
-            key = "│     Power       │    ";
-            keyColor = "#94e2d5";
-            outputColor = "#b4befe";
+            key = "{##94e2d5}󱐋  power";
           }
-          {
-            type = "custom";
-            format = "{##89dceb}╰─────────────────╯";
-          }
+          "break"
           {
             type = "colors";
-            paddingLeft = 2;
-            symbol = "diamond";
+            paddingLeft = 0;
+            symbol = "circle";
           }
           "break"
         ];
