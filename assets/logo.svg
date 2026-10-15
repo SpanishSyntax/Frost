@@ -1,0 +1,628 @@
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="drawing.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="1.1084567"
+     inkscape:cx="255.761"
+     inkscape:cy="241.32652"
+     inkscape:window-width="1828"
+     inkscape:window-height="1038"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g19" />
+  <defs
+     id="defs1">
+    <radialGradient
+       id="bg-navy"
+       cx="256"
+       cy="230.39999"
+       r="332.79999"
+       fx="256"
+       fy="230.39999"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-1,-16)">
+      <stop
+         offset="0%"
+         stop-color="#0E172A"
+         id="stop1" />
+      <stop
+         offset="100%"
+         stop-color="#070B14"
+         id="stop2" />
+    </radialGradient>
+    <linearGradient
+       id="ice-top-bright"
+       x1="0%"
+       y1="0%"
+       x2="85%"
+       y2="85%">
+      <stop
+         offset="0%"
+         stop-color="#A5F3FC"
+         id="stop3" />
+      <stop
+         offset="45%"
+         stop-color="#E0F7FA"
+         id="stop4" />
+      <stop
+         offset="85%"
+         stop-color="#FFFFFF"
+         id="stop5" />
+      <stop
+         offset="100%"
+         stop-color="#BAE6FD"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       id="ice-cyan-mid"
+       x1="0%"
+       y1="0%"
+       x2="100%"
+       y2="100%">
+      <stop
+         offset="0%"
+         stop-color="#7DD3FC"
+         id="stop7" />
+      <stop
+         offset="50%"
+         stop-color="#38BDF8"
+         id="stop8" />
+      <stop
+         offset="100%"
+         stop-color="#0284C7"
+         id="stop9" />
+    </linearGradient>
+    <linearGradient
+       id="ice-deep-blue"
+       x1="0%"
+       y1="0%"
+       x2="100%"
+       y2="100%">
+      <stop
+         offset="0%"
+         stop-color="#0284C7"
+         id="stop10" />
+      <stop
+         offset="60%"
+         stop-color="#1D4ED8"
+         id="stop11" />
+      <stop
+         offset="100%"
+         stop-color="#1E3A8A"
+         id="stop12" />
+    </linearGradient>
+    <linearGradient
+       id="ice-stem-cobalt"
+       x1="118.46004"
+       y1="229.10679"
+       x2="118.46004"
+       y2="486.10485"
+       gradientTransform="scale(0.99611649,1.0038987)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#38BDF8"
+         id="stop13" />
+      <stop
+         offset="35%"
+         stop-color="#2563EB"
+         id="stop14" />
+      <stop
+         offset="100%"
+         stop-color="#1D4ED8"
+         id="stop15" />
+    </linearGradient>
+    <linearGradient
+       id="icicle-frost"
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%">
+      <stop
+         offset="0%"
+         stop-color="#38BDF8"
+         id="stop16" />
+      <stop
+         offset="45%"
+         stop-color="#BAE6FD"
+         id="stop17" />
+      <stop
+         offset="100%"
+         stop-color="#FFFFFF"
+         id="stop18" />
+    </linearGradient>
+    <filter
+       id="plate-shadow"
+       x="-0.058252427"
+       y="-0.049586777"
+       width="1.1165049"
+       height="1.1157025">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="5"
+         result="blur"
+         id="feGaussianBlur18" />
+      <feOffset
+         in="blur"
+         dx="0"
+         dy="4"
+         result="offsetBlur"
+         id="feOffset18" />
+      <feFlood
+         flood-color="#050811"
+         flood-opacity="0.5"
+         result="offsetColor"
+         id="feFlood18" />
+      <feComposite
+         in="offsetColor"
+         in2="offsetBlur"
+         operator="in"
+         result="offsetShadow"
+         id="feComposite18" />
+      <feMerge
+         id="feMerge19">
+        <feMergeNode
+           in="offsetShadow"
+           id="feMergeNode18" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode19" />
+      </feMerge>
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#ice-deep-blue"
+       id="linearGradient1"
+       x1="130.73917"
+       y1="235.73654"
+       x2="333.67759"
+       y2="438.67496"
+       gradientTransform="scale(1.0249415,0.97566545)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#ice-cyan-mid"
+       id="linearGradient2"
+       x1="134.59272"
+       y1="348.60727"
+       x2="246.75332"
+       y2="460.76787"
+       gradientTransform="scale(1.5156838,0.65976823)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#ice-top-bright"
+       id="linearGradient3"
+       x1="32.115862"
+       y1="253.20821"
+       x2="233.26258"
+       y2="454.35493"
+       gradientTransform="scale(1.183216,0.84515425)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#ice-top-bright"
+       id="linearGradient4"
+       x1="84"
+       y1="328"
+       x2="162.2"
+       y2="406.2"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#ice-deep-blue"
+       id="linearGradient5"
+       x1="102.49797"
+       y1="132.39287"
+       x2="343.10761"
+       y2="373.00251"
+       gradientTransform="scale(1.1512423,0.86862687)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#ice-cyan-mid"
+       id="linearGradient6"
+       x1="107.43893"
+       y1="145.57107"
+       x2="323.89678"
+       y2="362.02892"
+       gradientTransform="scale(1.2658354,0.78999215)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#ice-cyan-mid"
+       id="linearGradient7"
+       x1="68.905447"
+       y1="70.241181"
+       x2="307.72546"
+       y2="309.0612"
+       gradientTransform="scale(1.2771124,0.78301645)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#ice-top-bright"
+       id="linearGradient8"
+       x1="83.8702"
+       y1="59.019771"
+       x2="204.27054"
+       y2="179.42011"
+       gradientTransform="scale(1.0730867,0.93189112)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#ice-top-bright"
+       id="linearGradient9"
+       x1="101.06468"
+       y1="71.835187"
+       x2="270.92225"
+       y2="241.69276"
+       gradientTransform="scale(1.3060943,0.76564149)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#ice-top-bright"
+       id="linearGradient10"
+       x1="83.679983"
+       y1="188.28876"
+       x2="180.3411"
+       y2="284.94987"
+       gradientTransform="scale(0.93212256,1.0728203)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#icicle-frost"
+       id="linearGradient11"
+       x1="219.93863"
+       y1="328.38252"
+       x2="219.93863"
+       y2="386.07134"
+       gradientTransform="scale(1.1094004,0.90138782)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#icicle-frost"
+       id="linearGradient12"
+       x1="357.6"
+       y1="210"
+       x2="357.6"
+       y2="270"
+       gradientTransform="scale(0.83333333,1.2)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#icicle-frost"
+       id="linearGradient13"
+       x1="187.84834"
+       y1="283.47335"
+       x2="187.84834"
+       y2="373.4289"
+       gradientTransform="scale(0.75592895,1.3228757)"
+       gradientUnits="userSpaceOnUse" />
+    <filter
+       id="plate-shadow-7"
+       x="-0.03"
+       y="-0.044609665"
+       width="1.06"
+       height="1.1040892">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="5"
+         result="blur"
+         id="feGaussianBlur18-5" />
+      <feOffset
+         in="blur"
+         dx="0"
+         dy="4"
+         result="offsetBlur"
+         id="feOffset18-3" />
+      <feFlood
+         flood-color="#050811"
+         flood-opacity="0.5"
+         result="offsetColor"
+         id="feFlood18-5" />
+      <feComposite
+         in="offsetColor"
+         in2="offsetBlur"
+         operator="in"
+         result="offsetShadow"
+         id="feComposite18-6" />
+      <feMerge
+         id="feMerge19-2">
+        <feMergeNode
+           in="offsetShadow"
+           id="feMergeNode18-9" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode19-1" />
+      </feMerge>
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <!-- Background (Delete or comment out for transparent usage) -->
+    <!-- ================================================================= -->
+    <!-- 1. ICICLES (Rooted deep inside the F plates so zero gaps appear)  -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- 2. UPPER SECTION OF THE "F" (Above the main diagonal shear gap)   -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- 3. LOWER SECTION OF THE "F" (Middle Crossbar + Lower Stem)        -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- 4. CRISP SPECULAR EDGE HIGHLIGHTS                                 -->
+    <!-- ================================================================= -->
+    <g
+       id="g19">
+      <g
+         id="icicles"
+         filter="url(#plate-shadow)"
+         transform="translate(-1,-16)">
+        <!-- Middle Crossbar Horizontal Overhang Icicles -->
+        <polygon
+           points="252,320 258,304 264,314 270,304 278,336 286,310 299,348 308,296 244,296 244,304 "
+           fill="url(#icicle-frost)"
+           id="polygon19"
+           style="fill:url(#linearGradient11)" />
+        <!-- Central icicle facet highlight -->
+        <polygon
+           points="296,296 286,296 286,310 299,348 "
+           fill="#ffffff"
+           opacity="0.75"
+           id="polygon20" />
+        <!-- Middle Crossbar Diagonal Edge Icicles (Rooted inside the x+y=604 diagonal) -->
+        <polygon
+           points="317,324 323,292 330,308 334,280 341,286 341,272 348,275 348,252 298,296 308,306 "
+           fill="url(#icicle-frost)"
+           opacity="0.95"
+           id="polygon21"
+           style="fill:url(#linearGradient12)" />
+        <!-- Bottom Stem Slanted Base Icicles (Rooted inside the x+y=606 diagonal) -->
+        <polygon
+           points="151,470 158,448 168,494 180,426 186,449 192,414 200,436 210,396 210,375 142,440 142,464 "
+           fill="url(#icicle-frost)"
+           id="polygon22"
+           style="fill:url(#linearGradient13)" />
+        <!-- Stem main icicle facet shadow & highlight -->
+        <polygon
+           points="171,420 158,432 158,448 168,494 "
+           fill="#38bdf8"
+           opacity="0.65"
+           id="polygon23" />
+        <polygon
+           points="171,420 168,494 180,426 "
+           fill="#ffffff"
+           opacity="0.9"
+           id="polygon24" />
+      </g>
+      <g
+         id="upper-f-assembly"
+         filter="url(#plate-shadow)"
+         transform="translate(-1,-16)">
+        <!-- Layer 1 (Deepest Recessed Base - trimmed right top so it doesn't poke out) -->
+        <polygon
+           points="182,161 182,115 395,115 353,157 216,157 216,204 178,242 178,264 118,324 118,225 "
+           fill="url(#ice-deep-blue)"
+           id="polygon25"
+           style="fill:url(#linearGradient5)" />
+        <!-- Layer 1B (Bright Cyan Lower Offset Bar of Top Arm, right bevel x+y=525) -->
+        <polygon
+           points="192,115 410,115 355,170 216,170 216,206 136,286 192,230 "
+           fill="url(#ice-cyan-mid)"
+           id="polygon26"
+           style="fill:url(#linearGradient6)" />
+        <!-- Inner corner bevel highlight on lower offset bar -->
+        <polygon
+           points="399,126 365,160 216,160 216,183 204,195 204,126 "
+           fill="#7dd3fc"
+           opacity="0.5"
+           id="polygon27" />
+        <!-- Dark Structural Trench separating Upper & Lower Top-Bar Plates -->
+        <polygon
+           points="166,108 340,108 326,122 180,122 180,202 104,278 104,254 166,192 "
+           fill="#0b2149"
+           opacity="0.85"
+           id="polygon28" />
+        <!-- Layer 2 (Mid-Cyan Stepped L-Channel, right bevel x+y=448) -->
+        <polygon
+           points="115,55 393,55 332,116 172,116 172,188 118,242 88,242 115,215 "
+           fill="url(#ice-cyan-mid)"
+           id="polygon29"
+           style="fill:url(#linearGradient7)" />
+        <!-- Layer 3 (Inner Light-Cyan Inset Channel) -->
+        <polygon
+           points="115,55 252,55 218,89 148,89 148,142 115,175 98,175 115,158 "
+           fill="#7dd3fc"
+           id="polygon30" />
+        <!-- Layer 4 (Topmost Bright White-Ice L-Plate + Left Spine) -->
+        <polygon
+           points="214,83 142,83 142,135 90,187 115,152 115,55 242,55 "
+           fill="url(#ice-top-bright)"
+           id="polygon31"
+           style="fill:url(#linearGradient8)" />
+        <!-- Layer 5 (Upper-Right Diagonal Offset Bright Slab) -->
+        <polygon
+           points="160,96 226,96 267,55 393,55 332,116 172,116 172,168 132,208 160,180 "
+           fill="url(#ice-top-bright)"
+           id="polygon32"
+           style="fill:url(#linearGradient9)" />
+        <!-- Subtle inner recessed facet on the upper-right slab (x+y=342 to x+y=432) -->
+        <polygon
+           points="368,64 334,98 244,98 278,64 "
+           fill="#7dd3fc"
+           opacity="0.45"
+           id="polygon33" />
+        <!-- =============================================================== -->
+        <!-- HORIZONTAL WIND-SWEPT FROST SHARDS (Aligned to 45� Bevel Roots) -->
+        <!-- =============================================================== -->
+        <!-- 1. Top Long Razor Spike (Grows from the inner step of Layer 5 along x+y=358) -->
+        <!-- Upper bright facet -->
+        <polygon
+           points="288,70 478,76 280,78 "
+           fill="#ffffff"
+           id="polygon34"
+           transform="translate(-36)" />
+        <!-- Lower shadow facet -->
+        <polygon
+           points="280,78 478,76 268,90 "
+           fill="#38bdf8"
+           id="polygon35"
+           transform="translate(-36)" />
+        <polygon
+           points="341,115 456,125 332,124 "
+           fill="#ffffff"
+           id="polygon36"
+           transform="translate(3.5,-11.5)" />
+        <!-- 2. Middle Razor Spike (Grows directly from Layer 1B's inner bevel along x+y=456) -->
+        <!-- Upper bright facet -->
+        <!-- Lower shadow facet -->
+        <polygon
+           points="332,124 456,125 322,134 "
+           fill="#38bdf8"
+           id="polygon37"
+           transform="translate(3.5,-11.5)" />
+        <!-- 3. Bottom Micro Ice Splinter (Anchored flush inside Layer 1B's right edge x+y=525) -->
+        <!-- Upper bright facet -->
+        <polygon
+           points="364,146 370,140 418,147 "
+           fill="#e0f7fa"
+           id="polygon38" />
+        <!-- Lower shadow facet -->
+        <polygon
+           points="358,152 364,146 418,147 "
+           fill="#38bdf8"
+           id="polygon39" />
+        <!-- Mid-Left Diagonal Slash Shard (Anchored into the left vertical spine) -->
+        <polygon
+           points="184,202 166,266 118,324 118,268 "
+           fill="#7dd3fc"
+           id="polygon40" />
+        <polygon
+           points="158,270 118,302 78,324 184,202 "
+           fill="url(#ice-top-bright)"
+           id="polygon41"
+           style="fill:url(#linearGradient10)" />
+      </g>
+      <g
+         id="lower-f-assembly"
+         filter="url(#plate-shadow)"
+         transform="translate(-1,-16)">
+        <!-- Base Layer: Vertical Lower Stem + Middle Crossbar (Cobalt/Royal) -->
+        <polygon
+           points="374,230 300,304 216,304 216,390 118,488 118,354 242,230 "
+           fill="url(#ice-stem-cobalt)"
+           id="polygon42"
+           style="fill:url(#ice-stem-cobalt)" />
+        <!-- Recessed Dark Blue Structural Channel inside Lower Stem & Bar -->
+        <polygon
+           points="268,276 314,230 342,230 288,284 202,284 198,288 198,408 178,428 178,312 134,356 134,348 206,276 "
+           fill="url(#ice-deep-blue)"
+           id="polygon43"
+           style="fill:url(#linearGradient1)" />
+        <!-- Lower Stem Inner Vertical Highlight Pillar -->
+        <polygon
+           points="178,430 140,468 140,362 178,324 "
+           fill="#2563eb"
+           opacity="0.8"
+           id="polygon44" />
+        <polygon
+           points="180,428 172,436 172,330 180,322 "
+           fill="#60a5fa"
+           opacity="0.7"
+           id="polygon45" />
+        <!-- Middle Crossbar Right-Side Lighter Cyan Facet -->
+        <polygon
+           points="342,230 374,230 300,304 204,304 204,286 286,286 "
+           fill="url(#ice-cyan-mid)"
+           id="polygon46"
+           style="fill:url(#linearGradient2)" />
+        <!-- Top Bright Diagonal Slash Wing (Sweeping from Left Spine into Crossbar) -->
+        <polygon
+           points="318,214 264,268 200,268 38,414 238,214 "
+           fill="url(#ice-top-bright)"
+           id="polygon47"
+           style="fill:url(#linearGradient3)" />
+        <!-- Secondary Facet on the Diagonal Slash Wing (Adds 3D Chiseled Depth) -->
+        <polygon
+           points="318,214 264,268 200,268 262,214 "
+           fill="#7dd3fc"
+           opacity="0.75"
+           id="polygon48" />
+        <polygon
+           points="308,214 260,262 222,262 270,214 "
+           fill="#e0f7fa"
+           opacity="0.9"
+           id="polygon49" />
+        <!-- Lower-Left Sharp Ice Shard (Anchored into the lower stem spine) -->
+        <polygon
+           points="156,368 118,396 84,420 176,328 "
+           fill="url(#ice-top-bright)"
+           id="polygon50"
+           style="fill:url(#linearGradient4)" />
+        <polygon
+           points="164,352 118,388 84,420 156,368 "
+           fill="#7dd3fc"
+           id="polygon51" />
+      </g>
+      <g
+         id="specular-highlights"
+         fill="none"
+         stroke="#ffffff"
+         stroke-linecap="round"
+         transform="translate(-1,-16)">
+        <!-- Top-left corner crisp edge -->
+        <polyline
+           points="115,150 115,55 240,55"
+           stroke-width="2"
+           opacity="0.85"
+           id="polyline51" />
+        <!-- Upper-right plate top edge -->
+        <line
+           x1="268"
+           y1="55"
+           x2="391"
+           y2="55"
+           stroke-width="2"
+           opacity="0.9"
+           id="line51" />
+        <!-- Diagonal crossbar slash leading edge -->
+        <polyline
+           points="42,410 238,214 316,214"
+           stroke-width="2"
+           opacity="0.9"
+           id="polyline52" />
+        <!-- Right crossbar overhang edge -->
+        <line
+           x1="300"
+           y1="304"
+           x2="372"
+           y2="232"
+           stroke-width="1.5"
+           opacity="0.75"
+           id="line52" />
+      </g>
+    </g>
+  </g>
+</svg>
