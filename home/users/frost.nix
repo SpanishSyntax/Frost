@@ -29,7 +29,10 @@
       };
 
       office = {
-        readers.zathura.enable = true;
+        readers = {
+          sioyek.enable = true;
+          zathura.enable = true;
+        };
       };
 
       settings = {

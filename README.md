@@ -201,8 +201,8 @@ Over 110 modular application wrappers managed by Home Manager:
 * **`network`**: `browsers` (chrome, firefox, tor, zen), `chat` (discord, teams, telegram, tut, whatsapp), `transfer` (aria2, gnome_torrents, parabolic), `remote` (dnsutils, eduvpn, gnome_network_displays, iperf, kde_connect, mappers, openssl, remmina)
 * **`office`**: `docs` (libreoffice, obsidian, marktext, rnote, gnome_markdown, todoist), `readers` (zathura, sioyek, calibre, foliate, zlibrary, gnome_document_viewer), `tools` (pandoc, ghostscript, mermaid, stirling, autofirma, bento_pdf, gnome_pomodoro, zotero)
 * **`science`**: `math` (octave), `gis` (qgis), `diagrams` (drawio), `electronics` (kicad)
-* **`settings`**: `desktop` (nwg_look), `security` (gnome_seahorse, pass, sops, vulnix), `packages` (gnome_software)
-* **`system`**: `shell` (bat, curl, eza, fastfetch, file, fzf, glow, jq, kitty, magika, pay_respects, pdfgrep, ripgrep, secret_tool, starship, tmux, tree, wget, zoxide, zsh), `core` (sqlite, usbutils, zip), `desktop` (gnome_characters, gnome_file_roller, gnome_files, gnome_system_monitor, thunar), `virtualization` (boxbuddy, devbox, distrobox, docker, kontainer, virt_manager)
+* **`settings`**: `desktop` (nwg_look), `security` (gnome_seahorse, onepassword, pass, sops, vulnix), `packages` (gnome_software)
+* **`system`**: `shell` (bat, curl, eza, fastfetch, file, fzf, glow, jq, kitty, magika, pay_respects, pdfgrep, ripgrep, secret_tool, starship, tmux, tree, wget, zoxide, zsh), `core` (bluetooth, sqlite, usbutils, zip), `desktop` (gnome_characters, gnome_file_roller, gnome_files, gnome_system_monitor, thunar), `virtualization` (boxbuddy, devbox, distrobox, docker, kontainer, virt_manager)
 * **`utility`**: `accessories` (calculator, gnome_calculator, gnome_calendar, gnome_clocks, gnome_fretboard, gnome_typing, gnome_weather, memorado, rss)
 * **`gaming`**: `launchers` (gamemode, heroic)
 * **`icebergs`**: `borealis`, `flaker`, `folio`, `glaze`, `permafrost`

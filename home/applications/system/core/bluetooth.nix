@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.services.bluetooth;
+  cfg = config.frost.home.apps.system.core.bluetooth;
 in {
-  options.frost.home.services.bluetooth = {
+  options.frost.home.apps.system.core.bluetooth = {
     enable = lib.mkOption {
       type = lib.types.bool;
       default = config.frost.home.ui.wms.hyprland.enable;

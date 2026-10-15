@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.services.onepassword;
+  cfg = config.frost.home.apps.settings.security.onepassword;
 in {
-  options.frost.home.services.onepassword = {
+  options.frost.home.apps.settings.security.onepassword = {
     enable = lib.mkOption {
       type = lib.types.bool;
       default = config.frost.home.ui.wms.hyprland.enable;
