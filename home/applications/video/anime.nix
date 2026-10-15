@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.apps.streaming.anime;
+  cfg = config.frost.home.apps.video.anime;
 in {
-  options.frost.home.apps.streaming.anime.enable = lib.mkEnableOption "Ani CLI";
+  options.frost.home.apps.video.anime.enable = lib.mkEnableOption "Ani CLI";
 
   config = lib.mkIf cfg.enable {
     home.packages = [

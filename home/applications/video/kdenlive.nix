@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.apps.creative.kdenlive;
+  cfg = config.frost.home.apps.video.kdenlive;
 in {
-  options.frost.home.apps.creative.kdenlive.enable = lib.mkEnableOption "Kdenlive";
+  options.frost.home.apps.video.kdenlive.enable = lib.mkEnableOption "Kdenlive";
 
   config = lib.mkIf cfg.enable {
     home.packages = [

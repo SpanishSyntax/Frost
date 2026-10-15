@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.frost.home.apps.creative.obs;
+  cfg = config.frost.home.apps.video.obs;
 in {
-  options.frost.home.apps.creative.obs.enable = lib.mkEnableOption "OBS";
+  options.frost.home.apps.video.obs.enable = lib.mkEnableOption "OBS";
 
   config = lib.mkIf cfg.enable {
     home.packages = [
