@@ -35,6 +35,11 @@ in {
       enable = true;
 
       initContent = ''
+        # Run fastfetch only in interactive shell sessions
+        if [[ -o interactive ]] && command -v ${pkgs.fastfetch}/bin/fastfetch >/dev/null 2>&1; then
+          ${pkgs.fastfetch}/bin/fastfetch
+        fi
+
         # Source custom file if present
         [[ -f "${config.xdg.configHome}/zsh.d/custom.zsh" ]] && source "${config.xdg.configHome}/zsh.d/custom.zsh"
 
