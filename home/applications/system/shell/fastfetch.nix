@@ -57,7 +57,7 @@ in {
           "break"
           {
             type = "title";
-            format = "{##cdd6f4}❄ {user-name}{##585b70}@{*##89dceb}{host-name}";
+            format = "{##cdd6f4}❄ {user-name}{##585b70}@{##89dceb}{host-name}";
           }
           {
             type = "custom";
