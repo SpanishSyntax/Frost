@@ -10,6 +10,8 @@ in {
   options.frost.home.apps.system.shell.zsh = {
     enable = lib.mkEnableOption "Zsh config";
 
+    autostartFastfetch = lib.mkEnableOption "autostart fastfetch on interactive shell start";
+
     configsPath = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = config.frost.home.environment.configsPath;
@@ -35,15 +37,12 @@ in {
       enable = true;
 
       initContent = ''
-        # Run fastfetch only in interactive shell sessions
-        if [[ -o interactive ]] && command -v ${pkgs.fastfetch}/bin/fastfetch >/dev/null 2>&1; then
-          ${pkgs.fastfetch}/bin/fastfetch
-        fi
+        ${lib.optionalString cfg.autostartFastfetch ''
+          [[ -o interactive ]] && ${pkgs.fastfetch}/bin/fastfetch
+        ''}
 
-        # Source custom file if present
         [[ -f "${config.xdg.configHome}/zsh.d/custom.zsh" ]] && source "${config.xdg.configHome}/zsh.d/custom.zsh"
 
-        # (N) nullglob qualifier prevents 'no matches found' errors if folder is empty
         for file in "${config.xdg.configHome}/zsh.d/conf.d"/*.zsh(N); do
           source "$file"
         done
