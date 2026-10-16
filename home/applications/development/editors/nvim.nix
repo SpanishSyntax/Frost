@@ -59,8 +59,8 @@ in {
         [
           pkgs.ripgrep
           pkgs.fd
-          # pkgs.imagemagick # For on-the-fly SVG to JPG rasterization
-          # pkgs.jp2a # Converts the rasterized image into ASCII Art
+          pkgs.imagemagick # For on-the-fly SVG to JPG rasterization
+          pkgs.jp2a # Converts the rasterized image into ASCII Art
           pkgs.chafa # Native SVG-to-ANSI symbol renderer for Snacks dashboard
         ]
         ++ (lib.optional antigravityEnabled inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli)
