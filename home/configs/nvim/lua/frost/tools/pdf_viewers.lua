@@ -1,6 +1,11 @@
 -- lua/frost/tools/pdf_viewers.lua
 local M = {}
 
+M.external_openers = {
+  pdf = "sioyek",
+  epub = "sioyek",
+}
+
 --- Launch an external application with a target file path
 ---@param app string|table
 ---@param path string
@@ -40,7 +45,7 @@ function M.open(app, path, opts)
     on_stderr = function(_, data)
       local msg = table.concat(data, ""):gsub("^%s*(.-)%s*$", "%1")
       if msg ~= "" and not msg:match("Couldn't load pipewire") then
-        vim.notify("Sioyek: " .. msg, vim.log.levels.WARN)
+        vim.notify(app .. ": " .. msg, vim.log.levels.WARN)
       end
     end,
   })
@@ -56,6 +61,27 @@ function M.open(app, path, opts)
     "Opened with " .. app_name .. mode_label .. ": " .. vim.fn.fnamemodify(full_path, ":t"),
     vim.log.levels.INFO
   )
+end
+
+--- Smart dispatcher: if the extension matches an external opener, opens it externally.
+--- Otherwise, executes fallback_fn() (e.g. Snacks confirm).
+---@param path string|nil
+---@param fallback_fn function
+---@param opts? { new_instance?: boolean }
+function M.smart_open(path, fallback_fn, opts)
+  if not path then
+    return fallback_fn()
+  end
+
+  local ext = vim.fn.fnamemodify(path, ":e"):lower()
+  local external_bin = M.external_openers[ext]
+
+  if external_bin then
+    opts = opts or { new_instance = true }
+    M.open(external_bin, path, opts)
+  else
+    fallback_fn()
+  end
 end
 
 --- Resolve PDF path from current buffer and launch
@@ -85,12 +111,12 @@ end, { desc = "Open PDF in Zathura", silent = true })
 -- Normal mode (isolated instance)
 vim.keymap.set("n", "<leader>ws", function()
   M.open_current_buffer("sioyek", { new_instance = true })
-end, { desc = "Open PDF in Sioyek (reuse)", silent = true })
+end, { desc = "Open PDF in Sioyek (new window)", silent = true })
 
--- New window mode (re-use instance)
+-- Re-use instance
 vim.keymap.set("n", "<leader>wS", function()
   M.open_current_buffer("sioyek", { new_instance = false })
-end, { desc = "Open PDF in Sioyek (new window)", silent = true })
+end, { desc = "Open PDF in Sioyek (reuse)", silent = true })
 
 vim.keymap.set("n", "<leader>wx", function()
   M.open_current_buffer("xdg-open")
