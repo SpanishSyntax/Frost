@@ -10,6 +10,14 @@
 
   mcpEnabled = config.frost.home.apps.ai.mcp_hub.enable or false;
   antigravityEnabled = config.frost.home.apps.ai.antigravity.enable or false;
+
+  # Pure Nix build of PNG asset from SVG (1024px width, transparent background)
+  frostLogoPng =
+    pkgs.runCommand "wordmark.png" {
+      nativeBuildInputs = [pkgs.resvg];
+    } ''
+      resvg -w 1024 "${inputs.self}/assets/wordmark.svg" $out
+    '';
 in {
   imports = [inputs.mnw.homeManagerModules.mnw];
 
@@ -29,11 +37,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    # ------------------------------------------------------------
-    # Core CLI tools (Neovim ecosystem runtime deps)
-    # ------------------------------------------------------------
-    home.packages = [
-    ];
+    home.packages = [];
 
     home.sessionVariables = {
       EDITOR = "nvim";
@@ -46,27 +50,24 @@ in {
         vim.g.mapleader = " "
 
         vim.g.frost_logo_svg = "${inputs.self}/assets/wordmark.svg"
+        vim.g.frost_logo_png = "${frostLogoPng}"
         vim.g.frost_ignore_directories = vim.json.decode('${builtins.toJSON envIgnores.directories}')
         vim.g.frost_ignore_files = vim.json.decode('${builtins.toJSON envIgnores.files}')
 
         require("frost")
       '';
 
-      extraLuaPackages = ps: [
-      ];
+      extraLuaPackages = ps: [];
 
       extraBinPath =
         [
           pkgs.ripgrep
           pkgs.fd
-          pkgs.imagemagick # For on-the-fly SVG to JPG rasterization
-          pkgs.jp2a # Converts the rasterized image into ASCII Art
-          pkgs.chafa # Native SVG-to-ANSI symbol renderer for Snacks dashboard
+          pkgs.chafa
         ]
         ++ (lib.optional antigravityEnabled inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli)
         ++ (lib.optional mcpEnabled inputs.mcp-hub-server.packages.${pkgs.stdenv.hostPlatform.system}.default);
 
-      # Keeps node loops active for background JS script tracking
       providers = {
         nodeJs = {
           enable = mcpEnabled;
@@ -84,7 +85,6 @@ in {
               pyperclip
               nbformat
               pillow
-              # pnglatex # Note: Uncomment this only if it exists in your specific nixpkgs channel. It is occasionally missing.
             ]);
         };
       };
@@ -99,9 +99,6 @@ in {
       };
     };
 
-    # ------------------------------------------------------------
-    # Optional: direnv support
-    # ------------------------------------------------------------
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
