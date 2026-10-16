@@ -1,48 +1,6 @@
 local viewers = require("frost.tools.pdf_viewers")
-
-local external_openers = {
-  pdf = "sioyek",
-  epub = "sioyek",
-}
-
--- Convert canonical ignores into Snacks glob exclusions
-local snacks_excludes = {}
-
-for _, dir in
-  ipairs(vim.g.frost_ignore_directories or { ".git", ".direnv", ".venv", "node_modules" })
-do
-  table.insert(snacks_excludes, "**/" .. dir)
-  table.insert(snacks_excludes, "**/" .. dir .. "/**")
-end
-
-for _, file in ipairs(vim.g.frost_ignore_files or { ".DS_Store", "Thumbs.db" }) do
-  table.insert(snacks_excludes, "**/" .. file)
-end
-
--- ============================================================================
--- Synchronously Resolve Dashboard Header (Pure text, colored by Neovim theme)
--- ============================================================================
-local logo_path = vim.g.frost_logo_svg or ""
-local has_logo = logo_path ~= "" and vim.fn.filereadable(logo_path) == 1
-local has_chafa = vim.fn.executable("chafa") == 1
-
-local use_terminal_logo = has_logo and has_chafa
-
-local dashboard_header = [[
- ███████╗██████╗   ██████╗ ███████╗████████╗
- ██╔════╝██╔══██╗ ██╔═══██╗██╔════╝╚══██╔══╝
- █████╗  ██████╔╝ ██║   ██║███████╗   ██║   
- ██╔══╝  ██╔══██╗ ██║   ██║╚════██║   ██║   
- ██║     ██║  ██║ ╚██████╔╝███████║   ██║   
- ╚═╝     ╚═╝  ╚═╝  ╚═════╝ ╚══════╝   ╚═╝   ]]
-
-local logo_cmd = ""
-if use_terminal_logo then
-  logo_cmd = string.format(
-    "chafa --format=symbols --symbols=vhalf+block --color-space=din99d --size=58x10 %s",
-    vim.fn.shellescape(logo_path)
-  )
-end
+local header_tool = require("frost.tools.dashboard_header")
+local excludes = require("frost.configs.ignores").get_excludes()
 
 return {
   "folke/snacks.nvim",
@@ -128,17 +86,12 @@ return {
     },
   },
   opts = {
-    -- Efficient animations including over 45 easing functions. Trigger: Automatic
     animate = { enabled = true },
-
-    -- Deal with big files. Trigger: Automatic upon opening large files
     bigfile = { enabled = true },
-
-    -- Beautiful declarative dashboards. Trigger: Startup
     dashboard = {
       enabled = true,
       preset = {
-        header = dashboard_header,
+        header = header_tool.ascii_header,
         keys = {
           {
             icon = " ",
@@ -169,66 +122,36 @@ return {
           { icon = " ", key = "q", desc = "Quit", action = ":qa" },
         },
       },
-      sections = {
-        use_terminal_logo and {
-          section = "terminal",
-          cmd = logo_cmd,
-          height = 10,
-          width = 58,
-          align = "center",
-          padding = 1,
-          ttl = 3600,
-        } or {
-          section = "header",
-          padding = 1,
-        },
-        {
-          section = "keys",
-          gap = 1,
-          padding = 1,
-        },
-        { section = "startup" },
-      },
+      sections = header_tool.build_sections(),
     },
 
-    -- A file explorer (picker in disguise). Trigger: `<leader>e`
     explorer = {
       enabled = true,
       filters = {
         dotfiles = true,
-        exclude = snacks_excludes,
+        exclude = excludes,
       },
     },
 
-    -- Git utilities. Trigger: Automatic
     git = { enabled = true },
-
-    -- Image viewer using Kitty Graphics Protocol, supported by kitty, wezterm and ghostty. Trigger: Automatic
     image = { enabled = true },
-
-    -- Indent guides and scopes. Trigger: Automatic
     indent = { enabled = true },
-
-    -- Better vim.ui.input. Trigger: Automatic (e.g., LSP rename)
     input = { enabled = true },
-
-    -- Pretty vim.notify. Trigger: `:lua Snacks.notifier.show_history()`
     notifier = { enabled = true },
 
-    -- Picker for selecting items. Trigger: `<leader>ff`, `<leader>fg`, `<leader>fb`
     picker = {
       enabled = true,
       sources = {
         files = {
-          exclude = snacks_excludes,
+          exclude = excludes,
         },
         grep = {
-          exclude = snacks_excludes,
+          exclude = excludes,
         },
         explorer = {
           hidden = true,
           ignored = true,
-          exclude = snacks_excludes,
+          exclude = excludes,
           win = {
             list = {
               keys = {
@@ -260,11 +183,10 @@ return {
           end
 
           local ext = vim.fn.fnamemodify(path, ":e"):lower()
-          local external_bin = external_openers[ext]
+          local external_bin = viewers.external_openers[ext]
 
           if external_bin then
             picker:close()
-            -- Default: opens in a new instance/window
             viewers.open(external_bin, path, { new_instance = true })
           else
             picker:action("confirm")
@@ -279,7 +201,6 @@ return {
           end
         end,
 
-        -- Default: opens in a new instance/window
         open_sioyek = function(picker)
           local item = picker:current()
           local path = item and Snacks.picker.util.path(item)
@@ -288,7 +209,6 @@ return {
           end
         end,
 
-        -- Secondary: reuses current instance/window
         open_sioyek_reuse = function(picker)
           local item = picker:current()
           local path = item and Snacks.picker.util.path(item)
@@ -299,42 +219,23 @@ return {
       },
     },
 
-    -- Neovim lua profiler. Trigger: `:lua Snacks.profiler.scratch()`
     profiler = { enabled = true },
-
-    -- When doing nvim somefile.txt, it will render the file as quickly as possible, before loading your plugins. Trigger: Automatic
     quickfile = { enabled = true },
-
-    -- Scope detection, text objects and jumping based on treesitter or indent. Trigger: Automatic
     scope = { enabled = true },
-
-    -- Scratch buffers with a persistent file. Trigger: `<leader>S`
     scratch = { enabled = true },
-
-    -- Smooth scrolling. Trigger: Automatic on scroll keys
     scroll = { enabled = true },
-
-    -- Pretty status column. Trigger: Automatic
     statuscolumn = { enabled = true },
-
-    -- Create and toggle floating/split terminals. Trigger: `<leader>st`
     terminal = {
       enabled = true,
       win = {
         position = "float",
-        border = "rounded", -- Optional: adds rounded borders
-        width = 0.8, -- 80% of screen width
-        height = 0.8, -- 80% of screen height
+        border = "rounded",
+        width = 0.8,
+        height = 0.8,
       },
     },
-
-    -- Toggle keymaps integrated with which-key icons / colors. Trigger: `:lua Snacks.toggle.*`
     toggle = { enabled = true },
-
-    -- Auto-show LSP references and quickly navigate between them. Trigger: Automatic
     words = { enabled = true },
-
-    -- Zen mode • distraction-free coding. Trigger: `<leader>z`
     zen = { enabled = true },
   },
 }
