@@ -2,7 +2,7 @@
 local M = {}
 
 M.ascii_header = [[
-  ███████╗██████╗   ██████╗ ███████╗████████╗
+  ███████╗██████╗  ██████╗ ███████╗████████╗
   ██╔════╝██╔══██╗ ██╔═══██╗██╔════╝╚══██╔══╝
   █████╗  ██████╔╝ ██║   ██║███████╗   ██║   
   ██╔══╝  ██╔══██╗ ██║   ██║╚════██║   ██║   
@@ -10,23 +10,33 @@ M.ascii_header = [[
   ╚═╝     ╚═╝  ╚═╝  ╚═════╝ ╚══════╝   ╚═╝   ]]
 
 local function get_capabilities()
-  local logo_path = vim.g.frost_logo_svg or ""
-  local has_logo = logo_path ~= "" and vim.fn.filereadable(logo_path) == 1
-  local has_chafa = vim.fn.executable("chafa") == 1
+  local png_path = vim.g.frost_logo_png or ""
+  local svg_path = vim.g.frost_logo_svg or ""
+
+  local target_file = ""
+  if png_path ~= "" and vim.fn.filereadable(png_path) == 1 then
+    target_file = png_path
+  elseif svg_path ~= "" and vim.fn.filereadable(svg_path) == 1 then
+    target_file = svg_path
+  end
 
   return {
-    path = logo_path,
-    has_logo = has_logo,
-    has_chafa = has_chafa,
+    file = target_file,
+    has_file = target_file ~= "",
+    has_chafa = vim.fn.executable("chafa") == 1,
   }
 end
 
--- Resolve the active mode ("symbols" | "ascii")
+-- Resolve active mode ("symbols" | "ascii")
 function M.get_mode()
   local mode = vim.g.frost_dashboard_logo_mode
   if not mode then
     local caps = get_capabilities()
-    mode = (caps.has_logo and caps.has_chafa) and "symbols" or "ascii"
+    if caps.has_file and caps.has_chafa then
+      mode = "symbols"
+    else
+      mode = "ascii"
+    end
     vim.g.frost_dashboard_logo_mode = mode
   end
   return mode
@@ -36,24 +46,25 @@ end
 local function get_header_section(mode)
   local caps = get_capabilities()
 
-  -- Symbols mode: use Snacks native terminal section with a solid TTL
-  if (mode == "symbols" or mode == "image") and caps.has_logo and caps.has_chafa then
+  -- Mode 1: High-Fidelity Terminal Symbols (ANSI RGB Block characters)
+  if mode == "symbols" and caps.has_file and caps.has_chafa then
     local cmd = string.format(
-      "chafa --format=symbols --symbols=vhalf+block --color-space=din99d --size=58x10 %s",
-      vim.fn.shellescape(caps.path)
+      "chafa --format=symbols --symbols=all --color-space=rgb --size=58x15 --align=center %s",
+      vim.fn.shellescape(caps.file)
     )
     return {
       section = "terminal",
+      id = "header_symbols", -- Explicit ID prevents terminal buffer caching bugs
       cmd = cmd,
-      height = 10,
+      height = 15,
       width = 58,
       align = "center",
       padding = 1,
-      ttl = 5 * 60, -- Keeps the rendered terminal output cached for 5 minutes (prevents exit flash)
+      ttl = 5 * 60,
     }
   end
 
-  -- ASCII mode fallback (uses the built-in Snacks header parser)
+  -- Mode 2: Classic ASCII Banner Fallback
   return {
     section = "header",
     padding = 1,
@@ -74,49 +85,96 @@ function M.build_sections(mode)
   }
 end
 
--- Interactive selector
+-- Reloads the current Snacks dashboard cleanly
+local function refresh_dashboard(new_mode)
+  vim.g.frost_dashboard_logo_mode = new_mode
+
+  local ok, Snacks = pcall(require, "snacks")
+  if not ok then
+    return
+  end
+
+  local new_sections = M.build_sections(new_mode)
+
+  -- Update global config so it persists on fresh splits/tabs
+  if Snacks.config and Snacks.config.dashboard then
+    Snacks.config.dashboard.sections = new_sections
+  end
+
+  -- Clean up current dashboard buffers
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.bo[buf].filetype == "snacks_dashboard" then
+      vim.api.nvim_buf_delete(buf, { force = true })
+    end
+  end
+
+  -- Open and forcefully override the instance options
+  Snacks.dashboard.open({
+    sections = new_sections,
+  })
+
+  vim.notify("Dashboard header set to: " .. new_mode, vim.log.levels.INFO, { title = "Frost UI" })
+end
+
+-- Interactive Snacks Picker selector
 function M.select_style()
-  local options = {
-    { id = "symbols", label = "Terminal Chafa (Block & Half-Block Symbols)" },
-    { id = "ascii", label = "ASCII Plain Text (Theme Colored)" },
+  local ok, Snacks = pcall(require, "snacks")
+
+  local items = {
+    {
+      idx = 1,
+      id = "symbols",
+      title = "High-Fidelity Symbols",
+      desc = "Chafa full Unicode braille/block characters",
+      icon = "🔲",
+    },
+    {
+      idx = 2,
+      id = "ascii",
+      title = "ASCII Text Header",
+      desc = "Standard theme-colored text banner",
+      icon = "📝",
+    },
   }
 
-  vim.ui.select(options, {
+  if ok and Snacks.picker then
+    Snacks.picker({
+      title = "Frost Dashboard Header Style",
+      items = items,
+      format = function(item)
+        return {
+          { item.icon .. "  ", "Special" },
+          { item.title, "DiagnosticInfo" },
+          { " — " .. item.desc, "Comment" },
+        }
+      end,
+      confirm = function(picker, item)
+        picker:close()
+        if item and item.id then
+          refresh_dashboard(item.id)
+        end
+      end,
+    })
+    return
+  end
+
+  vim.ui.select(items, {
     prompt = "Select Dashboard Header Style:",
     format_item = function(item)
-      return item.label
+      return string.format("%s %s (%s)", item.icon, item.title, item.desc)
     end,
   }, function(choice)
-    if not choice then
-      return
-    end
-
-    vim.g.frost_dashboard_logo_mode = choice.id
-
-    local ok, Snacks = pcall(require, "snacks")
-    if ok and Snacks.config and Snacks.config.dashboard then
-      Snacks.config.dashboard.sections = M.build_sections(choice.id)
-
-      if vim.bo.filetype == "snacks_dashboard" then
-        vim.cmd("bd!")
-      end
-
-      Snacks.dashboard.open()
-      vim.notify(
-        "Dashboard header set to: " .. choice.id,
-        vim.log.levels.INFO,
-        { title = "Frost UI" }
-      )
+    if choice then
+      refresh_dashboard(choice.id)
     end
   end)
 end
 
--- User Command
+-- User Command & Keymap
 vim.api.nvim_create_user_command("FrostSelectHeaderStyle", M.select_style, {
   desc = "Switch Frost dashboard logo header style",
 })
 
--- Keymap (Self-contained in tool)
 vim.keymap.set("n", "<leader>uh", M.select_style, {
   desc = "Frost: Select Dashboard Header Style",
   silent = true,
