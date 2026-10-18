@@ -11,6 +11,7 @@ enabled_packs = [
   "nixos",
   "network",
   "icebergs",
+  "dev",
 ]
 enabled_tools = [
   "ls",
@@ -29,6 +30,11 @@ enabled_tools = [
   "git_diff",
   "git_branch",
   "git_show",
+  "git_stash",
+  "git_remote",
+  "git_blame",
+  "gh_pr",
+  "gh_issue",
   "uname",
   "uptime",
   "ps",
@@ -72,6 +78,10 @@ enabled_tools = [
   "folio_init",
   "glaze_rename",
   "borealis_status",
+  "code_format",
+  "code_lint",
+  "code_check",
+  "dev_env",
 ]
 
 [general]
