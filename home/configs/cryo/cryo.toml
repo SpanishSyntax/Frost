@@ -1,5 +1,5 @@
 # Cryo MCP Store & Server Bridge Configuration
-# Managed via `cryo store` (Pack & Tool modes), `cryo enable/disable`, or Frost Home Manager
+# Managed via `cryo store` (Pack & Tool modes), `cryo enable/disable`, or Home Manager
 
 [store]
 enabled_packs = [
@@ -10,6 +10,51 @@ enabled_packs = [
   "systemd",
   "nixos",
   "network",
+]
+enabled_tools = [
+  "ls",
+  "cat",
+  "head",
+  "tail",
+  "find",
+  "grep",
+  "stat",
+  "tree",
+  "git_status",
+  "git_log",
+  "git_diff",
+  "git_branch",
+  "git_show",
+  "uname",
+  "uptime",
+  "ps",
+  "df",
+  "free",
+  "which",
+  "docker_ps",
+  "docker_logs",
+  "docker_inspect",
+  "docker_stats",
+  "docker_images",
+  "docker_volumes",
+  "docker_networks",
+  "docker_action",
+  "docker_compose",
+  "systemctl_list",
+  "systemctl_status",
+  "journalctl",
+  "systemctl_action",
+  "nixos_generations",
+  "nix_flake_metadata",
+  "nix_flake_show",
+  "nix_search",
+  "nix_eval",
+  "nix_store_info",
+  "ip_addr",
+  "ip_route",
+  "ss_ports",
+  "ping",
+  "tailscale_status",
 ]
 
 [general]
