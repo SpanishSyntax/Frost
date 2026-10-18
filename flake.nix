@@ -47,6 +47,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    firn = {
+      url = "github:SpanishSyntax/Firn";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flaker = {
       url = "github:SpanishSyntax/Flaker";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -76,11 +81,6 @@
 
     antigravity-nix = {
       url = "github:jacopone/antigravity-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    mcp-hub-server = {
-      url = "github:ravitemer/mcp-hub";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
