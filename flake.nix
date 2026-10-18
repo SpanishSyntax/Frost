@@ -47,6 +47,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    cryo = {
+      url = "github:SpanishSyntax/Cryo";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     firn = {
       url = "github:SpanishSyntax/Firn";
       inputs.nixpkgs.follows = "nixpkgs";
