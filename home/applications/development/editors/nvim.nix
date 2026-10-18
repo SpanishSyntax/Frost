@@ -8,10 +8,6 @@
   cfg = config.frost.home.apps.development.editors.nvim;
   envIgnores = config.frost.home.environment.ignores;
 
-  mcpEnabled = config.frost.home.apps.ai.mcp_hub.enable or false;
-  antigravityEnabled = config.frost.home.apps.ai.antigravity.enable or false;
-
-  # Pure Nix build of PNG asset from SVG (1024px width, transparent background)
   frostLogoPng =
     pkgs.runCommand "wordmark.png" {
       nativeBuildInputs = [pkgs.resvg];
@@ -59,18 +55,15 @@ in {
 
       extraLuaPackages = ps: [];
 
-      extraBinPath =
-        [
-          pkgs.ripgrep
-          pkgs.fd
-          pkgs.chafa
-        ]
-        ++ (lib.optional antigravityEnabled inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli)
-        ++ (lib.optional mcpEnabled inputs.mcp-hub-server.packages.${pkgs.stdenv.hostPlatform.system}.default);
+      extraBinPath = [
+        pkgs.ripgrep
+        pkgs.fd
+        pkgs.chafa
+      ];
 
       providers = {
         nodeJs = {
-          enable = mcpEnabled;
+          enable = true;
           package = pkgs.nodejs_22;
         };
         python3 = {
