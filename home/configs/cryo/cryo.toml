@@ -1,0 +1,22 @@
+# Cryo MCP Store & Server Bridge Configuration
+# Managed via `cryo store` TUI, `cryo enable/disable`, or Frost Home Manager
+
+[store]
+enabled_packs = [
+  "core",
+  "docker",
+  "systemd",
+  "nixos",
+  "network",
+  "external",
+]
+
+[general]
+log_level = "INFO"
+
+# Optional: Bridge third-party stdio MCP servers through Cryo
+# [external.servers.fetch]
+# enabled = false
+# command = "uvx"
+# args = ["mcp-server-fetch"]
+# description = "Fetch web pages as markdown"
