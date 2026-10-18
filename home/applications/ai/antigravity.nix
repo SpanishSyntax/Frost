@@ -14,9 +14,5 @@ in {
       inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli
       inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity
     ];
-
-    home.sessionVariables = {
-      GEMINI_AUTH_METHOD = "antigravity";
-    };
   };
 }
