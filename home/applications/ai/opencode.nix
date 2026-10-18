@@ -12,9 +12,5 @@ in {
     home.packages = [
       pkgs.opencode
     ];
-    home.sessionVariables = {
-      OLLAMA_HOST = "http://void:11434";
-      OLLAMA_API_BASE = "http://void:11434";
-    };
   };
 }
