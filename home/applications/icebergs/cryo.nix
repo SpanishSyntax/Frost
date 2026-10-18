@@ -20,29 +20,40 @@ in {
         Path to Cryo configs for out-of-store symlinking (`mkOutOfStoreSymlink`).
         Defaults to global `frost.home.environment.configsPath` (`~/Frost/home/configs`),
         allowing interactive `cryo store` toggles to persist directly into your repo.
-        Set to `null` to generate `~/.config/cryo/cryo.toml` purely from declarative `packs` and `settings`.
+        Set to `null` to generate `~/.config/cryo/cryo.toml` purely from declarative `packs`, `tools`, and `settings`.
       '';
     };
 
     packs = lib.mkOption {
       type = lib.types.listOf (lib.types.enum [
-        "core"
+        "fs"
+        "git"
+        "system"
         "docker"
         "systemd"
         "nixos"
         "network"
-        "external"
       ]);
       default = [
-        "core"
+        "fs"
+        "git"
+        "system"
         "docker"
         "systemd"
         "nixos"
         "network"
-        "external"
       ];
       description = ''
         Capability packs enabled in Cryo when using pure declarative mode (`configsPath = null`).
+      '';
+    };
+
+    tools = lib.mkOption {
+      type = lib.types.nullOr (lib.types.listOf lib.types.str);
+      default = null;
+      example = ["ls" "cat" "grep" "git_status" "docker_ps" "journalctl"];
+      description = ''
+        Specific atomic MCP tools to enable when using pure declarative mode (`configsPath = null`).
       '';
     };
 
@@ -50,8 +61,7 @@ in {
       type = lib.types.attrs;
       default = {};
       description = ''
-        Additional TOML settings merged into `~/.config/cryo/cryo.toml` when `configsPath = null`
-        (e.g. `external.servers.<name>` definitions).
+        Additional TOML settings merged into `~/.config/cryo/cryo.toml` when `configsPath = null`.
       '';
     };
   };
@@ -63,6 +73,10 @@ in {
         if useOutOfStore
         then null
         else cfg.packs;
+      tools =
+        if useOutOfStore
+        then null
+        else cfg.tools;
       settings =
         if useOutOfStore
         then {}

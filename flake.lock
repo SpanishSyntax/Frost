@@ -214,11 +214,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792342956,
-        "narHash": "sha256-NoWim0gJ3DaBqV2TcmBdGHYcklHVANOM19dvSl0dRf0=",
+        "lastModified": 1792348654,
+        "narHash": "sha256-NQ77bgrFsqW998QJYaL/7p41HUBIKm54NWEDyCCMMI0=",
         "owner": "SpanishSyntax",
         "repo": "Cryo",
-        "rev": "82665e040c4843778d27fd7d3316dfe6bba040cc",
+        "rev": "48ccb3e352f70711a542a73efa99b2927c075668",
         "type": "github"
       },
       "original": {
