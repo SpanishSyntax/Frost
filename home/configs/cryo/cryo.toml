@@ -43,6 +43,7 @@ enabled_tools = [
   "which",
   "lsblk",
   "zoxide_query",
+  "notify",
   "docker_ps",
   "docker_logs",
   "docker_inspect",
