@@ -71,13 +71,6 @@ return {
       desc = "Find References (Snacks)",
     },
     {
-      "<leader>z",
-      function()
-        Snacks.zen()
-      end,
-      desc = "Toggle Zen Mode",
-    },
-    {
       "<leader>st",
       function()
         Snacks.terminal()
@@ -85,7 +78,21 @@ return {
       desc = "Toggle Floating Terminal",
     },
     {
-      "<leader>S",
+      "<leader>sz",
+      function()
+        Snacks.zen()
+      end,
+      desc = "Toggle Zen Mode",
+    },
+    {
+      "<leader>sS",
+      function()
+        Snacks.scratch()
+      end,
+      desc = "Toggle Scratch Buffer",
+    },
+    {
+      "<leader>ss",
       function()
         Snacks.scratch()
       end,

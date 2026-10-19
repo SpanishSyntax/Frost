@@ -11,7 +11,7 @@ return {
         { "<leader>c", group = "Code / LSP", icon = " " },
         { "<leader>b", group = "Buffer", icon = " " },
         { "<leader>g", group = "Git", icon = "󰊢 " },
-        { "<leader>s", group = "Snacks / Terminal", icon = " " },
+        { "<leader>s", group = "Snacks", icon = "󱐋 " },
         { "<leader>u", group = "UI / Toggles", icon = "󰔎 " },
 
         -- Writing & Documents
@@ -23,8 +23,6 @@ return {
 
         -- Standalone Root Actions
         { "<leader>e", desc = "File Explorer (Snacks)", icon = "󰙅 " },
-        { "<leader>z", desc = "Zen Mode (Snacks)", icon = "󱓡 " },
-        { "<leader>S", desc = "Scratch Buffer (Snacks)", icon = "󱞩 " },
         { "<leader>L", desc = "Lazy Plugin Manager", icon = "󰒲 " },
         { "<leader>q", desc = "Quit Neovim", icon = " " },
       },
