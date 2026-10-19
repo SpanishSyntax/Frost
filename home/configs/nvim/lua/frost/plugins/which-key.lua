@@ -7,23 +7,23 @@ return {
       win = { border = "rounded" },
       spec = {
         -- Main Navigation Groups
-        { "<leader>f", group = "File / Find", icon = "󰈔 " },
-        { "<leader>c", group = "Code / LSP", icon = " " },
+        { "<leader>f", group = "Find", icon = "󰈔 " },
+        { "<leader>c", group = "Code", icon = " " },
         { "<leader>b", group = "Buffer", icon = " " },
         { "<leader>g", group = "Git", icon = "󰊢 " },
         { "<leader>s", group = "Snacks", icon = "󱐋 " },
-        { "<leader>u", group = "UI / Toggles", icon = "󰔎 " },
+        { "<leader>u", group = "UI", icon = "󰔎 " },
 
         -- Writing & Documents
         { "<leader>w", group = "Writing", icon = "󱓧 " },
-        { "<leader>wf", group = "Folio / Flaker", icon = "❄️ " },
-        { "<leader>wm", group = "Markdown (Firn)", icon = " " },
-        { "<leader>wt", group = "Typst Preview", icon = " " },
-        { "<leader>wl", group = "LaTeX (VimTeX)", icon = "󰔄 " },
+        { "<leader>wf", group = "Folio", icon = "❄️ " },
+        { "<leader>wm", group = "Markdown", icon = " " },
+        { "<leader>wt", group = "Typst", icon = " " },
+        { "<leader>wl", group = "LaTeX", icon = "󰔄 " },
 
         -- Standalone Root Actions
-        { "<leader>e", desc = "File Explorer (Snacks)", icon = "󰙅 " },
-        { "<leader>L", desc = "Lazy Plugin Manager", icon = "󰒲 " },
+        { "<leader>e", desc = "File Explorer", icon = "󰙅 " },
+        { "<leader>L", desc = "Lazy", icon = "󰒲 " },
         { "<leader>q", desc = "Quit Neovim", icon = " " },
       },
     },
