@@ -6,9 +6,9 @@ local M = {}
 -- Helpers
 -- ===================================================================
 
-local function run_interactive(cmd, cwd, title, target_file)
+local function run_interactive(cmd, cwd, title, target_file, opts)
   title = title and ("❄️ " .. title) or "❄️ Flaker"
-  common.run_interactive(cmd, cwd, title, target_file)
+  common.run_interactive(cmd, cwd, title, target_file, opts)
 end
 
 -- ===================================================================
@@ -427,7 +427,10 @@ end
 --- List Registered Language Roles & Stacks (<leader>Fll, <leader>wkl)
 function M.list()
   local doc = common.get_active_doc()
-  run_interactive({ "flaker", "list" }, doc.dir, "Flaker Available Roles")
+  run_interactive({ "flaker", "list" }, doc.dir, "Flaker Roles", nil, {
+    interactive = false,
+    auto_close = false,
+  })
 end
 
 -- Backward compatibility aliases

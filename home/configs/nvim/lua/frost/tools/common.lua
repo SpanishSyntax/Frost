@@ -82,10 +82,18 @@ end
 ---@param cwd? string Working directory (defaults to active doc directory or current working directory)
 ---@param title? string Terminal window title
 ---@param target_file? string File to automatically open upon exit if created
-function M.run_interactive(cmd, cwd, title, target_file)
+---@param opts? { interactive?: boolean, auto_close?: boolean, win?: table } Additional terminal options
+function M.run_interactive(cmd, cwd, title, target_file, opts)
   local doc = M.get_active_doc()
   cwd = (cwd and cwd ~= "") and cwd or ((doc.dir and doc.dir ~= "") and doc.dir or vim.fn.getcwd())
   title = title or "Terminal"
+  opts = opts or {}
+
+  local interactive = opts.interactive ~= false
+  local auto_close = opts.auto_close
+  if auto_close == nil then
+    auto_close = interactive
+  end
 
   local augroup_id = "FrostInteractiveTerminal_" .. tostring(math.random(100000, 999999))
   local group = vim.api.nvim_create_augroup(augroup_id, { clear = true })
@@ -108,13 +116,19 @@ function M.run_interactive(cmd, cwd, title, target_file)
   })
 
   if _G.Snacks and _G.Snacks.terminal then
-    _G.Snacks.terminal(cmd, {
+    local term_opts = {
       cwd = cwd,
+      interactive = interactive,
+      auto_close = auto_close,
       win = {
         title = " " .. title .. " ",
         title_pos = "center",
       },
-    })
+    }
+    if opts.win then
+      term_opts.win = vim.tbl_deep_extend("force", term_opts.win, opts.win)
+    end
+    _G.Snacks.terminal(cmd, term_opts)
   else
     vim.cmd("botright split | resize 15 | terminal " .. table.concat(cmd, " "))
   end
