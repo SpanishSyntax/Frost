@@ -25,6 +25,9 @@ enabled_tools = [
   "jq",
   "checksum",
   "detect_type",
+  "wc",
+  "du",
+  "realpath",
   "git",
   "git_status",
   "git_log",
@@ -45,6 +48,7 @@ enabled_tools = [
   "lsblk",
   "zoxide_query",
   "notify",
+  "whoami",
   "docker_ps",
   "docker_logs",
   "docker_inspect",
@@ -85,6 +89,7 @@ disabled_tools = [
   "docker_compose",
   "nix_build",
   "http_probe",
+  "mkdir",
 ]
 
 [general]
