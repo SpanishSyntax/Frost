@@ -11,7 +11,7 @@ return {
         { "<leader>c", group = "Code", icon = " " },
         { "<leader>b", group = "Buffer", icon = " " },
         { "<leader>g", group = "Git", icon = "󰊢 " },
-        { "<leader>s", group = "Snacks", icon = " " },
+        { "<leader>s", group = "Snacks", icon = "󱐋 " },
         { "<leader>u", group = "UI", icon = "󰔎 " },
 
         -- Writing & Documents
