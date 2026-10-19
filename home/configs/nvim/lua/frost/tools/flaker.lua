@@ -36,7 +36,6 @@ function M.writing_init()
     },
     { label = "󰬛 Native Typst Report", cmd = { "flaker", "init", "typ" }, file = "report.typ" },
     { label = " Native LaTeX Report", cmd = { "flaker", "init", "tex" }, file = "report.tex" },
-    { label = "❄️ Interactive Setup", cmd = { "flaker", "init", "folio" } },
   }
 
   vim.ui.select(items, {
@@ -61,7 +60,6 @@ function M.writing_project()
     { label = "󱓷 Folio IEEE Paper", cmd = { "flaker", "project", "folio:paper" } },
     { label = "󰬛 Typst Configs", cmd = { "flaker", "project", "typ" } },
     { label = " LaTeX Configs", cmd = { "flaker", "project", "tex" } },
-    { label = "❄️ Interactive", cmd = { "flaker", "project", "folio" } },
   }
 
   vim.ui.select(items, {
@@ -246,9 +244,6 @@ function M.lang_init()
       cmd = { "flaker", "init", "ops" },
       file = "compose.yaml",
     },
-
-    -- Universal
-    { label = "❄️ Interactive", cmd = { "flaker", "init" } },
   }
 
   vim.ui.select(items, {
@@ -302,7 +297,6 @@ function M.lang_project()
       cmd = { "flaker", "project", "ops" },
       file = "compose.yaml",
     },
-    { label = "❄️ Interactive", cmd = { "flaker", "project" } },
   }
 
   vim.ui.select(items, {
@@ -345,7 +339,6 @@ function M.lang_new()
       cmd = { "flaker", "new", "haskell" },
       file = "app/Main.hs",
     },
-    { label = "❄️ Interactive", cmd = { "flaker", "new" } },
   }
 
   vim.ui.select(items, {
@@ -456,7 +449,7 @@ M.packages = M.writing_packages
 -- Root Shortcuts
 vim.keymap.set("n", "<leader>FI", function()
   M.interactive()
-end, { desc = "Full setup (init)" })
+end, { desc = "Interactive" })
 vim.keymap.set("n", "<leader>FL", function()
   M.list()
 end, { desc = "List roles & stacks" })
