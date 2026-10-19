@@ -4,12 +4,12 @@ return {
     cmd = "RipSubstitute",
     keys = {
       {
-        "<leader>sr",
+        "<leader>cr",
         function()
           require("rip-substitute").sub()
         end,
         mode = { "n", "x" },
-        desc = "Rip Substitute",
+        desc = "Buffer Replace (RipSubstitute)",
       },
     },
     opts = {

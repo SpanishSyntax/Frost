@@ -11,7 +11,7 @@ return {
         { "<leader>c", group = "Code / LSP", icon = " " },
         { "<leader>b", group = "Buffer", icon = " " },
         { "<leader>g", group = "Git", icon = "󰊢 " },
-        { "<leader>s", group = "Snacks / Search", icon = "󰛔 " },
+        { "<leader>s", group = "Snacks / Terminal", icon = " " },
         { "<leader>u", group = "UI / Toggles", icon = "󰔎 " },
 
         -- Writing & Documents

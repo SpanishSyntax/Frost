@@ -4,12 +4,12 @@ return {
     cmd = "IncRename",
     keys = {
       {
-        "<leader>cr",
+        "<leader>cR",
         function()
           return ":IncRename " .. vim.fn.expand("<cword>")
         end,
         expr = true,
-        desc = "Incremental Rename",
+        desc = "Project LSP Rename (IncRename)",
       },
     },
     opts = {
