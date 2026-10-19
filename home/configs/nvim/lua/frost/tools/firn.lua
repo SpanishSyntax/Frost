@@ -1,20 +1,16 @@
 -- lua/frost/tools/firn.lua
+local common = require("frost.tools.common")
 
 -- ===================================================================
 -- Helpers
 -- ===================================================================
 
 local function get_active_markdown()
-  local file_path = vim.fn.expand("%:p")
-  local file_dir = vim.fn.expand("%:p:h")
-  if file_dir == "" then
-    file_dir = vim.fn.getcwd()
+  local doc = common.get_active_doc()
+  if doc.path ~= "" and (doc.ext == "md" or doc.ext == "markdown") then
+    return doc.path, doc.dir
   end
-
-  if file_path ~= "" and (file_path:match("%.md$") or file_path:match("%.markdown$")) then
-    return file_path, file_dir
-  end
-  return file_dir, file_dir
+  return doc.dir, doc.dir
 end
 
 local function launch_firn(extra_args)

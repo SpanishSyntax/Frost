@@ -7,6 +7,7 @@ return {
       win = { border = "rounded" },
       icons = {
         rules = {
+          { pattern = "flaker", icon = "❄️ " },
           { pattern = "folio", icon = "󱓷 " },
           { pattern = "typst", icon = "󰬛 " },
           { pattern = "latex", icon = " " },
@@ -27,11 +28,13 @@ return {
         -- Writing & Documents
         { "<leader>w", group = "Writing", icon = "󱓧 " },
         { "<leader>wf", group = "Folio", icon = "󱓷 " },
+        { "<leader>wk", group = "Flaker", icon = "❄️ " },
         { "<leader>wm", group = "Markdown", icon = " " },
         { "<leader>wt", group = "Typst", icon = "󰬛 " },
         { "<leader>wl", group = "LaTeX", icon = " " },
 
         -- Standalone Root Actions
+        { "<leader>F", group = "Flaker", icon = "❄️ " },
         { "<leader>e", desc = "File Explorer", icon = "󰙅 " },
         { "<leader>L", desc = "Lazy", icon = "󰒲 " },
         { "<leader>q", desc = "Quit Neovim", icon = " " },
