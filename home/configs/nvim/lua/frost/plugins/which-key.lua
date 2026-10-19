@@ -5,6 +5,11 @@ return {
     opts = {
       preset = "modern",
       win = { border = "rounded" },
+      icons = {
+        rules = {
+          { pattern = "folio", icon = "󱓷 " },
+        },
+      },
       spec = {
         -- Main Navigation Groups
         { "<leader>f", group = "Find", icon = "󰈔 " },

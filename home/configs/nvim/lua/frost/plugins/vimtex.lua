@@ -20,9 +20,14 @@ return {
 
     keys = {
       {
+        "<leader>wlv",
+        "<cmd>VimtexView<cr>",
+        desc = "View LaTeX PDF (SyncTeX)",
+      },
+      {
         "<leader>wlp",
         "<cmd>VimtexView<cr>",
-        desc = "Preview LaTeX Document",
+        desc = "View LaTeX PDF (SyncTeX)",
       },
       {
         "<leader>wlc",

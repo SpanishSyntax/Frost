@@ -165,7 +165,7 @@ function M.watch()
     _G.Snacks.terminal(watch_cmd, {
       cwd = doc.dir,
       win = {
-        title = " ❄️ Folio Watch: " .. (target ~= "" and target or "workspace") .. " ",
+        title = " 󱓷 Folio Watch: " .. (target ~= "" and target or "workspace") .. " ",
         title_pos = "center",
       },
     })
@@ -177,13 +177,13 @@ end
 --- Mode picker for Folio (Report, 16:9 Slides, Academic Paper)
 function M.select_mode_and_build()
   local modes = {
-    { id = "report", label = "📄 Report (Minimal clean A4/Letter document)" },
-    { id = "slides", label = "🖥️  Slides (16:9 widescreen presentation)" },
-    { id = "paper",  label = "📑 Paper (Academic IEEE 2-column paper)" },
+    { id = "report", label = "Report (Minimal clean A4/Letter document)" },
+    { id = "slides", label = "Slides (16:9 widescreen presentation)" },
+    { id = "paper",  label = "Paper (Academic IEEE 2-column paper)" },
   }
 
   vim.ui.select(modes, {
-    prompt = "❄️ Folio: Select Operating Mode",
+    prompt = "󱓷 Folio: Select Operating Mode",
     format_item = function(item) return item.label end,
   }, function(choice)
     if choice then
@@ -196,20 +196,20 @@ end
 function M.flaker_scaffold()
   local doc = get_active_doc()
   local items = {
-    { label = "1. ❄️ Bootstrap Folio Workspace (Report)", cmd = { "flaker", "init", "folio", "report" } },
-    { label = "2. 🖥️ Bootstrap Folio Workspace (16:9 Slides)", cmd = { "flaker", "init", "folio", "slides" } },
-    { label = "3. 📑 Bootstrap Folio Workspace (IEEE Paper)", cmd = { "flaker", "init", "folio", "paper" } },
-    { label = "4. 🏗️ Drop Template Foundations (flaker project folio)", cmd = { "flaker", "project", "folio" } },
-    { label = "5. 📄 New Starter Documents (flaker new folio)", cmd = { "flaker", "new", "folio" } },
-    { label = "6. 🖥️ New Markdown Slides (slides.md)", cmd = { "flaker", "new", "md:slides" } },
-    { label = "7. 📑 New Typst IEEE Paper (paper.typ)", cmd = { "flaker", "new", "typ:paper" } },
-    { label = "8. 📊 New LaTeX Beamer Slides (slides.tex)", cmd = { "flaker", "new", "tex:slides" } },
-    { label = "9. 📦 Configure Typst Packages (flaker packages typ)", cmd = { "flaker", "packages", "typ" } },
-    { label = "10.📦 Configure LaTeX Packages (flaker packages tex)", cmd = { "flaker", "packages", "tex" } },
+    { label = "1. Bootstrap Folio Workspace (Report)", cmd = { "flaker", "init", "folio", "report" } },
+    { label = "2. Bootstrap Folio Workspace (16:9 Slides)", cmd = { "flaker", "init", "folio", "slides" } },
+    { label = "3. Bootstrap Folio Workspace (IEEE Paper)", cmd = { "flaker", "init", "folio", "paper" } },
+    { label = "4. Drop Template Foundations (flaker project folio)", cmd = { "flaker", "project", "folio" } },
+    { label = "5. New Starter Documents (flaker new folio)", cmd = { "flaker", "new", "folio" } },
+    { label = "6. New Markdown Slides (slides.md)", cmd = { "flaker", "new", "md:slides" } },
+    { label = "7. New Typst IEEE Paper (paper.typ)", cmd = { "flaker", "new", "typ:paper" } },
+    { label = "8. New LaTeX Presentation Slides (slides.tex)", cmd = { "flaker", "new", "tex:slides" } },
+    { label = "9. Configure Typst Packages (flaker packages typ)", cmd = { "flaker", "packages", "typ" } },
+    { label = "10. Configure LaTeX Packages (flaker packages tex)", cmd = { "flaker", "packages", "tex" } },
   }
 
   vim.ui.select(items, {
-    prompt = "❄️ Flaker: Scaffolding & Setup",
+    prompt = "󱓷 Folio: Scaffolding & Setup (Flaker)",
     format_item = function(item) return item.label end,
   }, function(choice)
     if not choice then return end
@@ -244,6 +244,6 @@ vim.keymap.set("n", "<leader>wfw", function() M.watch() end, { desc = "Folio: Wa
 vim.keymap.set("n", "<leader>wfp", function() M.build({ open = true }) end, { desc = "Folio: Build & open PDF" })
 vim.keymap.set("n", "<leader>wfm", function() M.select_mode_and_build() end, { desc = "Folio: Build with mode preset..." })
 vim.keymap.set("n", "<leader>wfv", open_output_pdf, { desc = "Folio: View output PDF" })
-vim.keymap.set("n", "<leader>wfi", function() M.flaker_scaffold() end, { desc = "Flaker: Scaffold workspace / documents" })
+vim.keymap.set("n", "<leader>wfi", function() M.flaker_scaffold() end, { desc = "Folio: Scaffold workspace / documents" })
 
 return M
