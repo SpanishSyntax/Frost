@@ -28,7 +28,6 @@ enabled_tools = [
   "wc",
   "du",
   "realpath",
-  "git",
   "git_status",
   "git_log",
   "git_diff",
@@ -59,6 +58,7 @@ enabled_tools = [
   "systemctl_list",
   "systemctl_status",
   "journalctl",
+  "systemd_analyze",
   "nixos_generations",
   "nix_flake_metadata",
   "nix_flake_show",
@@ -67,6 +67,7 @@ enabled_tools = [
   "nix_store_info",
   "nix_flake_check",
   "nix_diff_generations",
+  "nix_locate",
   "ip_addr",
   "ip_route",
   "ss_ports",
@@ -75,7 +76,6 @@ enabled_tools = [
   "dns_lookup",
   "flaker_list",
   "flaker_info",
-  "flaker_init",
   "folio_build",
   "borealis_status",
   "code_format",
@@ -90,6 +90,8 @@ disabled_tools = [
   "nix_build",
   "http_probe",
   "mkdir",
+  "trash_put",
+  "flaker_init",
 ]
 
 [general]
