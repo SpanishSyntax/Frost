@@ -40,11 +40,12 @@ end
 function M.writing_project()
   local doc = common.get_active_doc()
   local items = {
-    { label = "󱓷 Drop Template Foundations (flaker project folio)", cmd = { "flaker", "project", "folio" } },
-    { label = "󱓷 Drop All Templates & Foundations (flaker project folio -m all)", cmd = { "flaker", "project", "folio", "-m", "all" } },
+    { label = "󱓷 Folio Markdown Report Foundations (flaker project folio:report)", cmd = { "flaker", "project", "folio:report" } },
+    { label = "󱓷 Folio Markdown 16:9 Slides Foundations (flaker project folio:slides)", cmd = { "flaker", "project", "folio:slides" } },
+    { label = "󱓷 Folio Markdown IEEE Paper Foundations (flaker project folio:paper)", cmd = { "flaker", "project", "folio:paper" } },
     { label = "󰬛 Native Typst Project Foundations (flaker project typ)", cmd = { "flaker", "project", "typ" } },
     { label = " Native LaTeX Project Foundations (flaker project tex)", cmd = { "flaker", "project", "tex" } },
-    { label = "󰒲 Interactive Folio Project Wizard (flaker project folio)", cmd = { "flaker", "project", "folio" } },
+    { label = "❄️ Interactive Writing Project Wizard (flaker project folio)", cmd = { "flaker", "project", "folio" } },
   }
 
   vim.ui.select(items, {
