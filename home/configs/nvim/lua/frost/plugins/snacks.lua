@@ -172,6 +172,8 @@ return {
                 ["gz"] = "open_zathura",
                 ["gs"] = "open_sioyek",
                 ["gS"] = "open_sioyek_reuse",
+                ["fn"] = "flaker_new",
+                ["fN"] = "flaker_lang_new",
               },
             },
           },
@@ -185,6 +187,14 @@ return {
         },
       },
       actions = {
+        flaker_new = function()
+          require("frost.tools.flaker").writing_new()
+        end,
+
+        flaker_lang_new = function()
+          require("frost.tools.flaker").lang_new()
+        end,
+
         smart_confirm = function(picker, item)
           item = item or picker:current()
           if not item then

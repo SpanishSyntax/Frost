@@ -1,14 +1,90 @@
 -- lua/frost/tools/common.lua
 local M = {}
 
+--- Resolves the most appropriate context directory based on current focus:
+--- 1. If currently focused in Snacks Explorer -> highlighted item's directory or explorer cwd
+--- 2. If Oil buffer -> oil directory
+--- 3. If Netrw buffer -> netrw directory
+--- 4. If normal file buffer -> file's parent directory
+--- 5. If dashboard/scratch/empty and Snacks Explorer is open in tabpage -> explorer's highlighted directory
+--- 6. Fallback -> vim.fn.getcwd()
+---@return { dir: string, rel_dir: string }
+function M.get_context_dir()
+  local cwd = vim.fs.normalize(vim.fn.getcwd())
+  local dir = nil
+
+  -- 1. Check if focused window is Snacks explorer
+  if _G.Snacks and _G.Snacks.picker and _G.Snacks.picker.get then
+    local pickers = _G.Snacks.picker.get()
+    for _, picker in ipairs(pickers) do
+      if picker:current_win() and picker.opts and picker.opts.source == "explorer" then
+        dir = picker:dir()
+        break
+      end
+    end
+  end
+
+  -- 2. Check filetypes / special buffers
+  if not dir or dir == "" then
+    local bt = vim.bo.buftype
+    local ft = vim.bo.filetype
+
+    if ft == "oil" then
+      local ok, oil = pcall(require, "oil")
+      if ok and oil.get_current_dir then
+        dir = oil.get_current_dir()
+      end
+    elseif ft == "netrw" and vim.b.netrw_curdir and vim.b.netrw_curdir ~= "" then
+      dir = vim.b.netrw_curdir
+    elseif bt == "" then
+      local buf_name = vim.api.nvim_buf_get_name(0)
+      if buf_name ~= "" then
+        if vim.fn.isdirectory(buf_name) == 1 then
+          dir = buf_name
+        else
+          dir = vim.fs.dirname(buf_name)
+        end
+      end
+    end
+  end
+
+  -- 3. Check open Snacks explorer in current tab
+  if not dir or dir == "" then
+    if _G.Snacks and _G.Snacks.picker and _G.Snacks.picker.get then
+      local explorers = _G.Snacks.picker.get({ source = "explorer" })
+      if explorers and #explorers > 0 and not explorers[1].closed then
+        dir = explorers[1]:dir()
+      end
+    end
+  end
+
+  -- 4. Fallback to process cwd
+  if not dir or dir == "" then
+    dir = cwd
+  end
+
+  dir = vim.fs.normalize(dir)
+  local rel_dir
+  if dir == cwd then
+    rel_dir = "./"
+  elseif vim.startswith(dir, cwd .. "/") then
+    rel_dir = "./" .. dir:sub(#cwd + 2) .. "/"
+  else
+    rel_dir = dir .. "/"
+  end
+
+  return {
+    dir = dir,
+    rel_dir = rel_dir,
+  }
+end
+
 --- Resolves active document path, directory, filename, extension, and document type
 ---@return { path: string, filename: string, dir: string, ext: string, is_doc: boolean }
 function M.get_active_doc()
   local file_path = vim.api.nvim_buf_get_name(0)
-  local file_dir = vim.fn.expand("%:p:h")
-  if file_dir == "" then
-    file_dir = vim.fn.getcwd()
-  end
+  local ctx = M.get_context_dir()
+  local file_dir = ctx.dir
 
   local filename = vim.fn.expand("%:t")
   local ext = vim.fn.expand("%:e"):lower()
@@ -25,12 +101,12 @@ end
 
 --- Runs an external batch command with notification output
 ---@param cmd string[] Command and arguments
----@param cwd? string Working directory (defaults to active doc directory or current working directory)
+---@param cwd? string Working directory (defaults to context directory or current working directory)
 ---@param title? string Notification title
 ---@param on_success? fun() Callback on exit code 0
 function M.run_cmd(cmd, cwd, title, on_success)
-  local doc = M.get_active_doc()
-  cwd = (cwd and cwd ~= "") and cwd or ((doc.dir and doc.dir ~= "") and doc.dir or vim.fn.getcwd())
+  local ctx = M.get_context_dir()
+  cwd = (cwd and cwd ~= "") and cwd or ctx.dir
   title = title or "frost"
 
   vim.notify(
@@ -79,13 +155,13 @@ end
 
 --- Runs an interactive command in a real terminal (Snacks float or split) with auto-reload
 ---@param cmd string[] Command and arguments
----@param cwd? string Working directory (defaults to active doc directory or current working directory)
+---@param cwd? string Working directory (defaults to context directory or current working directory)
 ---@param title? string Terminal window title
 ---@param target_file? string File to automatically open upon exit if created
 ---@param opts? { interactive?: boolean, auto_close?: boolean, win?: table } Additional terminal options
 function M.run_interactive(cmd, cwd, title, target_file, opts)
-  local doc = M.get_active_doc()
-  cwd = (cwd and cwd ~= "") and cwd or ((doc.dir and doc.dir ~= "") and doc.dir or vim.fn.getcwd())
+  local ctx = M.get_context_dir()
+  cwd = (cwd and cwd ~= "") and cwd or ctx.dir
   title = title or "Terminal"
   opts = opts or {}
 
@@ -109,6 +185,18 @@ function M.run_interactive(cmd, cwd, title, target_file, opts)
           if vim.fn.filereadable(full_path) == 1 then
             vim.cmd("edit " .. vim.fn.fnameescape(full_path))
             vim.notify("Opened " .. target_file, vim.log.levels.INFO, { title = title })
+
+            -- Refresh Snacks Explorer if open and reveal new file
+            if _G.Snacks and _G.Snacks.picker and _G.Snacks.picker.get then
+              local explorers = _G.Snacks.picker.get({ source = "explorer" })
+              if explorers and #explorers > 0 and not explorers[1].closed then
+                local exp = explorers[1]
+                local ok_a, Actions = pcall(require, "snacks.explorer.actions")
+                if ok_a and Actions.update then
+                  Actions.update(exp, { target = full_path, refresh = true })
+                end
+              end
+            end
           end
         end
       end)

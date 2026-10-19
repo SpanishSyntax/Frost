@@ -97,10 +97,10 @@ function M.writing_shell()
   end)
 end
 
---- Dedicated Starter Documents Generator (<leader>Fwn, <leader>wkn)
+--- Dedicated Starter Documents Generator (<leader>Fwn, <leader>Fn)
 --- (3 formats: md, typ, tex × 3 templates: report, slides, paper = 9 combinations)
 function M.writing_new()
-  local doc = common.get_active_doc()
+  local ctx = common.get_context_dir()
   local items = {
     -- Markdown Starters (md)
     { label = " Markdown Report", cmd = { "flaker", "new", "md:report" }, file = "report.md" },
@@ -118,8 +118,13 @@ function M.writing_new()
     { label = " LaTeX IEEE Paper", cmd = { "flaker", "new", "tex:paper" }, file = "paper.tex" },
   }
 
+  local prompt = "󱓷 New Document"
+  if ctx.rel_dir and ctx.rel_dir ~= "./" then
+    prompt = prompt .. " in " .. ctx.rel_dir
+  end
+
   vim.ui.select(items, {
-    prompt = "󱓷 New Document",
+    prompt = prompt,
     format_item = function(item)
       return item.label
     end,
@@ -127,7 +132,7 @@ function M.writing_new()
     if not choice then
       return
     end
-    run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
+    run_interactive(choice.cmd, ctx.dir, choice.label, choice.file)
   end)
 end
 
@@ -314,7 +319,7 @@ end
 
 --- Drop Language Starter Files (<leader>Fln)
 function M.lang_new()
-  local doc = common.get_active_doc()
+  local ctx = common.get_context_dir()
   local items = {
     { label = " Python (main.py)", cmd = { "flaker", "new", "py" }, file = "main.py" },
     { label = "󰦨 MathVis (plot.py)", cmd = { "flaker", "new", "mv" }, file = "plot.py" },
@@ -341,8 +346,13 @@ function M.lang_new()
     },
   }
 
+  local prompt = " New Starter File"
+  if ctx.rel_dir and ctx.rel_dir ~= "./" then
+    prompt = prompt .. " in " .. ctx.rel_dir
+  end
+
   vim.ui.select(items, {
-    prompt = " New Starter File",
+    prompt = prompt,
     format_item = function(item)
       return item.label
     end,
@@ -350,7 +360,7 @@ function M.lang_new()
     if not choice then
       return
     end
-    run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
+    run_interactive(choice.cmd, ctx.dir, choice.label, choice.file)
   end)
 end
 
@@ -456,6 +466,9 @@ end, { desc = "Interactive" })
 vim.keymap.set("n", "<leader>FL", function()
   M.list()
 end, { desc = "List roles & stacks" })
+vim.keymap.set("n", "<leader>Fn", function()
+  M.writing_new()
+end, { desc = "New starter doc" })
 
 -- Submenu 1: Programming Languages & Stacks (<leader>Fl...)
 vim.keymap.set("n", "<leader>Fli", function()
