@@ -183,7 +183,7 @@ function M.select_mode_and_build()
   }
 
   vim.ui.select(modes, {
-    prompt = "󱓷 Folio: Select Operating Mode",
+    prompt = "󱓷 Select Operating Mode",
     format_item = function(item) return item.label end,
   }, function(choice)
     if choice then
@@ -209,7 +209,7 @@ function M.flaker_scaffold()
   }
 
   vim.ui.select(items, {
-    prompt = "󱓷 Folio: Scaffolding & Setup (Flaker)",
+    prompt = "󱓷 Scaffolding & Setup (Flaker)",
     format_item = function(item) return item.label end,
   }, function(choice)
     if not choice then return end
@@ -234,16 +234,16 @@ end
 -- ===================================================================
 
 -- Unified top-level writing shortcuts
-vim.keymap.set("n", "<leader>wb", function() M.build() end, { desc = "Folio: Build current document" })
-vim.keymap.set("n", "<leader>ww", function() M.watch() end, { desc = "Folio: Watch with live reload" })
-vim.keymap.set("n", "<leader>wp", function() M.build({ open = true }) end, { desc = "Folio: Build and view PDF" })
+vim.keymap.set("n", "<leader>wb", function() M.build() end, { desc = "Build current document" })
+vim.keymap.set("n", "<leader>ww", function() M.watch() end, { desc = "Watch with live reload" })
+vim.keymap.set("n", "<leader>wp", function() M.build({ open = true }) end, { desc = "Build and view PDF" })
 
 -- Detailed Folio / Flaker sub-palette (<leader>wf...)
-vim.keymap.set("n", "<leader>wfb", function() M.build() end, { desc = "Folio: Build current document" })
-vim.keymap.set("n", "<leader>wfw", function() M.watch() end, { desc = "Folio: Watch with live reload" })
-vim.keymap.set("n", "<leader>wfp", function() M.build({ open = true }) end, { desc = "Folio: Build & open PDF" })
-vim.keymap.set("n", "<leader>wfm", function() M.select_mode_and_build() end, { desc = "Folio: Build with mode preset..." })
-vim.keymap.set("n", "<leader>wfv", open_output_pdf, { desc = "Folio: View output PDF" })
-vim.keymap.set("n", "<leader>wfi", function() M.flaker_scaffold() end, { desc = "Folio: Scaffold workspace / documents" })
+vim.keymap.set("n", "<leader>wfb", function() M.build() end, { desc = "Build current document" })
+vim.keymap.set("n", "<leader>wfw", function() M.watch() end, { desc = "Watch with live reload" })
+vim.keymap.set("n", "<leader>wfp", function() M.build({ open = true }) end, { desc = "Build & open PDF" })
+vim.keymap.set("n", "<leader>wfm", function() M.select_mode_and_build() end, { desc = "Build with mode preset..." })
+vim.keymap.set("n", "<leader>wfv", open_output_pdf, { desc = "View output PDF" })
+vim.keymap.set("n", "<leader>wfi", function() M.flaker_scaffold() end, { desc = "Scaffold workspace / documents" })
 
 return M

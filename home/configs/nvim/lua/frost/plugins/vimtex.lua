@@ -22,7 +22,7 @@ return {
       {
         "<leader>wlp",
         "<cmd>VimtexView<cr>",
-        desc = "Preview LaTeX Document (SyncTeX)",
+        desc = "Preview LaTeX Document",
       },
       {
         "<leader>wlc",
