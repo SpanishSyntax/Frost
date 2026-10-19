@@ -9,7 +9,7 @@ return {
       { "<leader>wtp", "<cmd>TypstPreview<cr>", desc = "Preview Typst Document" },
       { "<leader>wts", "<cmd>TypstPreviewStop<cr>", desc = "Stop Typst Preview" },
       { "<leader>wtt", "<cmd>TypstPreviewToggle<cr>", desc = "Toggle Typst Preview" },
-      { "<leader>wti", "<cmd>TypstPreviewFollowCursorToggle<cr>", desc = "Toggle Follow Cursor" },
+      { "<leader>wti", "<cmd>TypstPreviewFollowCursorToggle<cr>", desc = "Typst: Toggle Follow Cursor" },
     },
 
     opts = {

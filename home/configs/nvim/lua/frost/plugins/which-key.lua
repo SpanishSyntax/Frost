@@ -8,6 +8,9 @@ return {
       icons = {
         rules = {
           { pattern = "folio", icon = "󱓷 " },
+          { pattern = "typst", icon = "󰬛 " },
+          { pattern = "latex", icon = " " },
+          { pattern = "markdown", icon = " " },
         },
       },
       spec = {
