@@ -28,6 +28,7 @@ enabled_tools = [
   "wc",
   "du",
   "realpath",
+  "mkdir",
   "git_status",
   "git_log",
   "git_diff",
@@ -76,6 +77,7 @@ enabled_tools = [
   "dns_lookup",
   "flaker_list",
   "flaker_info",
+  "flaker_init",
   "folio_build",
   "borealis_status",
   "code_format",
@@ -89,9 +91,7 @@ disabled_tools = [
   "docker_compose",
   "nix_build",
   "http_probe",
-  "mkdir",
   "trash_put",
-  "flaker_init",
 ]
 
 [general]
