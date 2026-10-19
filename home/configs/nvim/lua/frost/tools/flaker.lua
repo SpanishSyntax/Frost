@@ -20,6 +20,11 @@ function M.writing_init()
   local doc = common.get_active_doc()
   local items = {
     {
+      label = "󱓷 Folio Paper",
+      cmd = { "flaker", "init", "folio", "paper" },
+      file = "paper.md",
+    },
+    {
       label = "󱓷 Folio Report",
       cmd = { "flaker", "init", "folio", "report" },
       file = "report.md",
@@ -29,13 +34,10 @@ function M.writing_init()
       cmd = { "flaker", "init", "folio", "slides" },
       file = "slides.md",
     },
-    {
-      label = "󱓷 Folio Paper",
-      cmd = { "flaker", "init", "folio", "paper" },
-      file = "paper.md",
-    },
-    { label = "󰬛 Native Typst Report", cmd = { "flaker", "init", "typ" }, file = "report.typ" },
-    { label = " Native LaTeX Report", cmd = { "flaker", "init", "tex" }, file = "report.tex" },
+    { label = "󰬛 Native Typst Paper", cmd = { "flaker", "init", "typ:paper" }, file = "paper.typ" },
+    { label = "󰬛 Native Typst Report", cmd = { "flaker", "init", "typ:report" }, file = "report.typ" },
+    { label = " Native LaTeX Paper", cmd = { "flaker", "init", "tex:paper" }, file = "paper.tex" },
+    { label = " Native LaTeX Report", cmd = { "flaker", "init", "tex:report" }, file = "report.tex" },
   }
 
   vim.ui.select(items, {
@@ -55,9 +57,9 @@ end
 function M.writing_project()
   local doc = common.get_active_doc()
   local items = {
+    { label = "󱓷 Folio Paper", cmd = { "flaker", "project", "folio:paper" } },
     { label = "󱓷 Folio Report", cmd = { "flaker", "project", "folio:report" } },
     { label = "󱓷 Folio Slides", cmd = { "flaker", "project", "folio:slides" } },
-    { label = "󱓷 Folio IEEE Paper", cmd = { "flaker", "project", "folio:paper" } },
     { label = "󰬛 Typst Configs", cmd = { "flaker", "project", "typ" } },
     { label = " LaTeX Configs", cmd = { "flaker", "project", "tex" } },
   }
@@ -103,19 +105,19 @@ function M.writing_new()
   local ctx = common.get_context_dir()
   local items = {
     -- Markdown Starters (md)
+    { label = " Markdown Paper", cmd = { "flaker", "new", "md:paper" }, file = "paper.md" },
     { label = " Markdown Report", cmd = { "flaker", "new", "md:report" }, file = "report.md" },
     { label = " Markdown Slides", cmd = { "flaker", "new", "md:slides" }, file = "slides.md" },
-    { label = " Markdown IEEE Paper", cmd = { "flaker", "new", "md:paper" }, file = "paper.md" },
 
     -- Typst Starters (typ)
+    { label = " Typst Paper", cmd = { "flaker", "new", "typ:paper" }, file = "paper.typ" },
     { label = " Typst Report", cmd = { "flaker", "new", "typ:report" }, file = "report.typ" },
     { label = " Typst Slides", cmd = { "flaker", "new", "typ:slides" }, file = "slides.typ" },
-    { label = " Typst IEEE Paper", cmd = { "flaker", "new", "typ:paper" }, file = "paper.typ" },
 
     -- LaTeX Starters (tex)
+    { label = " LaTeX Paper", cmd = { "flaker", "new", "tex:paper" }, file = "paper.tex" },
     { label = " LaTeX Report", cmd = { "flaker", "new", "tex:report" }, file = "report.tex" },
     { label = " LaTeX Slides", cmd = { "flaker", "new", "tex:slides" }, file = "slides.tex" },
-    { label = " LaTeX IEEE Paper", cmd = { "flaker", "new", "tex:paper" }, file = "paper.tex" },
   }
 
   local prompt = "󱓷 New Document"

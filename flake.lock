@@ -476,11 +476,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792435970,
-        "narHash": "sha256-iuC5yoAO0cwNjxlAN8OZRBpXDtE9TCsNBZl5OboiB4Q=",
+        "lastModified": 1792438927,
+        "narHash": "sha256-23N76eRZFfuMee4shS2ri4AM2L2JG9rYWEgs3YXnegY=",
         "owner": "SpanishSyntax",
         "repo": "Flaker",
-        "rev": "bf15a1c885a21a1fcab1c705043f56cae8f406e4",
+        "rev": "475e41252e8aba80d077416308db16634664a589",
         "type": "github"
       },
       "original": {
