@@ -11,15 +11,15 @@ return {
         { "<leader>c", group = "Code", icon = " " },
         { "<leader>b", group = "Buffer", icon = " " },
         { "<leader>g", group = "Git", icon = "󰊢 " },
-        { "<leader>s", group = "Snacks", icon = "󱐋 " },
+        { "<leader>s", group = "Snacks", icon = " " },
         { "<leader>u", group = "UI", icon = "󰔎 " },
 
         -- Writing & Documents
         { "<leader>w", group = "Writing", icon = "󱓧 " },
-        { "<leader>wf", group = "Folio", icon = "❄️ " },
+        { "<leader>wf", group = "Folio", icon = "󱓷 " },
         { "<leader>wm", group = "Markdown", icon = " " },
-        { "<leader>wt", group = "Typst", icon = " " },
-        { "<leader>wl", group = "LaTeX", icon = "󰔄 " },
+        { "<leader>wt", group = "Typst", icon = "󰬛 " },
+        { "<leader>wl", group = "LaTeX", icon = " " },
 
         -- Standalone Root Actions
         { "<leader>e", desc = "File Explorer", icon = "󰙅 " },
