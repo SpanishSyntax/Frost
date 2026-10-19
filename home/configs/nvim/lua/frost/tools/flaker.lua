@@ -277,19 +277,23 @@ M.packages = M.writing_packages
 
 -- Interactive Wizard & Root Shortcuts
 vim.keymap.set("n", "<leader>Fk", function() M.interactive() end, { desc = "Flaker: Interactive stack selector" })
-vim.keymap.set("n", "<leader>Fs", function() M.lang_shell() end, { desc = "Flaker: Generate DevShell flake" })
-vim.keymap.set("n", "<leader>Fp", function() M.writing_packages() end, { desc = "Flaker: Configure packages" })
+vim.keymap.set("n", "<leader>Fp", function() M.lang_scaffold() end, { desc = "Flaker: Scaffold project foundations (project)" })
+vim.keymap.set("n", "<leader>Fs", function() M.lang_shell() end, { desc = "Flaker: Generate DevShell flake (shell)" })
+vim.keymap.set("n", "<leader>Fn", function() M.writing_new() end, { desc = "Flaker: New starter document/file (new)" })
+vim.keymap.set("n", "<leader>FP", function() M.writing_packages() end, { desc = "Flaker: Configure packages" })
 
 -- Submenu 1: Programming Languages & Stacks (<leader>Fl...)
 vim.keymap.set("n", "<leader>Fli", function() M.lang_init() end, { desc = "Langs: Bootstrap language workspace (init)" })
-vim.keymap.set("n", "<leader>Fls", function() M.lang_scaffold() end, { desc = "Langs: Scaffold project foundations (project)" })
+vim.keymap.set("n", "<leader>Flp", function() M.lang_scaffold() end, { desc = "Langs: Scaffold project foundations (project)" })
+vim.keymap.set("n", "<leader>Fls", function() M.lang_scaffold() end, { desc = "Langs: Scaffold project foundations (scaffold)" })
 vim.keymap.set("n", "<leader>Fln", function() M.lang_new() end, { desc = "Langs: Drop starter code file (new)" })
 vim.keymap.set("n", "<leader>FlS", function() M.lang_shell() end, { desc = "Langs: Generate DevShell only (shell)" })
 vim.keymap.set("n", "<leader>Fll", function() M.list() end, { desc = "Langs: List registered roles & stacks" })
 
 -- Submenu 2: Writing & Documents (<leader>Fw...)
 vim.keymap.set("n", "<leader>Fwi", function() M.writing_init() end, { desc = "Writing: Bootstrap document workspace (init)" })
-vim.keymap.set("n", "<leader>Fws", function() M.writing_scaffold() end, { desc = "Writing: Scaffold document foundations (project)" })
+vim.keymap.set("n", "<leader>Fwp", function() M.writing_scaffold() end, { desc = "Writing: Scaffold document foundations (project)" })
+vim.keymap.set("n", "<leader>Fws", function() M.writing_scaffold() end, { desc = "Writing: Scaffold document foundations (scaffold)" })
 vim.keymap.set("n", "<leader>Fwn", function() M.writing_new() end, { desc = "Writing: New starter document (new)" })
 vim.keymap.set("n", "<leader>FwP", function() M.writing_packages() end, { desc = "Writing: Configure package bundles" })
 
@@ -297,7 +301,8 @@ vim.keymap.set("n", "<leader>FwP", function() M.writing_packages() end, { desc =
 -- B. Writing Palette Convenience Shortcuts (<leader>wk...)
 -- -------------------------------------------------------------------
 vim.keymap.set("n", "<leader>wki", function() M.writing_init() end, { desc = "Flaker: Bootstrap workspace (init)" })
-vim.keymap.set("n", "<leader>wks", function() M.writing_scaffold() end, { desc = "Flaker: Scaffold foundations (project)" })
+vim.keymap.set("n", "<leader>wkp", function() M.writing_scaffold() end, { desc = "Flaker: Scaffold foundations (project)" })
+vim.keymap.set("n", "<leader>wks", function() M.writing_scaffold() end, { desc = "Flaker: Scaffold foundations (scaffold)" })
 vim.keymap.set("n", "<leader>wkn", function() M.writing_new() end, { desc = "Flaker: New starter document (md, typ, tex)" })
 vim.keymap.set("n", "<leader>wkP", function() M.writing_packages() end, { desc = "Flaker: Configure packages (packages)" })
 vim.keymap.set("n", "<leader>wkk", function() M.interactive() end, { desc = "Flaker: Interactive stack selector" })
