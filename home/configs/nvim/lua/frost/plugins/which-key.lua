@@ -33,8 +33,12 @@ return {
         { "<leader>wt", group = "Typst", icon = "󰬛 " },
         { "<leader>wl", group = "LaTeX", icon = " " },
 
-        -- Standalone Root Actions
+        -- Flaker Root Group & Submenus
         { "<leader>F", group = "Flaker", icon = "❄️ " },
+        { "<leader>Fl", group = "Languages & Stacks", icon = " " },
+        { "<leader>Fw", group = "Writing & Documents", icon = "󱓷 " },
+
+        -- Standalone Root Actions
         { "<leader>e", desc = "File Explorer", icon = "󰙅 " },
         { "<leader>L", desc = "Lazy", icon = "󰒲 " },
         { "<leader>q", desc = "Quit Neovim", icon = " " },
