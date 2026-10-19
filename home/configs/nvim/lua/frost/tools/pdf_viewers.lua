@@ -106,20 +106,20 @@ end
 -- Keymaps
 vim.keymap.set("n", "<leader>wz", function()
   M.open_current_buffer("zathura")
-end, { desc = "Open PDF in Zathura", silent = true })
+end, { desc = "PDF: Open in Zathura", silent = true })
 
 -- Normal mode (isolated instance)
 vim.keymap.set("n", "<leader>ws", function()
   M.open_current_buffer("sioyek", { new_instance = true })
-end, { desc = "Open PDF in Sioyek (new window)", silent = true })
+end, { desc = "PDF: Open in Sioyek (new window)", silent = true })
 
 -- Re-use instance
 vim.keymap.set("n", "<leader>wS", function()
   M.open_current_buffer("sioyek", { new_instance = false })
-end, { desc = "Open PDF in Sioyek (reuse)", silent = true })
+end, { desc = "PDF: Open in Sioyek (reuse)", silent = true })
 
 vim.keymap.set("n", "<leader>wx", function()
   M.open_current_buffer("xdg-open")
-end, { desc = "Open PDF in default app", silent = true })
+end, { desc = "PDF: Open in system default app", silent = true })
 
 return M

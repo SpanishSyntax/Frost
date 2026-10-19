@@ -22,12 +22,12 @@ return {
       {
         "<leader>wlp",
         "<cmd>VimtexView<cr>",
-        desc = "Preview LaTeX Document",
+        desc = "LaTeX: Preview document (SyncTeX)",
       },
       {
         "<leader>wlc",
         "<cmd>VimtexCompile<cr>",
-        desc = "Compile/Watch LaTeX",
+        desc = "LaTeX: Compile/watch document",
       },
     },
   },

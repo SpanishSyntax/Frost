@@ -11,6 +11,8 @@ return {
           { pattern = "typst", icon = "󰬛 " },
           { pattern = "latex", icon = " " },
           { pattern = "markdown", icon = " " },
+          { pattern = "firn", icon = " " },
+          { pattern = "pdf", icon = "󰈦 " },
         },
       },
       spec = {

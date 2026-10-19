@@ -6,10 +6,10 @@ return {
     ft = "typst",
 
     keys = {
-      { "<leader>wtp", "<cmd>TypstPreview<cr>", desc = "Preview Typst Document" },
-      { "<leader>wts", "<cmd>TypstPreviewStop<cr>", desc = "Stop Typst Preview" },
-      { "<leader>wtt", "<cmd>TypstPreviewToggle<cr>", desc = "Toggle Typst Preview" },
-      { "<leader>wti", "<cmd>TypstPreviewFollowCursorToggle<cr>", desc = "Typst: Toggle Follow Cursor" },
+      { "<leader>wtp", "<cmd>TypstPreview<cr>", desc = "Typst: Live preview in browser" },
+      { "<leader>wts", "<cmd>TypstPreviewStop<cr>", desc = "Typst: Stop live preview" },
+      { "<leader>wtt", "<cmd>TypstPreviewToggle<cr>", desc = "Typst: Toggle live preview" },
+      { "<leader>wti", "<cmd>TypstPreviewFollowCursorToggle<cr>", desc = "Typst: Toggle follow cursor" },
     },
 
     opts = {

@@ -5,7 +5,7 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown", "markdown.mdx", "codecompanion" },
     keys = {
-      { "<leader>wmt", "<cmd>RenderMarkdown toggle<cr>", desc = "Toggle In-Buffer Markdown Render" },
+      { "<leader>wmt", "<cmd>RenderMarkdown toggle<cr>", desc = "Markdown: Toggle in-buffer render" },
     },
     opts = {
       latex = {
