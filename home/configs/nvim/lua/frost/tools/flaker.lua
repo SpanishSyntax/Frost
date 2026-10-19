@@ -36,18 +36,37 @@ function M.writing_init()
   end)
 end
 
---- Template Foundations & Scaffolding for Writing (<leader>Fws, <leader>wks)
-function M.writing_scaffold()
+--- Project Foundations for Writing (<leader>Fwp, <leader>wkp)
+function M.writing_project()
   local doc = common.get_active_doc()
   local items = {
     { label = "󱓷 Drop Template Foundations (flaker project folio)", cmd = { "flaker", "project", "folio" } },
-    { label = "󱓷 Scaffold All Templates & Foundations (flaker project folio -m all)", cmd = { "flaker", "project", "folio", "-m", "all" } },
-    { label = "󱓷 Generate Folio DevShell & Direnv (flaker shell folio)", cmd = { "flaker", "shell", "folio" } },
-    { label = "󰒲 Interactive Folio Scaffolder (flaker project folio)", cmd = { "flaker", "project", "folio" } },
+    { label = "󱓷 Drop All Templates & Foundations (flaker project folio -m all)", cmd = { "flaker", "project", "folio", "-m", "all" } },
+    { label = "󰬛 Native Typst Project Foundations (flaker project typ)", cmd = { "flaker", "project", "typ" } },
+    { label = " Native LaTeX Project Foundations (flaker project tex)", cmd = { "flaker", "project", "tex" } },
+    { label = "󰒲 Interactive Folio Project Wizard (flaker project folio)", cmd = { "flaker", "project", "folio" } },
   }
 
   vim.ui.select(items, {
-    prompt = "󱓷 Document Foundations & Scaffolding (Flaker)",
+    prompt = "󱓷 Project Foundation Files (Flaker Project)",
+    format_item = function(item) return item.label end,
+  }, function(choice)
+    if not choice then return end
+    run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
+  end)
+end
+
+--- Generate Folio DevShell Only (<leader>Fws, <leader>wks)
+function M.writing_shell()
+  local doc = common.get_active_doc()
+  local items = {
+    { label = "󱓷 Folio Polyglot DevShell (flake.nix + .envrc)", cmd = { "flaker", "shell", "folio" }, file = "flake.nix" },
+    { label = "󰬛 Native Typst DevShell (flake.nix + .envrc)", cmd = { "flaker", "shell", "typ" }, file = "flake.nix" },
+    { label = " Native LaTeX DevShell (flake.nix + .envrc)", cmd = { "flaker", "shell", "tex" }, file = "flake.nix" },
+  }
+
+  vim.ui.select(items, {
+    prompt = "󱓷 Generate Writing DevShell (Flaker Shell)",
     format_item = function(item) return item.label end,
   }, function(choice)
     if not choice then return end
@@ -168,8 +187,8 @@ function M.lang_init()
   end)
 end
 
---- Project Foundation Scaffolding (<leader>Fls)
-function M.lang_scaffold()
+--- Project Foundation Files (<leader>Flp)
+function M.lang_project()
   local doc = common.get_active_doc()
   local items = {
     { label = " Python Foundation (pyproject.toml)", cmd = { "flaker", "project", "py" }, file = "pyproject.toml" },
@@ -182,11 +201,11 @@ function M.lang_scaffold()
     { label = " Elixir Foundation (mix.exs)", cmd = { "flaker", "project", "elixir" }, file = "mix.exs" },
     { label = " Gleam Foundation (gleam.toml)", cmd = { "flaker", "project", "gleam" }, file = "gleam.toml" },
     { label = "󰡨 DevOps Foundation (compose.yaml)", cmd = { "flaker", "project", "ops" }, file = "compose.yaml" },
-    { label = "❄️ Interactive Foundation Scaffolder", cmd = { "flaker", "project" } },
+    { label = "❄️ Interactive Foundation Selector (flaker project)", cmd = { "flaker", "project" } },
   }
 
   vim.ui.select(items, {
-    prompt = " Scaffold Project Foundations (Flaker Project)",
+    prompt = " Project Foundation Files (Flaker Project)",
     format_item = function(item) return item.label end,
   }, function(choice)
     if not choice then return end
@@ -221,7 +240,7 @@ function M.lang_new()
   end)
 end
 
---- Generate Language DevShell Only (<leader>FlS)
+--- Generate Language DevShell Only (<leader>Fls)
 function M.lang_shell()
   local doc = common.get_active_doc()
   local items = {
@@ -263,8 +282,10 @@ end
 
 -- Backward compatibility aliases
 M.init = M.writing_init
-M.scaffold = M.writing_scaffold
+M.project = M.writing_project
+M.scaffold = M.writing_project
 M.new = M.writing_new
+M.shell = M.writing_shell
 M.packages = M.writing_packages
 
 -- ===================================================================
@@ -276,34 +297,34 @@ M.packages = M.writing_packages
 -- -------------------------------------------------------------------
 
 -- Interactive Wizard & Root Shortcuts
-vim.keymap.set("n", "<leader>Fk", function() M.interactive() end, { desc = "Flaker: Interactive stack selector" })
-vim.keymap.set("n", "<leader>Fp", function() M.lang_scaffold() end, { desc = "Flaker: Scaffold project foundations (project)" })
+vim.keymap.set("n", "<leader>Fi", function() M.interactive() end, { desc = "Flaker: Interactive workspace bootstrap (init)" })
+vim.keymap.set("n", "<leader>Fp", function() M.lang_project() end, { desc = "Flaker: Project foundation files (project)" })
 vim.keymap.set("n", "<leader>Fs", function() M.lang_shell() end, { desc = "Flaker: Generate DevShell flake (shell)" })
 vim.keymap.set("n", "<leader>Fn", function() M.writing_new() end, { desc = "Flaker: New starter document/file (new)" })
-vim.keymap.set("n", "<leader>FP", function() M.writing_packages() end, { desc = "Flaker: Configure packages" })
+vim.keymap.set("n", "<leader>FP", function() M.writing_packages() end, { desc = "Flaker: Configure packages (packages)" })
+vim.keymap.set("n", "<leader>Fk", function() M.interactive() end, { desc = "Flaker: Interactive stack selector" })
 
 -- Submenu 1: Programming Languages & Stacks (<leader>Fl...)
 vim.keymap.set("n", "<leader>Fli", function() M.lang_init() end, { desc = "Langs: Bootstrap language workspace (init)" })
-vim.keymap.set("n", "<leader>Flp", function() M.lang_scaffold() end, { desc = "Langs: Scaffold project foundations (project)" })
-vim.keymap.set("n", "<leader>Fls", function() M.lang_scaffold() end, { desc = "Langs: Scaffold project foundations (scaffold)" })
+vim.keymap.set("n", "<leader>Flp", function() M.lang_project() end, { desc = "Langs: Project foundation files (project)" })
 vim.keymap.set("n", "<leader>Fln", function() M.lang_new() end, { desc = "Langs: Drop starter code file (new)" })
-vim.keymap.set("n", "<leader>FlS", function() M.lang_shell() end, { desc = "Langs: Generate DevShell only (shell)" })
+vim.keymap.set("n", "<leader>Fls", function() M.lang_shell() end, { desc = "Langs: Generate DevShell only (shell)" })
 vim.keymap.set("n", "<leader>Fll", function() M.list() end, { desc = "Langs: List registered roles & stacks" })
 
 -- Submenu 2: Writing & Documents (<leader>Fw...)
 vim.keymap.set("n", "<leader>Fwi", function() M.writing_init() end, { desc = "Writing: Bootstrap document workspace (init)" })
-vim.keymap.set("n", "<leader>Fwp", function() M.writing_scaffold() end, { desc = "Writing: Scaffold document foundations (project)" })
-vim.keymap.set("n", "<leader>Fws", function() M.writing_scaffold() end, { desc = "Writing: Scaffold document foundations (scaffold)" })
+vim.keymap.set("n", "<leader>Fwp", function() M.writing_project() end, { desc = "Writing: Project foundation files (project)" })
 vim.keymap.set("n", "<leader>Fwn", function() M.writing_new() end, { desc = "Writing: New starter document (new)" })
-vim.keymap.set("n", "<leader>FwP", function() M.writing_packages() end, { desc = "Writing: Configure package bundles" })
+vim.keymap.set("n", "<leader>Fws", function() M.writing_shell() end, { desc = "Writing: Generate Folio DevShell (shell)" })
+vim.keymap.set("n", "<leader>FwP", function() M.writing_packages() end, { desc = "Writing: Configure package bundles (packages)" })
 
 -- -------------------------------------------------------------------
 -- B. Writing Palette Convenience Shortcuts (<leader>wk...)
 -- -------------------------------------------------------------------
 vim.keymap.set("n", "<leader>wki", function() M.writing_init() end, { desc = "Flaker: Bootstrap workspace (init)" })
-vim.keymap.set("n", "<leader>wkp", function() M.writing_scaffold() end, { desc = "Flaker: Scaffold foundations (project)" })
-vim.keymap.set("n", "<leader>wks", function() M.writing_scaffold() end, { desc = "Flaker: Scaffold foundations (scaffold)" })
-vim.keymap.set("n", "<leader>wkn", function() M.writing_new() end, { desc = "Flaker: New starter document (md, typ, tex)" })
+vim.keymap.set("n", "<leader>wkp", function() M.writing_project() end, { desc = "Flaker: Project foundations (project)" })
+vim.keymap.set("n", "<leader>wkn", function() M.writing_new() end, { desc = "Flaker: New starter document (new)" })
+vim.keymap.set("n", "<leader>wks", function() M.writing_shell() end, { desc = "Flaker: Generate DevShell (shell)" })
 vim.keymap.set("n", "<leader>wkP", function() M.writing_packages() end, { desc = "Flaker: Configure packages (packages)" })
 vim.keymap.set("n", "<leader>wkk", function() M.interactive() end, { desc = "Flaker: Interactive stack selector" })
 vim.keymap.set("n", "<leader>wkl", function() M.list() end, { desc = "Flaker: List registered stacks & roles" })
