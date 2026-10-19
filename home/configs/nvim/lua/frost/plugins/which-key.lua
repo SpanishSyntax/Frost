@@ -28,7 +28,6 @@ return {
         -- Writing & Documents
         { "<leader>w", group = "Writing", icon = "󱓧 " },
         { "<leader>wf", group = "Folio", icon = "󱓷 " },
-        { "<leader>wk", group = "Flaker", icon = "❄️ " },
         { "<leader>wm", group = "Markdown", icon = " " },
         { "<leader>wt", group = "Typst", icon = "󰬛 " },
         { "<leader>wl", group = "LaTeX", icon = " " },
