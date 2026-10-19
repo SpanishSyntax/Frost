@@ -45,14 +45,14 @@ end
 -- Preview active Markdown buffer in Firn native GFM viewer
 vim.keymap.set("n", "<leader>wmp", function()
   launch_firn()
-end, { desc = "Firn: Preview active Markdown buffer" })
+end, { desc = "Preview active Markdown buffer" })
 
 -- Preview active Markdown buffer in GitHub Dark mode
 vim.keymap.set("n", "<leader>wmd", function()
   launch_firn({ "--dark" })
-end, { desc = "Firn: Preview Markdown in Dark mode" })
+end, { desc = " Preview Markdown in Dark mode" })
 
 -- Preview active Markdown buffer in Wide Frameless mode
 vim.keymap.set("n", "<leader>wmw", function()
   launch_firn({ "--wide", "--frameless" })
-end, { desc = "Firn: Preview Markdown in Wide Frameless window" })
+end, { desc = "Preview Markdown in Wide Frameless window" })
