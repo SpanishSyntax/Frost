@@ -25,12 +25,12 @@ function M.writing_init()
       file = "report.md",
     },
     {
-      label = "󱓷 Folio Slides (16:9)",
+      label = "󱓷 Folio Slides",
       cmd = { "flaker", "init", "folio", "slides" },
       file = "slides.md",
     },
     {
-      label = "󱓷 Folio IEEE Paper",
+      label = "󱓷 Folio Paper",
       cmd = { "flaker", "init", "folio", "paper" },
       file = "paper.md",
     },
