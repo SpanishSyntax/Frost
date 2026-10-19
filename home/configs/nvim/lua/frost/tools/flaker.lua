@@ -19,9 +19,21 @@ end
 function M.writing_init()
   local doc = common.get_active_doc()
   local items = {
-    { label = "󱓷 Folio Report", cmd = { "flaker", "init", "folio", "report" }, file = "report.md" },
-    { label = "󱓷 Folio Slides (16:9)", cmd = { "flaker", "init", "folio", "slides" }, file = "slides.md" },
-    { label = "󱓷 Folio IEEE Paper", cmd = { "flaker", "init", "folio", "paper" }, file = "paper.md" },
+    {
+      label = "󱓷 Folio Report",
+      cmd = { "flaker", "init", "folio", "report" },
+      file = "report.md",
+    },
+    {
+      label = "󱓷 Folio Slides (16:9)",
+      cmd = { "flaker", "init", "folio", "slides" },
+      file = "slides.md",
+    },
+    {
+      label = "󱓷 Folio IEEE Paper",
+      cmd = { "flaker", "init", "folio", "paper" },
+      file = "paper.md",
+    },
     { label = "󰬛 Native Typst Report", cmd = { "flaker", "init", "typ" }, file = "report.typ" },
     { label = " Native LaTeX Report", cmd = { "flaker", "init", "tex" }, file = "report.tex" },
     { label = "❄️ Interactive Setup", cmd = { "flaker", "init", "folio" } },
@@ -29,9 +41,13 @@ function M.writing_init()
 
   vim.ui.select(items, {
     prompt = "󱓷 Full Setup: Writing",
-    format_item = function(item) return item.label end,
+    format_item = function(item)
+      return item.label
+    end,
   }, function(choice)
-    if not choice then return end
+    if not choice then
+      return
+    end
     run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
   end)
 end
@@ -50,9 +66,13 @@ function M.writing_project()
 
   vim.ui.select(items, {
     prompt = "󱓷 Project Configs: Writing",
-    format_item = function(item) return item.label end,
+    format_item = function(item)
+      return item.label
+    end,
   }, function(choice)
-    if not choice then return end
+    if not choice then
+      return
+    end
     run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
   end)
 end
@@ -68,9 +88,13 @@ function M.writing_shell()
 
   vim.ui.select(items, {
     prompt = "󱓷 Add DevShell: Writing",
-    format_item = function(item) return item.label end,
+    format_item = function(item)
+      return item.label
+    end,
   }, function(choice)
-    if not choice then return end
+    if not choice then
+      return
+    end
     run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
   end)
 end
@@ -98,9 +122,13 @@ function M.writing_new()
 
   vim.ui.select(items, {
     prompt = "󱓷 New Document",
-    format_item = function(item) return item.label end,
+    format_item = function(item)
+      return item.label
+    end,
   }, function(choice)
-    if not choice then return end
+    if not choice then
+      return
+    end
     run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
   end)
 end
@@ -113,12 +141,16 @@ function M.writing_packages()
 
   local items = {
     {
-      label = (is_typ and "󰬛 " or " ") .. "Typst Packages (packages.typ)" .. (is_typ and " (Active)" or ""),
+      label = (is_typ and "󰬛 " or " ")
+        .. "Typst Packages (packages.typ)"
+        .. (is_typ and " (Active)" or ""),
       cmd = { "flaker", "packages", "typ" },
       file = "packages.typ",
     },
     {
-      label = (is_tex and " " or " ") .. "LaTeX Packages (packages.tex)" .. (is_tex and " (Active)" or ""),
+      label = (is_tex and " " or " ")
+        .. "LaTeX Packages (packages.tex)"
+        .. (is_tex and " (Active)" or ""),
       cmd = { "flaker", "packages", "tex" },
       file = "packages.tex",
     },
@@ -126,16 +158,24 @@ function M.writing_packages()
 
   -- Prioritize active buffer's document format
   if is_tex then
-    table.sort(items, function(a, b) return a.cmd[3] == "tex" end)
+    table.sort(items, function(a, b)
+      return a.cmd[3] == "tex"
+    end)
   elseif is_typ then
-    table.sort(items, function(a, b) return a.cmd[3] == "typ" end)
+    table.sort(items, function(a, b)
+      return a.cmd[3] == "typ"
+    end)
   end
 
   vim.ui.select(items, {
     prompt = "󱓷 Packages",
-    format_item = function(item) return item.label end,
+    format_item = function(item)
+      return item.label
+    end,
   }, function(choice)
-    if not choice then return end
+    if not choice then
+      return
+    end
     run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
   end)
 end
@@ -150,30 +190,62 @@ function M.lang_init()
   local items = {
     -- Data & Scientific
     { label = " Python (uv + ruff)", cmd = { "flaker", "init", "py" }, file = "pyproject.toml" },
-    { label = "󰦨 MathVis (Simulation stack)", cmd = { "flaker", "init", "mv" }, file = "plot.py" },
+    {
+      label = "󰦨 MathVis (Simulation stack)",
+      cmd = { "flaker", "init", "mv" },
+      file = "plot.py",
+    },
     { label = " Julia", cmd = { "flaker", "init", "julia" }, file = "Project.toml" },
 
     -- Systems
-    { label = " Rust (Cargo + rust-analyzer)", cmd = { "flaker", "init", "rust" }, file = "Cargo.toml" },
+    {
+      label = " Rust (Cargo + rust-analyzer)",
+      cmd = { "flaker", "init", "rust" },
+      file = "Cargo.toml",
+    },
     { label = " Go (gopls + delve)", cmd = { "flaker", "init", "go" }, file = "go.mod" },
-    { label = " C / C++ (clangd + cmake)", cmd = { "flaker", "init", "cpp" }, file = "CMakeLists.txt" },
+    {
+      label = " C / C++ (clangd + cmake)",
+      cmd = { "flaker", "init", "cpp" },
+      file = "CMakeLists.txt",
+    },
     { label = " Zig (zls)", cmd = { "flaker", "init", "zig" }, file = "build.zig" },
     { label = "󰌛 .NET / C# (.NET 9)", cmd = { "flaker", "init", "dotnet" } },
     { label = " Java (OpenJDK 25)", cmd = { "flaker", "init", "java" } },
 
     -- Web & Frontend
-    { label = " TypeScript (Bun + vtsls)", cmd = { "flaker", "init", "ts" }, file = "package.json" },
-    { label = "󰄛 Next.js (Bun + vtsls)", cmd = { "flaker", "init", "next" }, file = "package.json" },
-    { label = " Svelte (Svelte 5)", cmd = { "flaker", "init", "svelte" }, file = "package.json" },
+    {
+      label = " TypeScript (Bun + vtsls)",
+      cmd = { "flaker", "init", "ts" },
+      file = "package.json",
+    },
+    {
+      label = "󰄛 Next.js (Bun + vtsls)",
+      cmd = { "flaker", "init", "next" },
+      file = "package.json",
+    },
+    {
+      label = " Svelte (Svelte 5)",
+      cmd = { "flaker", "init", "svelte" },
+      file = "package.json",
+    },
     { label = "󰡄 Vue (Vue 3)", cmd = { "flaker", "init", "vue" }, file = "package.json" },
 
     -- Functional
-    { label = " Elixir (Mix + elixir-ls)", cmd = { "flaker", "init", "elixir" }, file = "mix.exs" },
+    {
+      label = " Elixir (Mix + elixir-ls)",
+      cmd = { "flaker", "init", "elixir" },
+      file = "mix.exs",
+    },
     { label = " Gleam (rebar3)", cmd = { "flaker", "init", "gleam" }, file = "gleam.toml" },
     { label = " Haskell (GHC + Cabal + HLS)", cmd = { "flaker", "init", "haskell" } },
 
     -- DevOps & Cloud
-    { label = "󰡨 DevOps (Compose + Lazydocker)", cmd = { "flaker", "init", "ops" }, file = "compose.yaml" },
+    {
+      label = "󰡨 DevOps (Compose + Lazydocker)",
+      cmd = { "flaker", "init", "ops" },
+      file = "compose.yaml",
+    },
 
     -- Universal
     { label = "❄️ Interactive", cmd = { "flaker", "init" } },
@@ -181,9 +253,13 @@ function M.lang_init()
 
   vim.ui.select(items, {
     prompt = " Full Setup: Languages",
-    format_item = function(item) return item.label end,
+    format_item = function(item)
+      return item.label
+    end,
   }, function(choice)
-    if not choice then return end
+    if not choice then
+      return
+    end
     run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
   end)
 end
@@ -192,24 +268,52 @@ end
 function M.lang_project()
   local doc = common.get_active_doc()
   local items = {
-    { label = " Python (pyproject.toml)", cmd = { "flaker", "project", "py" }, file = "pyproject.toml" },
+    {
+      label = " Python (pyproject.toml)",
+      cmd = { "flaker", "project", "py" },
+      file = "pyproject.toml",
+    },
     { label = " Rust (Cargo.toml)", cmd = { "flaker", "project", "rust" }, file = "Cargo.toml" },
     { label = " Go (go.mod)", cmd = { "flaker", "project", "go" }, file = "go.mod" },
-    { label = " TypeScript (package.json)", cmd = { "flaker", "project", "ts" }, file = "package.json" },
-    { label = " C++ (CMakeLists.txt)", cmd = { "flaker", "project", "cpp" }, file = "CMakeLists.txt" },
+    {
+      label = " TypeScript (package.json)",
+      cmd = { "flaker", "project", "ts" },
+      file = "package.json",
+    },
+    {
+      label = " C++ (CMakeLists.txt)",
+      cmd = { "flaker", "project", "cpp" },
+      file = "CMakeLists.txt",
+    },
     { label = " Zig (build.zig)", cmd = { "flaker", "project", "zig" }, file = "build.zig" },
-    { label = " Julia (Project.toml)", cmd = { "flaker", "project", "julia" }, file = "Project.toml" },
+    {
+      label = " Julia (Project.toml)",
+      cmd = { "flaker", "project", "julia" },
+      file = "Project.toml",
+    },
     { label = " Elixir (mix.exs)", cmd = { "flaker", "project", "elixir" }, file = "mix.exs" },
-    { label = " Gleam (gleam.toml)", cmd = { "flaker", "project", "gleam" }, file = "gleam.toml" },
-    { label = "󰡨 DevOps (compose.yaml)", cmd = { "flaker", "project", "ops" }, file = "compose.yaml" },
+    {
+      label = " Gleam (gleam.toml)",
+      cmd = { "flaker", "project", "gleam" },
+      file = "gleam.toml",
+    },
+    {
+      label = "󰡨 DevOps (compose.yaml)",
+      cmd = { "flaker", "project", "ops" },
+      file = "compose.yaml",
+    },
     { label = "❄️ Interactive", cmd = { "flaker", "project" } },
   }
 
   vim.ui.select(items, {
     prompt = " Project Configs",
-    format_item = function(item) return item.label end,
+    format_item = function(item)
+      return item.label
+    end,
   }, function(choice)
-    if not choice then return end
+    if not choice then
+      return
+    end
     run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
   end)
 end
@@ -226,17 +330,33 @@ function M.lang_new()
     { label = " C++ (main.cpp)", cmd = { "flaker", "new", "cpp" }, file = "main.cpp" },
     { label = " Zig (src/main.zig)", cmd = { "flaker", "new", "zig" }, file = "src/main.zig" },
     { label = " Julia (main.jl)", cmd = { "flaker", "new", "julia" }, file = "main.jl" },
-    { label = " Elixir (lib/main.ex)", cmd = { "flaker", "new", "elixir" }, file = "lib/main.ex" },
-    { label = " Gleam (src/main.gleam)", cmd = { "flaker", "new", "gleam" }, file = "src/main.gleam" },
-    { label = " Haskell (app/Main.hs)", cmd = { "flaker", "new", "haskell" }, file = "app/Main.hs" },
+    {
+      label = " Elixir (lib/main.ex)",
+      cmd = { "flaker", "new", "elixir" },
+      file = "lib/main.ex",
+    },
+    {
+      label = " Gleam (src/main.gleam)",
+      cmd = { "flaker", "new", "gleam" },
+      file = "src/main.gleam",
+    },
+    {
+      label = " Haskell (app/Main.hs)",
+      cmd = { "flaker", "new", "haskell" },
+      file = "app/Main.hs",
+    },
     { label = "❄️ Interactive", cmd = { "flaker", "new" } },
   }
 
   vim.ui.select(items, {
     prompt = " New Starter File",
-    format_item = function(item) return item.label end,
+    format_item = function(item)
+      return item.label
+    end,
   }, function(choice)
-    if not choice then return end
+    if not choice then
+      return
+    end
     run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
   end)
 end
@@ -245,22 +365,58 @@ end
 function M.lang_shell()
   local doc = common.get_active_doc()
   local items = {
-    { label = " Python (flake.nix + .envrc)", cmd = { "flaker", "shell", "py" }, file = "flake.nix" },
-    { label = " Rust (flake.nix + .envrc)", cmd = { "flaker", "shell", "rust" }, file = "flake.nix" },
-    { label = " Go (flake.nix + .envrc)", cmd = { "flaker", "shell", "go" }, file = "flake.nix" },
-    { label = " TypeScript (flake.nix + .envrc)", cmd = { "flaker", "shell", "ts" }, file = "flake.nix" },
-    { label = " C++ (flake.nix + .envrc)", cmd = { "flaker", "shell", "cpp" }, file = "flake.nix" },
-    { label = " Zig (flake.nix + .envrc)", cmd = { "flaker", "shell", "zig" }, file = "flake.nix" },
-    { label = " Julia (flake.nix + .envrc)", cmd = { "flaker", "shell", "julia" }, file = "flake.nix" },
-    { label = "󰡨 DevOps (flake.nix + .envrc)", cmd = { "flaker", "shell", "ops" }, file = "flake.nix" },
+    {
+      label = " Python (flake.nix + .envrc)",
+      cmd = { "flaker", "shell", "py" },
+      file = "flake.nix",
+    },
+    {
+      label = " Rust (flake.nix + .envrc)",
+      cmd = { "flaker", "shell", "rust" },
+      file = "flake.nix",
+    },
+    {
+      label = " Go (flake.nix + .envrc)",
+      cmd = { "flaker", "shell", "go" },
+      file = "flake.nix",
+    },
+    {
+      label = " TypeScript (flake.nix + .envrc)",
+      cmd = { "flaker", "shell", "ts" },
+      file = "flake.nix",
+    },
+    {
+      label = " C++ (flake.nix + .envrc)",
+      cmd = { "flaker", "shell", "cpp" },
+      file = "flake.nix",
+    },
+    {
+      label = " Zig (flake.nix + .envrc)",
+      cmd = { "flaker", "shell", "zig" },
+      file = "flake.nix",
+    },
+    {
+      label = " Julia (flake.nix + .envrc)",
+      cmd = { "flaker", "shell", "julia" },
+      file = "flake.nix",
+    },
+    {
+      label = "󰡨 DevOps (flake.nix + .envrc)",
+      cmd = { "flaker", "shell", "ops" },
+      file = "flake.nix",
+    },
     { label = "❄️ Interactive", cmd = { "flaker", "shell" }, file = "flake.nix" },
   }
 
   vim.ui.select(items, {
     prompt = " Add DevShell",
-    format_item = function(item) return item.label end,
+    format_item = function(item)
+      return item.label
+    end,
   }, function(choice)
-    if not choice then return end
+    if not choice then
+      return
+    end
     run_interactive(choice.cmd, doc.dir, choice.label, choice.file)
   end)
 end
@@ -298,36 +454,42 @@ M.packages = M.writing_packages
 -- -------------------------------------------------------------------
 
 -- Root Shortcuts
-vim.keymap.set("n", "<leader>Fi", function() M.interactive() end, { desc = "Full setup (init)" })
-vim.keymap.set("n", "<leader>Fp", function() M.lang_project() end, { desc = "Project configs" })
-vim.keymap.set("n", "<leader>Fs", function() M.lang_shell() end, { desc = "Add flake and .envrc" })
-vim.keymap.set("n", "<leader>Fn", function() M.writing_new() end, { desc = "New starter file" })
-vim.keymap.set("n", "<leader>FP", function() M.writing_packages() end, { desc = "Configure packages" })
-vim.keymap.set("n", "<leader>Fk", function() M.interactive() end, { desc = "Interactive selector" })
+vim.keymap.set("n", "<leader>FI", function()
+  M.interactive()
+end, { desc = "Full setup (init)" })
+vim.keymap.set("n", "<leader>FL", function()
+  M.list()
+end, { desc = "List roles & stacks" })
 
 -- Submenu 1: Programming Languages & Stacks (<leader>Fl...)
-vim.keymap.set("n", "<leader>Fli", function() M.lang_init() end, { desc = "Full setup (init)" })
-vim.keymap.set("n", "<leader>Flp", function() M.lang_project() end, { desc = "Project configs" })
-vim.keymap.set("n", "<leader>Fln", function() M.lang_new() end, { desc = "New starter file" })
-vim.keymap.set("n", "<leader>Fls", function() M.lang_shell() end, { desc = "Add flake and .envrc" })
-vim.keymap.set("n", "<leader>Fll", function() M.list() end, { desc = "List roles & stacks" })
+vim.keymap.set("n", "<leader>Fli", function()
+  M.lang_init()
+end, { desc = "Full setup (init)" })
+vim.keymap.set("n", "<leader>Flp", function()
+  M.lang_project()
+end, { desc = "Project configs" })
+vim.keymap.set("n", "<leader>Fln", function()
+  M.lang_new()
+end, { desc = "New starter file" })
+vim.keymap.set("n", "<leader>Fls", function()
+  M.lang_shell()
+end, { desc = "Add flake and .envrc" })
 
 -- Submenu 2: Writing & Documents (<leader>Fw...)
-vim.keymap.set("n", "<leader>Fwi", function() M.writing_init() end, { desc = "Full setup (init)" })
-vim.keymap.set("n", "<leader>Fwp", function() M.writing_project() end, { desc = "Project configs" })
-vim.keymap.set("n", "<leader>Fwn", function() M.writing_new() end, { desc = "New starter doc" })
-vim.keymap.set("n", "<leader>Fws", function() M.writing_shell() end, { desc = "Add flake and .envrc" })
-vim.keymap.set("n", "<leader>FwP", function() M.writing_packages() end, { desc = "Configure packages" })
-
--- -------------------------------------------------------------------
--- B. Writing Palette Convenience Shortcuts (<leader>wk...)
--- -------------------------------------------------------------------
-vim.keymap.set("n", "<leader>wki", function() M.writing_init() end, { desc = "Full setup (init)" })
-vim.keymap.set("n", "<leader>wkp", function() M.writing_project() end, { desc = "Project configs" })
-vim.keymap.set("n", "<leader>wkn", function() M.writing_new() end, { desc = "New starter doc" })
-vim.keymap.set("n", "<leader>wks", function() M.writing_shell() end, { desc = "Add flake and .envrc" })
-vim.keymap.set("n", "<leader>wkP", function() M.writing_packages() end, { desc = "Configure packages" })
-vim.keymap.set("n", "<leader>wkk", function() M.interactive() end, { desc = "Interactive selector" })
-vim.keymap.set("n", "<leader>wkl", function() M.list() end, { desc = "List roles & stacks" })
+vim.keymap.set("n", "<leader>Fwi", function()
+  M.writing_init()
+end, { desc = "Full setup (init)" })
+vim.keymap.set("n", "<leader>Fwp", function()
+  M.writing_project()
+end, { desc = "Project configs" })
+vim.keymap.set("n", "<leader>Fwn", function()
+  M.writing_new()
+end, { desc = "New starter doc" })
+vim.keymap.set("n", "<leader>Fws", function()
+  M.writing_shell()
+end, { desc = "Add flake and .envrc" })
+vim.keymap.set("n", "<leader>FwP", function()
+  M.writing_packages()
+end, { desc = "Configure packages" })
 
 return M
