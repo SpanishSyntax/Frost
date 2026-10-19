@@ -6,15 +6,27 @@ return {
       preset = "modern",
       win = { border = "rounded" },
       spec = {
-        { "<leader>f", group = "File/Search", icon = "󰈔 " },
-        { "<leader>c", group = "Code", icon = " " },
+        -- Main Navigation Groups
+        { "<leader>f", group = "File / Find", icon = "󰈔 " },
+        { "<leader>c", group = "Code / LSP", icon = " " },
         { "<leader>b", group = "Buffer", icon = " " },
         { "<leader>g", group = "Git", icon = "󰊢 " },
-        { "<leader>a", group = "AI/Agents", icon = "󱚣 " },
-        { "<leader>u", group = "UI/Toggles", icon = "󰔎 " },
-        { "<leader>k", group = "Docker/Containers", icon = " " },
-        { "<leader>m", group = "Jupyter Notebooks (Molten)", icon = "󰗊 " }, -- or " " for Python/Data
+        { "<leader>s", group = "Snacks / Search", icon = "󰛔 " },
+        { "<leader>u", group = "UI / Toggles", icon = "󰔎 " },
+
+        -- Writing & Documents
         { "<leader>w", group = "Writing", icon = "󱓧 " },
+        { "<leader>wf", group = "Folio / Flaker", icon = "❄️ " },
+        { "<leader>wm", group = "Markdown (Firn)", icon = " " },
+        { "<leader>wt", group = "Typst Preview", icon = " " },
+        { "<leader>wl", group = "LaTeX (VimTeX)", icon = "󰔄 " },
+
+        -- Standalone Root Actions
+        { "<leader>e", desc = "File Explorer (Snacks)", icon = "󰙅 " },
+        { "<leader>z", desc = "Zen Mode (Snacks)", icon = "󱓡 " },
+        { "<leader>S", desc = "Scratch Buffer (Snacks)", icon = "󱞩 " },
+        { "<leader>L", desc = "Lazy Plugin Manager", icon = "󰒲 " },
+        { "<leader>q", desc = "Quit Neovim", icon = " " },
       },
     },
   },

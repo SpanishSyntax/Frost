@@ -1,32 +1,46 @@
 -- lua/frost/tools/folio.lua
+local M = {}
 
 -- ===================================================================
 -- Helpers
 -- ===================================================================
 
--- Gets the directory of the currently open buffer file (or falls back to CWD)
-local function get_active_dir()
+--- Resolves active document path, directory, and document type
+local function get_active_doc()
+  local file_path = vim.api.nvim_buf_get_name(0)
   local file_dir = vim.fn.expand("%:p:h")
   if file_dir == "" then
-    return vim.fn.getcwd()
+    file_dir = vim.fn.getcwd()
   end
-  return file_dir
+
+  local filename = vim.fn.expand("%:t")
+  local ext = vim.fn.expand("%:e"):lower()
+  local is_doc = ext == "md" or ext == "markdown" or ext == "typ" or ext == "tex"
+
+  return {
+    path = file_path,
+    filename = filename,
+    dir = file_dir,
+    ext = ext,
+    is_doc = is_doc,
+  }
 end
 
--- 1. Runs folio in the active file's directory
-local function run_folio(arg, on_success)
-  local target_dir = get_active_dir()
+--- Runs an external command in the target directory with notification output
+local function run_cmd(cmd, cwd, title, on_success)
+  cwd = cwd or vim.fn.getcwd()
+  title = title or "folio"
 
   vim.notify(
-    "Running folio " .. arg .. " in " .. target_dir,
+    "Running: " .. table.concat(cmd, " ") .. " in " .. cwd,
     vim.log.levels.INFO,
-    { title = "folio" }
+    { title = title }
   )
 
   local output = {}
 
-  vim.fn.jobstart({ "folio", arg }, {
-    cwd = target_dir,
+  vim.fn.jobstart(cmd, {
+    cwd = cwd,
     stdout_buffered = true,
     stderr_buffered = true,
     on_stdout = function(_, data)
@@ -48,63 +62,188 @@ local function run_folio(arg, on_success)
       end
     end,
     on_exit = function(_, exit_code, _)
-      local msg = #output > 0 and table.concat(output, "\n") or ("folio " .. arg .. " finished")
+      local msg = #output > 0 and table.concat(output, "\n") or (table.concat(cmd, " ") .. " finished")
       if exit_code == 0 then
-        vim.notify(msg, vim.log.levels.INFO, { title = "folio" })
+        vim.notify(msg, vim.log.levels.INFO, { title = title })
         if on_success then
           on_success()
         end
       else
-        vim.notify("Failed:\n" .. msg, vim.log.levels.ERROR, { title = "folio" })
+        vim.notify("Failed:\n" .. msg, vim.log.levels.ERROR, { title = title })
       end
     end,
   })
 end
 
--- 2. Finds the latest PDF in the active file's directory and opens it
-local function open_latest_pdf()
-  local target_dir = get_active_dir()
+--- Finds the latest or matching PDF in active directory and opens it
+local function open_output_pdf()
+  local doc = get_active_doc()
+  local target_dir = doc.dir
 
-  -- Search for PDFs specifically in the active file's folder
+  -- 1. Try directly matching expected PDF name from current buffer
+  if doc.is_doc and doc.path ~= "" then
+    local expected_pdf = vim.fn.expand("%:p:r") .. ".pdf"
+    if vim.fn.filereadable(expected_pdf) == 1 then
+      local ok, pdf_viewers = pcall(require, "frost.tools.pdf_viewers")
+      if ok and pdf_viewers.open then
+        pdf_viewers.open("sioyek", expected_pdf, { new_instance = true })
+        return
+      else
+        local opener = vim.fn.executable("zathura") == 1 and "zathura" or "xdg-open"
+        vim.fn.jobstart({ opener, expected_pdf }, { cwd = target_dir, detach = true })
+        vim.notify("Opening " .. vim.fn.fnamemodify(expected_pdf, ":t"), vim.log.levels.INFO, { title = "folio" })
+        return
+      end
+    end
+  end
+
+  -- 2. Fallback: search for all PDFs in folder and sort by mod time
   local pdfs = vim.fn.glob(target_dir .. "/*.pdf", false, true)
-
   if #pdfs == 0 then
-    vim.notify(
-      "No PDF found in " .. target_dir .. ". Run build first!",
-      vim.log.levels.WARN,
-      { title = "folio" }
-    )
+    vim.notify("No PDF found in " .. target_dir .. ". Build the document first!", vim.log.levels.WARN, { title = "folio" })
     return
   end
 
-  -- Sort by modification time (latest first)
   table.sort(pdfs, function(a, b)
     return vim.fn.getftime(a) > vim.fn.getftime(b)
   end)
 
-  local opener = vim.fn.executable("zathura") == 1 and "zathura" or "xdg-open"
-  vim.fn.jobstart({ opener, pdfs[1] }, { cwd = target_dir, detach = true })
-  vim.notify("Opening " .. pdfs[1], vim.log.levels.INFO, { title = "folio" })
+  local ok, pdf_viewers = pcall(require, "frost.tools.pdf_viewers")
+  if ok and pdf_viewers.open then
+    pdf_viewers.open("sioyek", pdfs[1], { new_instance = true })
+  else
+    local opener = vim.fn.executable("zathura") == 1 and "zathura" or "xdg-open"
+    vim.fn.jobstart({ opener, pdfs[1] }, { cwd = target_dir, detach = true })
+    vim.notify("Opening " .. vim.fn.fnamemodify(pdfs[1], ":t"), vim.log.levels.INFO, { title = "folio" })
+  end
+end
+
+-- ===================================================================
+-- Core Actions
+-- ===================================================================
+
+--- Build document with Folio
+---@param opts? { mode?: string, open?: boolean }
+function M.build(opts)
+  opts = opts or {}
+  local doc = get_active_doc()
+  local cmd = { "folio" }
+
+  if doc.is_doc and doc.filename ~= "" then
+    table.insert(cmd, doc.filename)
+  end
+
+  if opts.mode then
+    table.insert(cmd, "-m")
+    table.insert(cmd, opts.mode)
+  end
+
+  if opts.open then
+    table.insert(cmd, "--open")
+  end
+
+  run_cmd(cmd, doc.dir, "folio", function()
+    if not opts.open then
+      -- Notification only
+    end
+  end)
+end
+
+--- Watch document with Folio (live reloads on save)
+function M.watch()
+  local doc = get_active_doc()
+  local target = (doc.is_doc and doc.filename ~= "") and doc.filename or ""
+
+  local watch_cmd = { "folio" }
+  if target ~= "" then
+    table.insert(watch_cmd, target)
+  end
+  table.insert(watch_cmd, "-w")
+
+  -- Use Snacks floating terminal if present, fallback to nvim terminal split
+  if _G.Snacks and _G.Snacks.terminal then
+    _G.Snacks.terminal(watch_cmd, {
+      cwd = doc.dir,
+      win = {
+        title = " ❄️ Folio Watch: " .. (target ~= "" and target or "workspace") .. " ",
+        title_pos = "center",
+      },
+    })
+  else
+    vim.cmd("botright split | resize 12 | terminal " .. table.concat(watch_cmd, " "))
+  end
+end
+
+--- Mode picker for Folio (Report, 16:9 Slides, Academic Paper)
+function M.select_mode_and_build()
+  local modes = {
+    { id = "report", label = "📄 Report (Minimal clean A4/Letter document)" },
+    { id = "slides", label = "🖥️  Slides (16:9 widescreen presentation)" },
+    { id = "paper",  label = "📑 Paper (Academic IEEE 2-column paper)" },
+  }
+
+  vim.ui.select(modes, {
+    prompt = "❄️ Folio: Select Operating Mode",
+    format_item = function(item) return item.label end,
+  }, function(choice)
+    if choice then
+      M.build({ mode = choice.id, open = true })
+    end
+  end)
+end
+
+--- Flaker Workspace & Document Scaffolding Dispatcher
+function M.flaker_scaffold()
+  local doc = get_active_doc()
+  local items = {
+    { label = "1. ❄️ Bootstrap Folio Workspace (Report)", cmd = { "flaker", "init", "folio", "report" } },
+    { label = "2. 🖥️ Bootstrap Folio Workspace (16:9 Slides)", cmd = { "flaker", "init", "folio", "slides" } },
+    { label = "3. 📑 Bootstrap Folio Workspace (IEEE Paper)", cmd = { "flaker", "init", "folio", "paper" } },
+    { label = "4. 🏗️ Drop Template Foundations (flaker project folio)", cmd = { "flaker", "project", "folio" } },
+    { label = "5. 📄 New Starter Documents (flaker new folio)", cmd = { "flaker", "new", "folio" } },
+    { label = "6. 🖥️ New Markdown Slides (slides.md)", cmd = { "flaker", "new", "md:slides" } },
+    { label = "7. 📑 New Typst IEEE Paper (paper.typ)", cmd = { "flaker", "new", "typ:paper" } },
+    { label = "8. 📊 New LaTeX Beamer Slides (slides.tex)", cmd = { "flaker", "new", "tex:slides" } },
+    { label = "9. 📦 Configure Typst Packages (flaker packages typ)", cmd = { "flaker", "packages", "typ" } },
+    { label = "10.📦 Configure LaTeX Packages (flaker packages tex)", cmd = { "flaker", "packages", "tex" } },
+  }
+
+  vim.ui.select(items, {
+    prompt = "❄️ Flaker: Scaffolding & Setup",
+    format_item = function(item) return item.label end,
+  }, function(choice)
+    if not choice then return end
+
+    -- Packages interactive commands need a real terminal
+    if choice.cmd[2] == "packages" or choice.cmd[3] == "slides" then
+      if _G.Snacks and _G.Snacks.terminal then
+        _G.Snacks.terminal(choice.cmd, { cwd = doc.dir })
+      else
+        vim.cmd("botright split | resize 15 | terminal " .. table.concat(choice.cmd, " "))
+      end
+    else
+      run_cmd(choice.cmd, doc.dir, "flaker", function()
+        vim.cmd("checktime")
+      end)
+    end
+  end)
 end
 
 -- ===================================================================
 -- Keymaps
 -- ===================================================================
 
--- Scaffold files in active buffer's directory
-vim.keymap.set("n", "<leader>wfi", function()
-  run_folio("init")
-end, { desc = "Folio: Scaffold files in current buffer dir" })
+-- Unified top-level writing shortcuts
+vim.keymap.set("n", "<leader>wb", function() M.build() end, { desc = "Folio: Build current document" })
+vim.keymap.set("n", "<leader>ww", function() M.watch() end, { desc = "Folio: Watch with live reload" })
+vim.keymap.set("n", "<leader>wp", function() M.build({ open = true }) end, { desc = "Folio: Build and view PDF" })
 
--- Build PDF in active buffer's directory
-vim.keymap.set("n", "<leader>wfb", function()
-  run_folio("build")
-end, { desc = "Folio: Build PDF in current buffer dir" })
+-- Detailed Folio / Flaker sub-palette (<leader>wf...)
+vim.keymap.set("n", "<leader>wfb", function() M.build() end, { desc = "Folio: Build current document" })
+vim.keymap.set("n", "<leader>wfw", function() M.watch() end, { desc = "Folio: Watch with live reload" })
+vim.keymap.set("n", "<leader>wfp", function() M.build({ open = true }) end, { desc = "Folio: Build & open PDF" })
+vim.keymap.set("n", "<leader>wfm", function() M.select_mode_and_build() end, { desc = "Folio: Build with mode preset..." })
+vim.keymap.set("n", "<leader>wfv", open_output_pdf, { desc = "Folio: View output PDF" })
+vim.keymap.set("n", "<leader>wfi", function() M.flaker_scaffold() end, { desc = "Flaker: Scaffold workspace / documents" })
 
--- Open latest PDF in active buffer's directory
-vim.keymap.set("n", "<leader>wfv", open_latest_pdf, { desc = "Folio: View output PDF" })
-
--- Build AND open on success
-vim.keymap.set("n", "<leader>wfp", function()
-  run_folio("build", open_latest_pdf)
-end, { desc = "Folio: Build and view PDF" })
+return M

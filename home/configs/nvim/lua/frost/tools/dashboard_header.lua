@@ -175,7 +175,7 @@ vim.api.nvim_create_user_command("FrostSelectHeaderStyle", M.select_style, {
   desc = "Switch Frost dashboard logo header style",
 })
 
-vim.keymap.set("n", "<leader>uh", M.select_style, {
+vim.keymap.set("n", "<leader>ud", M.select_style, {
   desc = "Frost: Select Dashboard Header Style",
   silent = true,
 })

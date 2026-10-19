@@ -36,6 +36,20 @@ return {
       desc = "Buffers",
     },
     {
+      "<leader>bd",
+      function()
+        Snacks.bufdelete()
+      end,
+      desc = "Delete Buffer",
+    },
+    {
+      "<leader>bD",
+      function()
+        Snacks.bufdelete({ force = true })
+      end,
+      desc = "Force Delete Buffer",
+    },
+    {
       "<leader>e",
       function()
         Snacks.explorer()

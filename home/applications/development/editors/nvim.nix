@@ -43,8 +43,6 @@ in {
     programs.mnw = {
       enable = true;
       initLua = ''
-        vim.g.mapleader = " "
-
         vim.g.frost_logo_svg = "${inputs.self}/assets/wordmark.svg"
         vim.g.frost_logo_png = "${frostLogoPng}"
         vim.g.frost_ignore_directories = vim.json.decode('${builtins.toJSON envIgnores.directories}')

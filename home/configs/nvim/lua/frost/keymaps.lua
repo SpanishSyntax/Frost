@@ -22,4 +22,3 @@ map("n", "<C-l>", "<C-w>l", "Go to Right Window")
 -- Buffers Tabline Navigation
 map("n", "<S-h>", "<cmd>bprevious<cr>", "Prev Buffer")
 map("n", "<S-l>", "<cmd>bnext<cr>", "Next Buffer")
-map("n", "<leader>bd", "<cmd>bd<cr>", "Delete Buffer")

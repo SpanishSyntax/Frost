@@ -19,7 +19,7 @@ return {
     opts = {
       keymap = {
         preset = "default",
-        ["K"] = { "show", "show_documentation", "hide_documentation" },
+        ["<C-k>"] = { "show", "show_documentation", "hide_documentation", "fallback" },
         ["<C-u>"] = { "scroll_signature_up", "fallback" },
         ["<C-d>"] = { "scroll_signature_down", "fallback" },
       },

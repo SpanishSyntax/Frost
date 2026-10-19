@@ -8,11 +8,11 @@ return {
     -- Native atomized execution binding hook
     keys = {
       {
-        "cf",
+        "<leader>cf",
         function()
           require("conform").format({ async = true, lsp_fallback = true })
         end,
-        mode = "n",
+        mode = { "n", "v" },
         desc = "Format Buffer",
       },
     },
