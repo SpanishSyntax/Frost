@@ -476,11 +476,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791923640,
-        "narHash": "sha256-VyBt02icRfdEuAEFbtZenyZ5Ews7A0af2iyxqHj8Tcw=",
+        "lastModified": 1792414146,
+        "narHash": "sha256-JZgbhBCrKilGKcYE13lpsyei1nf6FHu2B8BcEvj84go=",
         "owner": "SpanishSyntax",
         "repo": "Flaker",
-        "rev": "7ea8f7a78901dc0564e956d2fccf6e3f626c1a3d",
+        "rev": "29d3871d619ff5fdb0837ae43950d8d2460fe9cd",
         "type": "github"
       },
       "original": {
@@ -520,11 +520,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791922237,
-        "narHash": "sha256-G4bU4qPRbMmwkBxhc1RvIPRXNaxKN1tcfOCl2mq0/ho=",
+        "lastModified": 1792414150,
+        "narHash": "sha256-huAxdSHTikrV0Z8exfIyXZfmwvyvuPp+K+Tit0o4eJM=",
         "owner": "SpanishSyntax",
         "repo": "Folio",
-        "rev": "fee6b4113097876b1da44b274822899926381f2f",
+        "rev": "28f88fbee1a97f21e28cf5e15b4de199aca495f2",
         "type": "github"
       },
       "original": {
