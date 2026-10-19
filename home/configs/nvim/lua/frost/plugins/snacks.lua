@@ -85,13 +85,6 @@ return {
       desc = "Toggle Zen Mode",
     },
     {
-      "<leader>sS",
-      function()
-        Snacks.scratch()
-      end,
-      desc = "Toggle Scratch Buffer",
-    },
-    {
       "<leader>ss",
       function()
         Snacks.scratch()
