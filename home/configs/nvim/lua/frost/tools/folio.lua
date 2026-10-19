@@ -196,16 +196,16 @@ end
 function M.flaker_scaffold()
   local doc = get_active_doc()
   local items = {
-    { label = "1. Bootstrap Folio Workspace (Report)", cmd = { "flaker", "init", "folio", "report" } },
-    { label = "2. Bootstrap Folio Workspace (16:9 Slides)", cmd = { "flaker", "init", "folio", "slides" } },
-    { label = "3. Bootstrap Folio Workspace (IEEE Paper)", cmd = { "flaker", "init", "folio", "paper" } },
-    { label = "4. Drop Template Foundations (flaker project folio)", cmd = { "flaker", "project", "folio" } },
-    { label = "5. New Starter Documents (flaker new folio)", cmd = { "flaker", "new", "folio" } },
-    { label = "6. New Markdown Slides (slides.md)", cmd = { "flaker", "new", "md:slides" } },
-    { label = "7. New Typst IEEE Paper (paper.typ)", cmd = { "flaker", "new", "typ:paper" } },
-    { label = "8. New LaTeX Presentation Slides (slides.tex)", cmd = { "flaker", "new", "tex:slides" } },
-    { label = "9. Configure Typst Packages (flaker packages typ)", cmd = { "flaker", "packages", "typ" } },
-    { label = "10. Configure LaTeX Packages (flaker packages tex)", cmd = { "flaker", "packages", "tex" } },
+    { label = "Bootstrap Folio Workspace (Report)", cmd = { "flaker", "init", "folio", "report" } },
+    { label = "Bootstrap Folio Workspace (16:9 Slides)", cmd = { "flaker", "init", "folio", "slides" } },
+    { label = "Bootstrap Folio Workspace (IEEE Paper)", cmd = { "flaker", "init", "folio", "paper" } },
+    { label = "Drop Template Foundations (flaker project folio)", cmd = { "flaker", "project", "folio" } },
+    { label = "New Starter Documents (flaker new folio)", cmd = { "flaker", "new", "folio" } },
+    { label = "New Markdown Slides (slides.md)", cmd = { "flaker", "new", "md:slides" } },
+    { label = "New Typst IEEE Paper (paper.typ)", cmd = { "flaker", "new", "typ:paper" } },
+    { label = "New LaTeX Presentation Slides (slides.tex)", cmd = { "flaker", "new", "tex:slides" } },
+    { label = "Configure Typst Packages (flaker packages typ)", cmd = { "flaker", "packages", "typ" } },
+    { label = "Configure LaTeX Packages (flaker packages tex)", cmd = { "flaker", "packages", "tex" } },
   }
 
   vim.ui.select(items, {
