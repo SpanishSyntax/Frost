@@ -9,7 +9,11 @@ return {
       { "<leader>wtp", "<cmd>TypstPreview<cr>", desc = "Typst: Live preview in browser" },
       { "<leader>wts", "<cmd>TypstPreviewStop<cr>", desc = "Typst: Stop live preview" },
       { "<leader>wtt", "<cmd>TypstPreviewToggle<cr>", desc = "Typst: Toggle live preview" },
-      { "<leader>wti", "<cmd>TypstPreviewFollowCursorToggle<cr>", desc = "Typst: Toggle follow cursor" },
+      {
+        "<leader>wti",
+        "<cmd>TypstPreviewFollowCursorToggle<cr>",
+        desc = "Typst: Toggle follow cursor",
+      },
     },
 
     opts = {
