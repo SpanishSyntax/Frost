@@ -128,7 +128,7 @@ return {
             exportPdf = "onSave",
             semanticTokens = "enable",
             formatterMode = "typstyle",
-            rootPath = os.getenv("TYPST_ROOT") or nil,
+            rootPath = os.getenv("TYPST_ROOT") or vim.fs.root(0, { ".git", "flake.nix" }) or nil,
           },
         },
         texlab = {
