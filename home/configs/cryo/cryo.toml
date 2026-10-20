@@ -98,6 +98,7 @@ enabled_tools = [
   "flaker_info",
   "flaker_init",
   "folio_build",
+  "folio_assemble",
   "borealis_status",
   "code_format",
   "code_lint",
