@@ -13,7 +13,6 @@
     # Isolated runtime dependencies required by this tool
     runtimeInputs = [
       pkgs.pdfgrep
-      pkgs.poppler-utils
       pkgs.fzf
       pkgs.xdg-utils # Ensures xdg-open is always bundled and working
     ];
@@ -42,6 +41,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = [
       permafrostPackage # Installs the binary natively to /bin/permafrost
+      pkgs.poppler-utils
     ];
   };
 }
