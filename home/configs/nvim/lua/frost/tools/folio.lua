@@ -179,6 +179,55 @@ function M.select_mode_and_build()
   end)
 end
 
+--- Assemble modular chapter Markdown files into master document
+---@param opts? { chapters_dir?: string, mode?: string, open?: boolean }
+function M.assemble(opts)
+  opts = opts or {}
+  local doc = common.get_active_doc()
+  local target_dir = doc.dir
+  local cmd = { "folio", "assemble" }
+
+  local ch_dir = opts.chapters_dir
+  if not ch_dir then
+    if vim.fn.isdirectory(target_dir .. "/chapters") == 1 then
+      ch_dir = "chapters"
+    elseif vim.fn.isdirectory(target_dir .. "/modules") == 1 then
+      ch_dir = "modules"
+    else
+      ch_dir = "chapters"
+    end
+  end
+  table.insert(cmd, ch_dir)
+
+  if opts.mode then
+    table.insert(cmd, "-m")
+    table.insert(cmd, opts.mode)
+  end
+
+  run_cmd(cmd, target_dir, "folio assemble", function()
+    if opts.open then
+      M.build({ open = true })
+    end
+  end)
+end
+
+--- Launch Folio interactive dashboard & quick compiler in terminal window
+function M.hub()
+  local doc = common.get_active_doc()
+  local cmd = { "folio" }
+  if _G.Snacks and _G.Snacks.terminal then
+    _G.Snacks.terminal(cmd, {
+      cwd = doc.dir,
+      win = {
+        title = " 󱓷 Folio Interactive Hub ",
+        title_pos = "center",
+      },
+    })
+  else
+    vim.cmd("botright split | resize 14 | terminal folio")
+  end
+end
+
 -- ===================================================================
 -- Keymaps
 -- ===================================================================
@@ -193,6 +242,9 @@ end, { desc = "PDF: Watch with live reload" })
 vim.keymap.set("n", "<leader>wp", function()
   M.build({ open = true })
 end, { desc = "PDF: Build and view PDF" })
+vim.keymap.set("n", "<leader>wa", function()
+  M.assemble()
+end, { desc = "Folio: Assemble chapters" })
 
 -- Detailed Folio sub-palette (<leader>wf...)
 vim.keymap.set("n", "<leader>wfb", function()
@@ -207,6 +259,15 @@ end, { desc = "Folio: Build & open PDF" })
 vim.keymap.set("n", "<leader>wfm", function()
   M.select_mode_and_build()
 end, { desc = "Folio: Mode override & build..." })
+vim.keymap.set("n", "<leader>wfa", function()
+  M.assemble()
+end, { desc = "Folio: Assemble chapters" })
+vim.keymap.set("n", "<leader>wfA", function()
+  M.assemble({ open = true })
+end, { desc = "Folio: Assemble & compile PDF" })
+vim.keymap.set("n", "<leader>wfh", function()
+  M.hub()
+end, { desc = "Folio: Interactive hub" })
 vim.keymap.set("n", "<leader>wfv", open_output_pdf, { desc = "Folio: View output" })
 
 return M
