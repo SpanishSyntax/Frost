@@ -13,7 +13,7 @@
     # Isolated runtime dependencies required by this tool
     runtimeInputs = [
       pkgs.pdfgrep
-      pkgs.python3Packages.pdftotext
+      pkgs.poppler-utils
       pkgs.fzf
       pkgs.xdg-utils # Ensures xdg-open is always bundled and working
     ];
