@@ -174,6 +174,7 @@ return {
                 ["gS"] = "open_sioyek_reuse",
                 ["fn"] = "flaker_new",
                 ["fN"] = "flaker_lang_new",
+                ["fa"] = "flaker_active",
               },
             },
           },
@@ -193,6 +194,10 @@ return {
 
         flaker_lang_new = function()
           require("frost.tools.flaker").lang_new()
+        end,
+
+        flaker_active = function()
+          require("frost.tools.flaker").active()
         end,
 
         smart_confirm = function(picker, item)

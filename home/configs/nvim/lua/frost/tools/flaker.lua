@@ -436,7 +436,7 @@ function M.interactive()
   run_interactive({ "flaker", "interactive" }, doc.dir, "Flaker Stack Selector")
 end
 
---- List Registered Language Roles & Stacks (<leader>Fll, <leader>wkl)
+--- List Registered Language Roles & Stacks (<leader>FL, <leader>Fll)
 function M.list()
   local doc = common.get_active_doc()
   run_interactive({ "flaker", "list" }, doc.dir, "Flaker Roles", nil, {
@@ -444,6 +444,17 @@ function M.list()
     auto_close = false,
   })
 end
+
+--- Diagnose and List Active Roles on Workspace Flake (<leader>FA, <leader>Fa, <leader>Fla)
+function M.active()
+  local doc = common.get_active_doc()
+  run_interactive({ "flaker", "active" }, doc.dir, "Flaker Active Roles", nil, {
+    interactive = false,
+    auto_close = false,
+  })
+end
+
+M.list_active = M.active
 
 -- Backward compatibility aliases
 M.init = M.writing_init
@@ -468,6 +479,12 @@ end, { desc = "Interactive" })
 vim.keymap.set("n", "<leader>FL", function()
   M.list()
 end, { desc = "List roles & stacks" })
+vim.keymap.set("n", "<leader>FA", function()
+  M.active()
+end, { desc = "List active roles" })
+vim.keymap.set("n", "<leader>Fa", function()
+  M.active()
+end, { desc = "List active roles" })
 vim.keymap.set("n", "<leader>Fn", function()
   M.writing_new()
 end, { desc = "New starter doc" })
@@ -485,6 +502,12 @@ end, { desc = "New starter file" })
 vim.keymap.set("n", "<leader>Fls", function()
   M.lang_shell()
 end, { desc = "Add flake and .envrc" })
+vim.keymap.set("n", "<leader>Fll", function()
+  M.list()
+end, { desc = "List roles & stacks" })
+vim.keymap.set("n", "<leader>Fla", function()
+  M.active()
+end, { desc = "List active roles" })
 
 -- Submenu 2: Writing & Documents (<leader>Fw...)
 vim.keymap.set("n", "<leader>Fwi", function()
