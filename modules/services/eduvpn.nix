@@ -11,18 +11,16 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    # NixOS built-in module handles systemd services, polkit, and D-Bus interfaces
-    programs.eduvpn.enable = true;
-
-    # Kernel driver required for in-kernel WireGuard tunnels
+    # 1. WireGuard kernel support
     boot.kernelModules = ["wireguard"];
 
-    # Utilities needed if NetworkManager is absent or for userspace routing
+    # 2. System-wide tooling and D-Bus integration
     environment.systemPackages = with pkgs; [
+      eduvpn-client
       wireguard-tools
     ];
 
-    # Trust incoming tunnel traffic on interfaces spawned by eduVPN
+    # 4. Trust inbound packets on virtual tunnel interfaces
     networking.firewall.trustedInterfaces = [
       "wg-eduvpn+"
       "tun-eduvpn+"
