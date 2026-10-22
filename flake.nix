@@ -77,6 +77,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    prism = {
+      url = "github:SpanishSyntax/Prism";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.rime.follows = "rime";
+    };
+
     astra-airlock = {
       url = "github:AstraSuite/Airlock";
       inputs.nixpkgs.follows = "nixpkgs";
