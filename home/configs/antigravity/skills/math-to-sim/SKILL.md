@@ -6,7 +6,7 @@ description: Bypasses tedious algebraic derivations by instantly generating and 
 # Math to Sim
 
 ## Summary
-Bypasses tedious algebraic derivations by generating executable Python code to simulate and visualize dynamical systems, differential equations, and control theory concepts dynamically. Formatted specifically for the custom `flaker` MathVis template utilizing `PlotConfigurator` for standardized rendering.
+Bypasses tedious algebraic derivations by generating executable Python code to simulate and visualize dynamical systems, differential equations, and control theory concepts dynamically. Formatted for the clean, zero-boilerplate `flaker` MathVis template powered by `prism` for live-reloading preview and multi-backend export.
 
 ## When to Use
 - User types `/sim` or asks to simulate/visualize a mathematical derivation, differential equation, matrix proof, or control theory concept.
@@ -17,21 +17,20 @@ Bypasses tedious algebraic derivations by generating executable Python code to s
 2. **Scaffold with Flaker**:
    - Check if project exists or recommend `flaker new mv <name>` (or use `cryo/flaker_init`).
    - Generate the complete, self-contained `plot.py`.
-3. **Flaker MathVis Template Requirements**:
-   - Import and instantiate `PlotConfigurator` from `plotter.py`:
+3. **Flaker MathVis Template Requirements (Powered by Prism)**:
+   - Construct self-contained Plotly or Matplotlib figures directly without boilerplate:
      ```python
-     from plotter import PlotConfigurator
      import plotly.graph_objects as go
      import numpy as np
      from scipy.integrate import solve_ivp
 
-     config = PlotConfigurator()
-     fig = config.fig
+     # ... compute simulation data ...
+     fig = go.Figure()
+     fig.add_trace(go.Scatter(x=t, y=y, name="Trajectory"))
+     fig.update_layout(title="Phase Portrait", margin=dict(l=40, r=40, t=60, b=40))
      ```
-   - Use `scipy.integrate.solve_ivp` (e.g. `method='RK45'` or `'Radau'` for stiff systems) and `numpy`.
-   - Add interactive traces using `fig.add_trace(...)` with descriptive legend labels.
-   - Apply theming using `config.apply_theme(...)` instead of raw Plotly updates.
-   - End the script by calling `config.export("index.html")`. **Do NOT call `fig.show()`**.
+   - Prism automatically extracts `fig`, streams live preview via `prism serve`, and handles vector/raster batch builds via `prism build`.
+   - **Do NOT call `fig.show()`** or hardcode `index.html`.
 4. **Agentic Execution & Verification**:
-   - If operating in an active testbed/workspace, execute the script via python to verify that `scipy` converges without `LinAlgError`, unhandled zero-divisions, or `NaN`s, and confirm `index.html` is generated.
+   - Verify that `scipy` converges without `LinAlgError`, unhandled zero-divisions, or `NaN`s, and run `prism build` or `prism serve --no-open` to confirm figure renders cleanly.
 5. **Highlight Key Variables**: Explicitly map code variables back to the abstract mathematical symbols from the paper/derivation.

@@ -14,6 +14,7 @@ return {
           { pattern = "markdown", icon = " " },
           { pattern = "firn", icon = " " },
           { pattern = "pdf", icon = "󰈦 " },
+          { pattern = "prism", icon = "💎 " },
         },
       },
       spec = {
@@ -24,6 +25,7 @@ return {
         { "<leader>g", group = "Git", icon = "󰊢 " },
         { "<leader>s", group = "Snacks", icon = "󱐋 " },
         { "<leader>u", group = "UI", icon = "󰔎 " },
+        { "<leader>p", group = "Prism / Plot", icon = "💎 " },
 
         -- Writing & Documents
         { "<leader>w", group = "Writing", icon = "󱓧 " },
