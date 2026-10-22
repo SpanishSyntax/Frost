@@ -1,4 +1,3 @@
-# frost/services/eduvpn.nix (NixOS system module)
 {
   config,
   lib,
@@ -12,14 +11,21 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    # NixOS built-in module handles systemd services, polkit, and wg plumbing
+    # NixOS built-in module handles systemd services, polkit, and D-Bus interfaces
     programs.eduvpn.enable = true;
 
-    # Dynamic firewall interface trust
+    # Kernel driver required for in-kernel WireGuard tunnels
+    boot.kernelModules = ["wireguard"];
+
+    # Utilities needed if NetworkManager is absent or for userspace routing
+    environment.systemPackages = with pkgs; [
+      wireguard-tools
+    ];
+
+    # Trust incoming tunnel traffic on interfaces spawned by eduVPN
     networking.firewall.trustedInterfaces = [
-      "wg+"
       "wg-eduvpn+"
-      "tun+"
+      "tun-eduvpn+"
     ];
   };
 }
