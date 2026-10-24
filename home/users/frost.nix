@@ -11,6 +11,7 @@
         editors.nvim.enable = true;
         langs = {
           bash.enable = true;
+          matlab.enable = true;
           nix.enable = true;
         };
         tools.git = {

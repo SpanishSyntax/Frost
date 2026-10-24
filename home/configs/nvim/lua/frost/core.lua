@@ -17,3 +17,9 @@ opt.smartcase = true -- ... until you use a capital letter
 opt.updatetime = 250 -- Faster completion/indexing
 opt.timeoutlen = 300 -- Faster Which-Key popup
 opt.hlsearch = true
+
+vim.filetype.add({
+  extension = {
+    m = "matlab",
+  },
+})

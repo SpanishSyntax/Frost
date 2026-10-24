@@ -32,6 +32,7 @@ return {
         -- ------------------------------------------------------------
         python = { "ruff_format" },
         julia = { "julia-formatter" },
+        matlab = { "mh_style" },
 
         -- ------------------------------------------------------------
         -- Web & Frontend Ecosystem

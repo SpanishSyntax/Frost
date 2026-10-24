@@ -17,6 +17,7 @@ return {
 
         -- Data & Scientific
         "julia",
+        "matlab",
         "python",
 
         -- Web & Frontend Ecosystem

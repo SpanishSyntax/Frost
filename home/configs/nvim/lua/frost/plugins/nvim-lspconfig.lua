@@ -104,6 +104,16 @@ return {
           root_markers = { "pyproject.toml", "setup.py", ".git" },
         },
         julials = { filetypes = { "julia" } },
+        matlab_ls = {
+          filetypes = { "matlab" },
+          settings = {
+            MATLAB = {
+              indexWorkspace = true,
+              installPath = "",
+            },
+          },
+          single_file_support = true,
+        },
 
         -- ------------------------------------------------------------
         -- Web & Frontend Ecosystem
