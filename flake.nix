@@ -121,6 +121,11 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    learnharness = {
+      url = "git+file:///home/usurper/Documents/learnharness";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {...} @ inputs: let
