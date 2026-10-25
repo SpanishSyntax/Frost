@@ -1,19 +1,19 @@
 # Antigravity Global Environment Rules
 
-## 1. Tooling Priority: Cryo MCP Preference
+## 1. Tooling Priority: Sled MCP Preference
 When inspecting the filesystem, git repositories, docker containers, systemd units, or Nix configuration:
 - **DO NOT** use `run_command` for standard unix/git/inspection commands (`ls`, `cat`, `head`, `tail`, `tree`, `find`, `grep`, `stat`, `git status`, `git diff`, `git log`, `docker ps`, `systemctl status`, etc.).
-- **ALWAYS** call the `cryo` MCP server using `call_mcp_tool`.
-  - **`cryo/ls`**: `{"path": ".", "all_files": false, "long": false}` (filters out `.git`, `node_modules`, `result`, `.direnv`, `__pycache__`, etc.)
-  - **`cryo/tree`**: `{"path": ".", "max_depth": 3}`
-  - **`cryo/cat`**: `{"path": "...", "max_lines": 200}`
-  - **`cryo/head`** / **`cryo/tail`**: `{"path": "...", "lines": 50}`
-  - **`cryo/grep`**: `{"path": "...", "pattern": "..."}`
-  - **`cryo/find`**: `{"path": "...", "name": "*pattern*"}`
-  - **`cryo/git_status`**, **`cryo/git_diff`**, **`cryo/git_log`**
-  - **`cryo/nix_flake_check`**, **`cryo/nix_flake_show`**, **`cryo/nixos_generations`**
-  - **`cryo/docker_ps`**, **`cryo/docker_logs`**
-  - **`cryo/systemctl_status`**, **`cryo/journalctl`**
+- **ALWAYS** call the `sled` MCP server using `call_mcp_tool`.
+  - **`sled/ls`**: `{"path": ".", "all_files": false, "long": false}` (filters out `.git`, `node_modules`, `result`, `.direnv`, `__pycache__`, etc.)
+  - **`sled/tree`**: `{"path": ".", "max_depth": 3}`
+  - **`sled/cat`**: `{"path": "...", "max_lines": 200}`
+  - **`sled/head`** / **`sled/tail`**: `{"path": "...", "lines": 50}`
+  - **`sled/grep`**: `{"path": "...", "pattern": "..."}`
+  - **`sled/find`**: `{"path": "...", "name": "*pattern*"}`
+  - **`sled/git_status`**, **`sled/git_diff`**, **`sled/git_log`**
+  - **`sled/nix_flake_check`**, **`sled/nix_flake_show`**, **`sled/nixos_generations`**
+  - **`sled/docker_ps`**, **`sled/docker_logs`**
+  - **`sled/systemctl_status`**, **`sled/journalctl`**
 - Reserve `run_command` strictly for commands without atomic MCP equivalents (e.g. running builds, test suites, or execution scripts).
 
 ## 2. Frost Architecture Conventions
