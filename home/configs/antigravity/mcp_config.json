@@ -1,7 +1,7 @@
 {
   "mcpServers": {
-    "cryo": {
-      "command": "cryo",
+    "sled": {
+      "command": "sled",
       "args": ["serve"]
     }
   }
