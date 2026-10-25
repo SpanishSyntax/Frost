@@ -1,6 +1,6 @@
 ---
 name: course-reader
-description: Synthesizes course notes, lecture slides, or textbooks into clean, single-column, mathematically rigorous explainer readers compiled via native Typst or Folio. Trigger with /reader or /chapter.
+description: Synthesizes course notes, lecture slides, or textbooks into clean, single-column, mathematically rigorous explainer readers compiled via native Typst or Snowpack. Trigger with /reader or /chapter.
 ---
 
 # Course Reader Generator (Single-Column Technical Reader Engine)
