@@ -7,14 +7,14 @@ return {
       win = { border = "rounded" },
       icons = {
         rules = {
-          { pattern = "basecamp", icon = "❄️ " },
+          { pattern = "barograph", icon = "📈 " },
+          { pattern = "basecamp", icon = "⛺ " },
           { pattern = "snowpack", icon = "󱓷 " },
           { pattern = "typst", icon = "󰬛 " },
           { pattern = "latex", icon = " " },
           { pattern = "markdown", icon = " " },
           { pattern = "goggles", icon = " " },
           { pattern = "pdf", icon = "󰈦 " },
-          { pattern = "prism", icon = "💎 " },
         },
       },
       spec = {
@@ -25,7 +25,7 @@ return {
         { "<leader>g", group = "Git", icon = "󰊢 " },
         { "<leader>s", group = "Snacks", icon = "󱐋 " },
         { "<leader>u", group = "UI", icon = "󰔎 " },
-        { "<leader>p", group = "Prism / Plot", icon = "💎 " },
+        { "<leader>p", group = "Barograph / Plot", icon = "💎 " },
 
         -- Writing & Documents
         { "<leader>w", group = "Writing", icon = "󱓧 " },
@@ -35,7 +35,7 @@ return {
         { "<leader>wl", group = "LaTeX", icon = " " },
 
         -- Basecamp Root Group & Submenus
-        { "<leader>F", group = "Basecamp", icon = "❄️ " },
+        { "<leader>B", group = "Basecamp", icon = "⛺ " },
         { "<leader>Fl", group = "Languages & Stacks", icon = " " },
         { "<leader>Fw", group = "Writing & Documents", icon = "󱓷 " },
 
