@@ -94,7 +94,6 @@
     beacon = {
       url = "github:SpanishSyntax/Beacon";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.prism.follows = "prism";
     };
 
     borealis = {
