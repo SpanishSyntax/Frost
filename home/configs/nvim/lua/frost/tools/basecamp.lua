@@ -12,10 +12,10 @@ local function run_interactive(cmd, cwd, title, target_file, opts)
 end
 
 -- ===================================================================
--- 1. Writing & Documents Dispatchers (<leader>Fw... and <leader>wk...)
+-- 1. Writing & Documents Dispatchers (<leader>Bw... and <leader>wk...)
 -- ===================================================================
 
---- Workspace Initialization for Writing (<leader>Fwi, <leader>wki)
+--- Workspace Initialization for Writing (<leader>Bwi, <leader>wki)
 function M.writing_init()
   local doc = common.get_active_doc()
   local items = {
@@ -53,7 +53,7 @@ function M.writing_init()
   end)
 end
 
---- Project Foundations for Writing (<leader>Fwp, <leader>wkp)
+--- Project Foundations for Writing (<leader>Bwp, <leader>wkp)
 function M.writing_project()
   local doc = common.get_active_doc()
   local items = {
@@ -77,7 +77,7 @@ function M.writing_project()
   end)
 end
 
---- Generate Snowpack DevShell Only (<leader>Fws, <leader>wks)
+--- Generate Snowpack DevShell Only (<leader>Bws, <leader>wks)
 function M.writing_shell()
   local doc = common.get_active_doc()
   local items = {
@@ -99,7 +99,7 @@ function M.writing_shell()
   end)
 end
 
---- Dedicated Starter Documents Generator (<leader>Fwn, <leader>Fn)
+--- Dedicated Starter Documents Generator (<leader>Bwn, <leader>Bn)
 --- (3 formats: md, typ, tex × 3 templates: report, slides, paper = 9 combinations)
 function M.writing_new()
   local ctx = common.get_context_dir()
@@ -138,7 +138,7 @@ function M.writing_new()
   end)
 end
 
---- Package Configuration Dispatcher (<leader>FwP, <leader>wkP)
+--- Package Configuration Dispatcher (<leader>BwP, <leader>wkP)
 function M.writing_packages()
   local doc = common.get_active_doc()
   local is_tex = doc.ext == "tex"
@@ -186,10 +186,10 @@ function M.writing_packages()
 end
 
 -- ===================================================================
--- 2. Programming Languages & Stacks Dispatchers (<leader>Fl...)
+-- 2. Programming Languages & Stacks Dispatchers (<leader>Bl...)
 -- ===================================================================
 
---- Language Workspace Initialization (<leader>Fli)
+--- Language Workspace Initialization (<leader>Bli)
 function M.lang_init()
   local doc = common.get_active_doc()
   local items = {
@@ -266,7 +266,7 @@ function M.lang_init()
   end)
 end
 
---- Project Foundation Files (<leader>Flp)
+--- Project Foundation Files (<leader>Blp)
 function M.lang_project()
   local doc = common.get_active_doc()
   local items = {
@@ -319,7 +319,7 @@ function M.lang_project()
   end)
 end
 
---- Drop Language Starter Files (<leader>Fln)
+--- Drop Language Starter Files (<leader>Bln)
 function M.lang_new()
   local ctx = common.get_context_dir()
   local items = {
@@ -366,7 +366,7 @@ function M.lang_new()
   end)
 end
 
---- Generate Language DevShell Only (<leader>Fls)
+--- Generate Language DevShell Only (<leader>Bls)
 function M.lang_shell()
   local doc = common.get_active_doc()
   local items = {
@@ -430,13 +430,13 @@ end
 -- 3. Universal & Meta Commands
 -- ===================================================================
 
---- Interactive Stack Wizard & Role Selector (<leader>Fk, <leader>wkk)
+--- Interactive Stack Wizard & Role Selector (<leader>Bk, <leader>wkk)
 function M.interactive()
   local doc = common.get_active_doc()
   run_interactive({ "basecamp", "interactive" }, doc.dir, "Basecamp Stack Selector")
 end
 
---- List Registered Language Roles & Stacks (<leader>FL, <leader>Fll)
+--- List Registered Language Roles & Stacks (<leader>BL, <leader>Bll)
 function M.list()
   local doc = common.get_active_doc()
   run_interactive({ "basecamp", "list" }, doc.dir, "Basecamp Roles", nil, {
@@ -445,7 +445,7 @@ function M.list()
   })
 end
 
---- Diagnose and List Active Roles on Workspace Flake (<leader>FA, <leader>Fa, <leader>Fla)
+--- Diagnose and List Active Roles on Workspace Flake (<leader>BA, <leader>Ba, <leader>Bla)
 function M.active()
   local doc = common.get_active_doc()
   run_interactive({ "basecamp", "active" }, doc.dir, "Basecamp Active Roles", nil, {
@@ -469,57 +469,57 @@ M.packages = M.writing_packages
 -- ===================================================================
 
 -- -------------------------------------------------------------------
--- A. Basecamp Top-Level Palette (<leader>F...)
+-- A. Basecamp Top-Level Palette (<leader>B...)
 -- -------------------------------------------------------------------
 
 -- Root Shortcuts
-vim.keymap.set("n", "<leader>FI", function()
+vim.keymap.set("n", "<leader>BI", function()
   M.interactive()
 end, { desc = "Interactive" })
-vim.keymap.set("n", "<leader>FL", function()
+vim.keymap.set("n", "<leader>BL", function()
   M.list()
 end, { desc = "List roles & stacks" })
-vim.keymap.set("n", "<leader>FA", function()
+vim.keymap.set("n", "<leader>BA", function()
   M.active()
 end, { desc = "List active roles" })
-vim.keymap.set("n", "<leader>FN", function()
+vim.keymap.set("n", "<leader>BN", function()
   M.writing_new()
 end, { desc = "New starter doc" })
 
--- Submenu 1: Programming Languages & Stacks (<leader>Fl...)
-vim.keymap.set("n", "<leader>Fli", function()
+-- Submenu 1: Programming Languages & Stacks (<leader>Bl...)
+vim.keymap.set("n", "<leader>Bli", function()
   M.lang_init()
 end, { desc = "Full setup (init)" })
-vim.keymap.set("n", "<leader>Flp", function()
+vim.keymap.set("n", "<leader>Blp", function()
   M.lang_project()
 end, { desc = "Project configs" })
-vim.keymap.set("n", "<leader>Fln", function()
+vim.keymap.set("n", "<leader>Bln", function()
   M.lang_new()
 end, { desc = "New starter file" })
-vim.keymap.set("n", "<leader>Fls", function()
+vim.keymap.set("n", "<leader>Bls", function()
   M.lang_shell()
 end, { desc = "Add flake and .envrc" })
-vim.keymap.set("n", "<leader>Fll", function()
+vim.keymap.set("n", "<leader>Bll", function()
   M.list()
 end, { desc = "List roles & stacks" })
-vim.keymap.set("n", "<leader>Fla", function()
+vim.keymap.set("n", "<leader>Bla", function()
   M.active()
 end, { desc = "List active roles" })
 
--- Submenu 2: Writing & Documents (<leader>Fw...)
-vim.keymap.set("n", "<leader>Fwi", function()
+-- Submenu 2: Writing & Documents (<leader>Bw...)
+vim.keymap.set("n", "<leader>Bwi", function()
   M.writing_init()
 end, { desc = "Full setup (init)" })
-vim.keymap.set("n", "<leader>Fwp", function()
+vim.keymap.set("n", "<leader>Bwp", function()
   M.writing_project()
 end, { desc = "Project configs" })
-vim.keymap.set("n", "<leader>Fwn", function()
+vim.keymap.set("n", "<leader>Bwn", function()
   M.writing_new()
 end, { desc = "New starter doc" })
-vim.keymap.set("n", "<leader>Fws", function()
+vim.keymap.set("n", "<leader>Bws", function()
   M.writing_shell()
 end, { desc = "Add flake and .envrc" })
-vim.keymap.set("n", "<leader>FwP", function()
+vim.keymap.set("n", "<leader>BwP", function()
   M.writing_packages()
 end, { desc = "Configure packages" })
 
