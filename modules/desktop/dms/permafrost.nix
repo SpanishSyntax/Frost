@@ -7,7 +7,7 @@
   cfg = config.frost.desktop.dms.permafrost;
 in {
   imports = [
-    inputs.astra-airlock.nixosModules.default
+    inputs.permafrost.nixosModules.default
   ];
 
   options.frost.desktop.dms.permafrost.enable =

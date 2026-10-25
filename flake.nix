@@ -109,10 +109,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    permafrost = {
-      url = "github:SpanishSyntax/Permafrost";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # permafrost = {
+    #   url = "github:SpanishSyntax/Permafrost";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     prism = {
       url = "github:SpanishSyntax/Prism";
@@ -124,10 +124,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    shards = {
-      url = "github:SpanishSyntax/Shards";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # shards = {
+    #   url = "github:SpanishSyntax/Shards";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     sled = {
       url = "github:SpanishSyntax/Sled";
