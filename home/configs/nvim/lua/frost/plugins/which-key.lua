@@ -8,7 +8,7 @@ return {
       icons = {
         rules = {
           { pattern = "flaker", icon = "❄️ " },
-          { pattern = "folio", icon = "󱓷 " },
+          { pattern = "snowpack", icon = "󱓷 " },
           { pattern = "typst", icon = "󰬛 " },
           { pattern = "latex", icon = " " },
           { pattern = "markdown", icon = " " },
@@ -29,7 +29,7 @@ return {
 
         -- Writing & Documents
         { "<leader>w", group = "Writing", icon = "󱓧 " },
-        { "<leader>wf", group = "Folio", icon = "󱓷 " },
+        { "<leader>wf", group = "Snowpack", icon = "󱓷 " },
         { "<leader>wm", group = "Markdown", icon = " " },
         { "<leader>wt", group = "Typst", icon = "󰬛 " },
         { "<leader>wl", group = "LaTeX", icon = " " },
