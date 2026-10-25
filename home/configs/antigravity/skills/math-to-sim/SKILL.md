@@ -17,7 +17,7 @@ Bypasses tedious algebraic derivations by generating executable Python code to s
 2. **Scaffold with Basecamp**:
    - Check if project exists or recommend `basecamp new mv <name>` (or use `sled/basecamp_init`).
    - Generate the complete, self-contained `plot.py`.
-3. **Basecamp MathVis Template Requirements (Powered by Prism)**:
+3. **Basecamp MathVis Template Requirements (Powered by Barograph)**:
    - Construct self-contained Plotly or Matplotlib figures directly without boilerplate:
      ```python
      import plotly.graph_objects as go
@@ -29,7 +29,7 @@ Bypasses tedious algebraic derivations by generating executable Python code to s
      fig.add_trace(go.Scatter(x=t, y=y, name="Trajectory"))
      fig.update_layout(title="Phase Portrait", margin=dict(l=40, r=40, t=60, b=40))
      ```
-   - Prism automatically extracts `fig`, streams live preview via `barograph serve`, and handles vector/raster batch builds via `barograph build`.
+   - Barograph automatically extracts `fig`, streams live preview via `barograph serve`, and handles vector/raster batch builds via `barograph build`.
    - **Do NOT call `fig.show()`** or hardcode `index.html`.
 4. **Agentic Execution & Verification**:
    - Verify that `scipy` converges without `LinAlgError`, unhandled zero-divisions, or `NaN`s, and run `barograph build` or `barograph serve --no-open` to confirm figure renders cleanly.
