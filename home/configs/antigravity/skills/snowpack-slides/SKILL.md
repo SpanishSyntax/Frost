@@ -1,12 +1,12 @@
 ---
-name: folio-slides
-description: Generates high-impact 16:9 widescreen presentation slide decks in native Typst or Folio slides mode with vector hero plots and clean keynote cards. Trigger with /slides or /deck.
+name: snowpack-slides
+description: Generates high-impact 16:9 widescreen presentation slide decks in native Typst or Snowpack slides mode with vector hero plots and clean keynote cards. Trigger with /slides or /deck.
 ---
 
-# Folio Slides Generator (16:9 Keynote Deck Engine)
+# Snowpack Slides Generator (16:9 Keynote Deck Engine)
 
 ## Summary
-Generates high-impact, mathematically rigorous 16:9 widescreen presentation slide decks directly compiled via Typst (`slides.typ` or `folio slides.md`). Utilizes an Apple Keynote-inspired design system with dark/light themes, clean typography, vector hero plots, and zero-assumption mathematical explanations.
+Generates high-impact, mathematically rigorous 16:9 widescreen presentation slide decks directly compiled via Typst (`slides.typ` or `snowpack slides.md`). Utilizes an Apple Keynote-inspired design system with dark/light themes, clean typography, vector hero plots, and zero-assumption mathematical explanations.
 
 ## When to Use
 - User types `/slides`, `/deck`, or `/presentation`.
@@ -35,7 +35,7 @@ Generates high-impact, mathematically rigorous 16:9 widescreen presentation slid
   typst compile slides.typ slides.pdf
   typst watch slides.typ slides.pdf
   ```
-- Or via Folio CLI:
+- Or via Snowpack CLI:
   ```bash
-  folio slides.md -m slides -w
+  snowpack slides.md -m slides -w
   ```
