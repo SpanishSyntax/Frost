@@ -1,4 +1,4 @@
--- lua/frost/tools/folio.lua
+-- lua/frost/tools/snowpack.lua
 local common = require("frost.tools.common")
 local M = {}
 
@@ -8,7 +8,7 @@ local M = {}
 
 --- Runs an external command in the target directory with notification output
 local function run_cmd(cmd, cwd, title, on_success)
-  common.run_cmd(cmd, cwd, title or "folio", on_success)
+  common.run_cmd(cmd, cwd, title or "snowpack", on_success)
 end
 
 --- Finds the latest or matching PDF in active directory and opens it
@@ -30,7 +30,7 @@ local function open_output_pdf()
         vim.notify(
           "Opening " .. vim.fn.fnamemodify(expected_pdf, ":t"),
           vim.log.levels.INFO,
-          { title = "folio" }
+          { title = "snowpack" }
         )
         return
       end
@@ -43,7 +43,7 @@ local function open_output_pdf()
     vim.notify(
       "No PDF found in " .. target_dir .. ". Build the document first!",
       vim.log.levels.WARN,
-      { title = "folio" }
+      { title = "snowpack" }
     )
     return
   end
@@ -61,7 +61,7 @@ local function open_output_pdf()
     vim.notify(
       "Opening " .. vim.fn.fnamemodify(pdfs[1], ":t"),
       vim.log.levels.INFO,
-      { title = "folio" }
+      { title = "snowpack" }
     )
   end
 end
@@ -70,12 +70,12 @@ end
 -- Core Actions
 -- ===================================================================
 
---- Build document with Folio
+--- Build document with Snowpack
 ---@param opts? { mode?: string, open?: boolean }
 function M.build(opts)
   opts = opts or {}
   local doc = common.get_active_doc()
-  local cmd = { "folio" }
+  local cmd = { "snowpack" }
 
   if doc.is_doc and doc.filename ~= "" then
     table.insert(cmd, doc.filename)
@@ -90,19 +90,19 @@ function M.build(opts)
     table.insert(cmd, "--open")
   end
 
-  run_cmd(cmd, doc.dir, "folio", function()
+  run_cmd(cmd, doc.dir, "snowpack", function()
     if not opts.open then
       -- Notification only
     end
   end)
 end
 
---- Watch document with Folio (live reloads on save)
+--- Watch document with Snowpack (live reloads on save)
 function M.watch()
   local doc = common.get_active_doc()
   local target = (doc.is_doc and doc.filename ~= "") and doc.filename or ""
 
-  local watch_cmd = { "folio" }
+  local watch_cmd = { "snowpack" }
   if target ~= "" then
     table.insert(watch_cmd, target)
   end
@@ -113,7 +113,7 @@ function M.watch()
     _G.Snacks.terminal(watch_cmd, {
       cwd = doc.dir,
       win = {
-        title = " 󱓷 Folio Watch: " .. (target ~= "" and target or "workspace") .. " ",
+        title = " 󱓷 Snowpack Watch: " .. (target ~= "" and target or "workspace") .. " ",
         title_pos = "center",
       },
     })
@@ -122,8 +122,8 @@ function M.watch()
   end
 end
 
---- Mode picker for Folio (Report, 16:9 Slides, Academic Paper)
---- Utility Note: Folio auto-detects `mode: ...` from Markdown YAML frontmatter and
+--- Mode picker for Snowpack (Report, 16:9 Slides, Academic Paper)
+--- Utility Note: Snowpack auto-detects `mode: ...` from Markdown YAML frontmatter and
 --- compiles native .typ and .tex directly. This picker serves as an explicit mode
 --- override when compiling Markdown notes/documents into different targets.
 function M.select_mode_and_build()
@@ -132,7 +132,7 @@ function M.select_mode_and_build()
     vim.notify(
       "Active buffer is not a recognized document (.md, .typ, .tex)",
       vim.log.levels.WARN,
-      { title = "folio" }
+      { title = "snowpack" }
     )
     return
   end
@@ -143,7 +143,7 @@ function M.select_mode_and_build()
         .. doc.ext:upper()
         .. " documents define layout directly in markup. Compiling directly...",
       vim.log.levels.INFO,
-      { title = "folio" }
+      { title = "snowpack" }
     )
     M.build({ open = true })
     return
@@ -185,7 +185,7 @@ function M.assemble(opts)
   opts = opts or {}
   local doc = common.get_active_doc()
   local target_dir = doc.dir
-  local cmd = { "folio", "assemble" }
+  local cmd = { "snowpack", "assemble" }
 
   local ch_dir = opts.chapters_dir
   if not ch_dir then
@@ -204,27 +204,27 @@ function M.assemble(opts)
     table.insert(cmd, opts.mode)
   end
 
-  run_cmd(cmd, target_dir, "folio assemble", function()
+  run_cmd(cmd, target_dir, "snowpack assemble", function()
     if opts.open then
       M.build({ open = true })
     end
   end)
 end
 
---- Launch Folio interactive dashboard & quick compiler in terminal window
+--- Launch Snowpack interactive dashboard & quick compiler in terminal window
 function M.hub()
   local doc = common.get_active_doc()
-  local cmd = { "folio" }
+  local cmd = { "snowpack" }
   if _G.Snacks and _G.Snacks.terminal then
     _G.Snacks.terminal(cmd, {
       cwd = doc.dir,
       win = {
-        title = " 󱓷 Folio Interactive Hub ",
+        title = " 󱓷 Snowpack Interactive Hub ",
         title_pos = "center",
       },
     })
   else
-    vim.cmd("botright split | resize 14 | terminal folio")
+    vim.cmd("botright split | resize 14 | terminal snowpack")
   end
 end
 
@@ -244,30 +244,30 @@ vim.keymap.set("n", "<leader>wp", function()
 end, { desc = "PDF: Build and view PDF" })
 vim.keymap.set("n", "<leader>wa", function()
   M.assemble()
-end, { desc = "Folio: Assemble chapters" })
+end, { desc = "Snowpack: Assemble chapters" })
 
--- Detailed Folio sub-palette (<leader>wf...)
+-- Detailed Snowpack sub-palette (<leader>wf...)
 vim.keymap.set("n", "<leader>wfb", function()
   M.build()
-end, { desc = "Folio: Build current document" })
+end, { desc = "Snowpack: Build current document" })
 vim.keymap.set("n", "<leader>wfw", function()
   M.watch()
-end, { desc = "Folio: Watch with live reload" })
+end, { desc = "Snowpack: Watch with live reload" })
 vim.keymap.set("n", "<leader>wfp", function()
   M.build({ open = true })
-end, { desc = "Folio: Build & open PDF" })
+end, { desc = "Snowpack: Build & open PDF" })
 vim.keymap.set("n", "<leader>wfm", function()
   M.select_mode_and_build()
-end, { desc = "Folio: Mode override & build..." })
+end, { desc = "Snowpack: Mode override & build..." })
 vim.keymap.set("n", "<leader>wfa", function()
   M.assemble()
-end, { desc = "Folio: Assemble chapters" })
+end, { desc = "Snowpack: Assemble chapters" })
 vim.keymap.set("n", "<leader>wfA", function()
   M.assemble({ open = true })
-end, { desc = "Folio: Assemble & compile PDF" })
+end, { desc = "Snowpack: Assemble & compile PDF" })
 vim.keymap.set("n", "<leader>wfh", function()
   M.hub()
-end, { desc = "Folio: Interactive hub" })
-vim.keymap.set("n", "<leader>wfv", open_output_pdf, { desc = "Folio: View output" })
+end, { desc = "Snowpack: Interactive hub" })
+vim.keymap.set("n", "<leader>wfv", open_output_pdf, { desc = "Snowpack: View output" })
 
 return M

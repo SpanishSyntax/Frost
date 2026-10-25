@@ -20,18 +20,18 @@ function M.writing_init()
   local doc = common.get_active_doc()
   local items = {
     {
-      label = "󱓷 Folio Paper",
-      cmd = { "flaker", "init", "folio", "paper" },
+      label = "󱓷 Snowpack Paper",
+      cmd = { "flaker", "init", "snowpack", "paper" },
       file = "paper.md",
     },
     {
-      label = "󱓷 Folio Report",
-      cmd = { "flaker", "init", "folio", "report" },
+      label = "󱓷 Snowpack Report",
+      cmd = { "flaker", "init", "snowpack", "report" },
       file = "report.md",
     },
     {
-      label = "󱓷 Folio Slides",
-      cmd = { "flaker", "init", "folio", "slides" },
+      label = "󱓷 Snowpack Slides",
+      cmd = { "flaker", "init", "snowpack", "slides" },
       file = "slides.md",
     },
     { label = "󰬛 Native Typst Paper", cmd = { "flaker", "init", "typ:paper" }, file = "paper.typ" },
@@ -57,9 +57,9 @@ end
 function M.writing_project()
   local doc = common.get_active_doc()
   local items = {
-    { label = "󱓷 Folio Paper", cmd = { "flaker", "project", "folio:paper" } },
-    { label = "󱓷 Folio Report", cmd = { "flaker", "project", "folio:report" } },
-    { label = "󱓷 Folio Slides", cmd = { "flaker", "project", "folio:slides" } },
+    { label = "󱓷 Snowpack Paper", cmd = { "flaker", "project", "snowpack:paper" } },
+    { label = "󱓷 Snowpack Report", cmd = { "flaker", "project", "snowpack:report" } },
+    { label = "󱓷 Snowpack Slides", cmd = { "flaker", "project", "snowpack:slides" } },
     { label = "󰬛 Typst Configs", cmd = { "flaker", "project", "typ" } },
     { label = " LaTeX Configs", cmd = { "flaker", "project", "tex" } },
   }
@@ -77,11 +77,11 @@ function M.writing_project()
   end)
 end
 
---- Generate Folio DevShell Only (<leader>Fws, <leader>wks)
+--- Generate Snowpack DevShell Only (<leader>Fws, <leader>wks)
 function M.writing_shell()
   local doc = common.get_active_doc()
   local items = {
-    { label = "󱓷 Folio DevShell", cmd = { "flaker", "shell", "folio" }, file = "flake.nix" },
+    { label = "󱓷 Snowpack DevShell", cmd = { "flaker", "shell", "snowpack" }, file = "flake.nix" },
     { label = "󰬛 Typst DevShell", cmd = { "flaker", "shell", "typ" }, file = "flake.nix" },
     { label = " LaTeX DevShell", cmd = { "flaker", "shell", "tex" }, file = "flake.nix" },
   }
