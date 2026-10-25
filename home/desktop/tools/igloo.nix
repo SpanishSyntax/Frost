@@ -5,13 +5,13 @@
   inputs,
   ...
 }: let
-  cfg = config.frost.home.desktop.tools.caelestia;
+  cfg = config.frost.home.desktop.tools.igloo;
 in {
   imports = [
-    inputs.caelestia.homeManagerModules.default
+    inputs.igloo.homeManagerModules.default
   ];
 
-  options.frost.home.desktop.tools.caelestia = {
+  options.frost.home.desktop.tools.igloo = {
     enable = lib.mkEnableOption "caelestia";
 
     configsPath = lib.mkOption {
