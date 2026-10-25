@@ -7,7 +7,7 @@ return {
       win = { border = "rounded" },
       icons = {
         rules = {
-          { pattern = "flaker", icon = "❄️ " },
+          { pattern = "basecamp", icon = "❄️ " },
           { pattern = "snowpack", icon = "󱓷 " },
           { pattern = "typst", icon = "󰬛 " },
           { pattern = "latex", icon = " " },
@@ -34,8 +34,8 @@ return {
         { "<leader>wt", group = "Typst", icon = "󰬛 " },
         { "<leader>wl", group = "LaTeX", icon = " " },
 
-        -- Flaker Root Group & Submenus
-        { "<leader>F", group = "Flaker", icon = "❄️ " },
+        -- Basecamp Root Group & Submenus
+        { "<leader>F", group = "Basecamp", icon = "❄️ " },
         { "<leader>Fl", group = "Languages & Stacks", icon = " " },
         { "<leader>Fw", group = "Writing & Documents", icon = "󱓷 " },
 

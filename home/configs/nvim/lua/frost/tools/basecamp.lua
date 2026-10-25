@@ -1,4 +1,4 @@
--- lua/frost/tools/flaker.lua
+-- lua/frost/tools/basecamp.lua
 local common = require("frost.tools.common")
 local M = {}
 
@@ -7,7 +7,7 @@ local M = {}
 -- ===================================================================
 
 local function run_interactive(cmd, cwd, title, target_file, opts)
-  title = title and ("❄️ " .. title) or "❄️ Flaker"
+  title = title and ("❄️ " .. title) or "❄️ Basecamp"
   common.run_interactive(cmd, cwd, title, target_file, opts)
 end
 
@@ -21,23 +21,23 @@ function M.writing_init()
   local items = {
     {
       label = "󱓷 Snowpack Paper",
-      cmd = { "flaker", "init", "snowpack", "paper" },
+      cmd = { "basecamp", "init", "snowpack", "paper" },
       file = "paper.md",
     },
     {
       label = "󱓷 Snowpack Report",
-      cmd = { "flaker", "init", "snowpack", "report" },
+      cmd = { "basecamp", "init", "snowpack", "report" },
       file = "report.md",
     },
     {
       label = "󱓷 Snowpack Slides",
-      cmd = { "flaker", "init", "snowpack", "slides" },
+      cmd = { "basecamp", "init", "snowpack", "slides" },
       file = "slides.md",
     },
-    { label = "󰬛 Native Typst Paper", cmd = { "flaker", "init", "typ:paper" }, file = "paper.typ" },
-    { label = "󰬛 Native Typst Report", cmd = { "flaker", "init", "typ:report" }, file = "report.typ" },
-    { label = " Native LaTeX Paper", cmd = { "flaker", "init", "tex:paper" }, file = "paper.tex" },
-    { label = " Native LaTeX Report", cmd = { "flaker", "init", "tex:report" }, file = "report.tex" },
+    { label = "󰬛 Native Typst Paper", cmd = { "basecamp", "init", "typ:paper" }, file = "paper.typ" },
+    { label = "󰬛 Native Typst Report", cmd = { "basecamp", "init", "typ:report" }, file = "report.typ" },
+    { label = " Native LaTeX Paper", cmd = { "basecamp", "init", "tex:paper" }, file = "paper.tex" },
+    { label = " Native LaTeX Report", cmd = { "basecamp", "init", "tex:report" }, file = "report.tex" },
   }
 
   vim.ui.select(items, {
@@ -57,11 +57,11 @@ end
 function M.writing_project()
   local doc = common.get_active_doc()
   local items = {
-    { label = "󱓷 Snowpack Paper", cmd = { "flaker", "project", "snowpack:paper" } },
-    { label = "󱓷 Snowpack Report", cmd = { "flaker", "project", "snowpack:report" } },
-    { label = "󱓷 Snowpack Slides", cmd = { "flaker", "project", "snowpack:slides" } },
-    { label = "󰬛 Typst Configs", cmd = { "flaker", "project", "typ" } },
-    { label = " LaTeX Configs", cmd = { "flaker", "project", "tex" } },
+    { label = "󱓷 Snowpack Paper", cmd = { "basecamp", "project", "snowpack:paper" } },
+    { label = "󱓷 Snowpack Report", cmd = { "basecamp", "project", "snowpack:report" } },
+    { label = "󱓷 Snowpack Slides", cmd = { "basecamp", "project", "snowpack:slides" } },
+    { label = "󰬛 Typst Configs", cmd = { "basecamp", "project", "typ" } },
+    { label = " LaTeX Configs", cmd = { "basecamp", "project", "tex" } },
   }
 
   vim.ui.select(items, {
@@ -81,9 +81,9 @@ end
 function M.writing_shell()
   local doc = common.get_active_doc()
   local items = {
-    { label = "󱓷 Snowpack DevShell", cmd = { "flaker", "shell", "snowpack" }, file = "flake.nix" },
-    { label = "󰬛 Typst DevShell", cmd = { "flaker", "shell", "typ" }, file = "flake.nix" },
-    { label = " LaTeX DevShell", cmd = { "flaker", "shell", "tex" }, file = "flake.nix" },
+    { label = "󱓷 Snowpack DevShell", cmd = { "basecamp", "shell", "snowpack" }, file = "flake.nix" },
+    { label = "󰬛 Typst DevShell", cmd = { "basecamp", "shell", "typ" }, file = "flake.nix" },
+    { label = " LaTeX DevShell", cmd = { "basecamp", "shell", "tex" }, file = "flake.nix" },
   }
 
   vim.ui.select(items, {
@@ -105,19 +105,19 @@ function M.writing_new()
   local ctx = common.get_context_dir()
   local items = {
     -- Markdown Starters (md)
-    { label = " Markdown Paper", cmd = { "flaker", "new", "md:paper" }, file = "paper.md" },
-    { label = " Markdown Report", cmd = { "flaker", "new", "md:report" }, file = "report.md" },
-    { label = " Markdown Slides", cmd = { "flaker", "new", "md:slides" }, file = "slides.md" },
+    { label = " Markdown Paper", cmd = { "basecamp", "new", "md:paper" }, file = "paper.md" },
+    { label = " Markdown Report", cmd = { "basecamp", "new", "md:report" }, file = "report.md" },
+    { label = " Markdown Slides", cmd = { "basecamp", "new", "md:slides" }, file = "slides.md" },
 
     -- Typst Starters (typ)
-    { label = " Typst Paper", cmd = { "flaker", "new", "typ:paper" }, file = "paper.typ" },
-    { label = " Typst Report", cmd = { "flaker", "new", "typ:report" }, file = "report.typ" },
-    { label = " Typst Slides", cmd = { "flaker", "new", "typ:slides" }, file = "slides.typ" },
+    { label = " Typst Paper", cmd = { "basecamp", "new", "typ:paper" }, file = "paper.typ" },
+    { label = " Typst Report", cmd = { "basecamp", "new", "typ:report" }, file = "report.typ" },
+    { label = " Typst Slides", cmd = { "basecamp", "new", "typ:slides" }, file = "slides.typ" },
 
     -- LaTeX Starters (tex)
-    { label = " LaTeX Paper", cmd = { "flaker", "new", "tex:paper" }, file = "paper.tex" },
-    { label = " LaTeX Report", cmd = { "flaker", "new", "tex:report" }, file = "report.tex" },
-    { label = " LaTeX Slides", cmd = { "flaker", "new", "tex:slides" }, file = "slides.tex" },
+    { label = " LaTeX Paper", cmd = { "basecamp", "new", "tex:paper" }, file = "paper.tex" },
+    { label = " LaTeX Report", cmd = { "basecamp", "new", "tex:report" }, file = "report.tex" },
+    { label = " LaTeX Slides", cmd = { "basecamp", "new", "tex:slides" }, file = "slides.tex" },
   }
 
   local prompt = "󱓷 New Document"
@@ -149,14 +149,14 @@ function M.writing_packages()
       label = (is_typ and "󰬛 " or " ")
         .. "Typst Packages (packages.typ)"
         .. (is_typ and " (Active)" or ""),
-      cmd = { "flaker", "packages", "typ" },
+      cmd = { "basecamp", "packages", "typ" },
       file = "packages.typ",
     },
     {
       label = (is_tex and " " or " ")
         .. "LaTeX Packages (packages.tex)"
         .. (is_tex and " (Active)" or ""),
-      cmd = { "flaker", "packages", "tex" },
+      cmd = { "basecamp", "packages", "tex" },
       file = "packages.tex",
     },
   }
@@ -194,61 +194,61 @@ function M.lang_init()
   local doc = common.get_active_doc()
   local items = {
     -- Data & Scientific
-    { label = " Python (uv + ruff)", cmd = { "flaker", "init", "py" }, file = "pyproject.toml" },
+    { label = " Python (uv + ruff)", cmd = { "basecamp", "init", "py" }, file = "pyproject.toml" },
     {
       label = "󰦨 MathVis (Simulation stack)",
-      cmd = { "flaker", "init", "mv" },
+      cmd = { "basecamp", "init", "mv" },
       file = "plot.py",
     },
-    { label = " Julia", cmd = { "flaker", "init", "julia" }, file = "Project.toml" },
+    { label = " Julia", cmd = { "basecamp", "init", "julia" }, file = "Project.toml" },
 
     -- Systems
     {
       label = " Rust (Cargo + rust-analyzer)",
-      cmd = { "flaker", "init", "rust" },
+      cmd = { "basecamp", "init", "rust" },
       file = "Cargo.toml",
     },
-    { label = " Go (gopls + delve)", cmd = { "flaker", "init", "go" }, file = "go.mod" },
+    { label = " Go (gopls + delve)", cmd = { "basecamp", "init", "go" }, file = "go.mod" },
     {
       label = " C / C++ (clangd + cmake)",
-      cmd = { "flaker", "init", "cpp" },
+      cmd = { "basecamp", "init", "cpp" },
       file = "CMakeLists.txt",
     },
-    { label = " Zig (zls)", cmd = { "flaker", "init", "zig" }, file = "build.zig" },
-    { label = "󰌛 .NET / C# (.NET 9)", cmd = { "flaker", "init", "dotnet" } },
-    { label = " Java (OpenJDK 25)", cmd = { "flaker", "init", "java" } },
+    { label = " Zig (zls)", cmd = { "basecamp", "init", "zig" }, file = "build.zig" },
+    { label = "󰌛 .NET / C# (.NET 9)", cmd = { "basecamp", "init", "dotnet" } },
+    { label = " Java (OpenJDK 25)", cmd = { "basecamp", "init", "java" } },
 
     -- Web & Frontend
     {
       label = " TypeScript (Bun + vtsls)",
-      cmd = { "flaker", "init", "ts" },
+      cmd = { "basecamp", "init", "ts" },
       file = "package.json",
     },
     {
       label = "󰄛 Next.js (Bun + vtsls)",
-      cmd = { "flaker", "init", "next" },
+      cmd = { "basecamp", "init", "next" },
       file = "package.json",
     },
     {
       label = " Svelte (Svelte 5)",
-      cmd = { "flaker", "init", "svelte" },
+      cmd = { "basecamp", "init", "svelte" },
       file = "package.json",
     },
-    { label = "󰡄 Vue (Vue 3)", cmd = { "flaker", "init", "vue" }, file = "package.json" },
+    { label = "󰡄 Vue (Vue 3)", cmd = { "basecamp", "init", "vue" }, file = "package.json" },
 
     -- Functional
     {
       label = " Elixir (Mix + elixir-ls)",
-      cmd = { "flaker", "init", "elixir" },
+      cmd = { "basecamp", "init", "elixir" },
       file = "mix.exs",
     },
-    { label = " Gleam (rebar3)", cmd = { "flaker", "init", "gleam" }, file = "gleam.toml" },
-    { label = " Haskell (GHC + Cabal + HLS)", cmd = { "flaker", "init", "haskell" } },
+    { label = " Gleam (rebar3)", cmd = { "basecamp", "init", "gleam" }, file = "gleam.toml" },
+    { label = " Haskell (GHC + Cabal + HLS)", cmd = { "basecamp", "init", "haskell" } },
 
     -- DevOps & Cloud
     {
       label = "󰡨 DevOps (Compose + Lazydocker)",
-      cmd = { "flaker", "init", "ops" },
+      cmd = { "basecamp", "init", "ops" },
       file = "compose.yaml",
     },
   }
@@ -272,36 +272,36 @@ function M.lang_project()
   local items = {
     {
       label = " Python (pyproject.toml)",
-      cmd = { "flaker", "project", "py" },
+      cmd = { "basecamp", "project", "py" },
       file = "pyproject.toml",
     },
-    { label = " Rust (Cargo.toml)", cmd = { "flaker", "project", "rust" }, file = "Cargo.toml" },
-    { label = " Go (go.mod)", cmd = { "flaker", "project", "go" }, file = "go.mod" },
+    { label = " Rust (Cargo.toml)", cmd = { "basecamp", "project", "rust" }, file = "Cargo.toml" },
+    { label = " Go (go.mod)", cmd = { "basecamp", "project", "go" }, file = "go.mod" },
     {
       label = " TypeScript (package.json)",
-      cmd = { "flaker", "project", "ts" },
+      cmd = { "basecamp", "project", "ts" },
       file = "package.json",
     },
     {
       label = " C++ (CMakeLists.txt)",
-      cmd = { "flaker", "project", "cpp" },
+      cmd = { "basecamp", "project", "cpp" },
       file = "CMakeLists.txt",
     },
-    { label = " Zig (build.zig)", cmd = { "flaker", "project", "zig" }, file = "build.zig" },
+    { label = " Zig (build.zig)", cmd = { "basecamp", "project", "zig" }, file = "build.zig" },
     {
       label = " Julia (Project.toml)",
-      cmd = { "flaker", "project", "julia" },
+      cmd = { "basecamp", "project", "julia" },
       file = "Project.toml",
     },
-    { label = " Elixir (mix.exs)", cmd = { "flaker", "project", "elixir" }, file = "mix.exs" },
+    { label = " Elixir (mix.exs)", cmd = { "basecamp", "project", "elixir" }, file = "mix.exs" },
     {
       label = " Gleam (gleam.toml)",
-      cmd = { "flaker", "project", "gleam" },
+      cmd = { "basecamp", "project", "gleam" },
       file = "gleam.toml",
     },
     {
       label = "󰡨 DevOps (compose.yaml)",
-      cmd = { "flaker", "project", "ops" },
+      cmd = { "basecamp", "project", "ops" },
       file = "compose.yaml",
     },
   }
@@ -323,27 +323,27 @@ end
 function M.lang_new()
   local ctx = common.get_context_dir()
   local items = {
-    { label = " Python (main.py)", cmd = { "flaker", "new", "py" }, file = "main.py" },
-    { label = "󰦨 MathVis (plot.py)", cmd = { "flaker", "new", "mv" }, file = "plot.py" },
-    { label = " Rust (src/main.rs)", cmd = { "flaker", "new", "rust" }, file = "src/main.rs" },
-    { label = " Go (main.go)", cmd = { "flaker", "new", "go" }, file = "main.go" },
-    { label = " TypeScript (index.ts)", cmd = { "flaker", "new", "ts" }, file = "index.ts" },
-    { label = " C++ (main.cpp)", cmd = { "flaker", "new", "cpp" }, file = "main.cpp" },
-    { label = " Zig (src/main.zig)", cmd = { "flaker", "new", "zig" }, file = "src/main.zig" },
-    { label = " Julia (main.jl)", cmd = { "flaker", "new", "julia" }, file = "main.jl" },
+    { label = " Python (main.py)", cmd = { "basecamp", "new", "py" }, file = "main.py" },
+    { label = "󰦨 MathVis (plot.py)", cmd = { "basecamp", "new", "mv" }, file = "plot.py" },
+    { label = " Rust (src/main.rs)", cmd = { "basecamp", "new", "rust" }, file = "src/main.rs" },
+    { label = " Go (main.go)", cmd = { "basecamp", "new", "go" }, file = "main.go" },
+    { label = " TypeScript (index.ts)", cmd = { "basecamp", "new", "ts" }, file = "index.ts" },
+    { label = " C++ (main.cpp)", cmd = { "basecamp", "new", "cpp" }, file = "main.cpp" },
+    { label = " Zig (src/main.zig)", cmd = { "basecamp", "new", "zig" }, file = "src/main.zig" },
+    { label = " Julia (main.jl)", cmd = { "basecamp", "new", "julia" }, file = "main.jl" },
     {
       label = " Elixir (lib/main.ex)",
-      cmd = { "flaker", "new", "elixir" },
+      cmd = { "basecamp", "new", "elixir" },
       file = "lib/main.ex",
     },
     {
       label = " Gleam (src/main.gleam)",
-      cmd = { "flaker", "new", "gleam" },
+      cmd = { "basecamp", "new", "gleam" },
       file = "src/main.gleam",
     },
     {
       label = " Haskell (app/Main.hs)",
-      cmd = { "flaker", "new", "haskell" },
+      cmd = { "basecamp", "new", "haskell" },
       file = "app/Main.hs",
     },
   }
@@ -372,45 +372,45 @@ function M.lang_shell()
   local items = {
     {
       label = " Python (flake.nix + .envrc)",
-      cmd = { "flaker", "shell", "py" },
+      cmd = { "basecamp", "shell", "py" },
       file = "flake.nix",
     },
     {
       label = " Rust (flake.nix + .envrc)",
-      cmd = { "flaker", "shell", "rust" },
+      cmd = { "basecamp", "shell", "rust" },
       file = "flake.nix",
     },
     {
       label = " Go (flake.nix + .envrc)",
-      cmd = { "flaker", "shell", "go" },
+      cmd = { "basecamp", "shell", "go" },
       file = "flake.nix",
     },
     {
       label = " TypeScript (flake.nix + .envrc)",
-      cmd = { "flaker", "shell", "ts" },
+      cmd = { "basecamp", "shell", "ts" },
       file = "flake.nix",
     },
     {
       label = " C++ (flake.nix + .envrc)",
-      cmd = { "flaker", "shell", "cpp" },
+      cmd = { "basecamp", "shell", "cpp" },
       file = "flake.nix",
     },
     {
       label = " Zig (flake.nix + .envrc)",
-      cmd = { "flaker", "shell", "zig" },
+      cmd = { "basecamp", "shell", "zig" },
       file = "flake.nix",
     },
     {
       label = " Julia (flake.nix + .envrc)",
-      cmd = { "flaker", "shell", "julia" },
+      cmd = { "basecamp", "shell", "julia" },
       file = "flake.nix",
     },
     {
       label = "󰡨 DevOps (flake.nix + .envrc)",
-      cmd = { "flaker", "shell", "ops" },
+      cmd = { "basecamp", "shell", "ops" },
       file = "flake.nix",
     },
-    { label = "❄️ Interactive", cmd = { "flaker", "shell" }, file = "flake.nix" },
+    { label = "❄️ Interactive", cmd = { "basecamp", "shell" }, file = "flake.nix" },
   }
 
   vim.ui.select(items, {
@@ -433,13 +433,13 @@ end
 --- Interactive Stack Wizard & Role Selector (<leader>Fk, <leader>wkk)
 function M.interactive()
   local doc = common.get_active_doc()
-  run_interactive({ "flaker", "interactive" }, doc.dir, "Flaker Stack Selector")
+  run_interactive({ "basecamp", "interactive" }, doc.dir, "Basecamp Stack Selector")
 end
 
 --- List Registered Language Roles & Stacks (<leader>FL, <leader>Fll)
 function M.list()
   local doc = common.get_active_doc()
-  run_interactive({ "flaker", "list" }, doc.dir, "Flaker Roles", nil, {
+  run_interactive({ "basecamp", "list" }, doc.dir, "Basecamp Roles", nil, {
     interactive = false,
     auto_close = false,
   })
@@ -448,7 +448,7 @@ end
 --- Diagnose and List Active Roles on Workspace Flake (<leader>FA, <leader>Fa, <leader>Fla)
 function M.active()
   local doc = common.get_active_doc()
-  run_interactive({ "flaker", "active" }, doc.dir, "Flaker Active Roles", nil, {
+  run_interactive({ "basecamp", "active" }, doc.dir, "Basecamp Active Roles", nil, {
     interactive = false,
     auto_close = false,
   })
@@ -469,7 +469,7 @@ M.packages = M.writing_packages
 -- ===================================================================
 
 -- -------------------------------------------------------------------
--- A. Flaker Top-Level Palette (<leader>F...)
+-- A. Basecamp Top-Level Palette (<leader>F...)
 -- -------------------------------------------------------------------
 
 -- Root Shortcuts

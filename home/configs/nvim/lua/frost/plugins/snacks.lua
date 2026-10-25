@@ -172,9 +172,9 @@ return {
                 ["gz"] = "open_zathura",
                 ["gs"] = "open_sioyek",
                 ["gS"] = "open_sioyek_reuse",
-                ["fn"] = "flaker_new",
-                ["fN"] = "flaker_lang_new",
-                ["fa"] = "flaker_active",
+                ["fn"] = "basecamp_new",
+                ["fN"] = "basecamp_lang_new",
+                ["fa"] = "basecamp_active",
               },
             },
           },
@@ -188,16 +188,16 @@ return {
         },
       },
       actions = {
-        flaker_new = function()
-          require("frost.tools.flaker").writing_new()
+        basecamp_new = function()
+          require("frost.tools.basecamp").writing_new()
         end,
 
-        flaker_lang_new = function()
-          require("frost.tools.flaker").lang_new()
+        basecamp_lang_new = function()
+          require("frost.tools.basecamp").lang_new()
         end,
 
-        flaker_active = function()
-          require("frost.tools.flaker").active()
+        basecamp_active = function()
+          require("frost.tools.basecamp").active()
         end,
 
         smart_confirm = function(picker, item)
