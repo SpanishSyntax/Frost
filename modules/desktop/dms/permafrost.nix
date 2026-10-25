@@ -4,14 +4,14 @@
   inputs,
   ...
 }: let
-  cfg = config.frost.desktop.dms.caelestia-greeter;
+  cfg = config.frost.desktop.dms.permafrost;
 in {
   imports = [
     inputs.astra-airlock.nixosModules.default
   ];
 
-  options.frost.desktop.dms.caelestia-greeter.enable =
-    lib.mkEnableOption "Caelestia Greeter";
+  options.frost.desktop.dms.permafrost.enable =
+    lib.mkEnableOption "Permafrost Greeter";
 
   config = lib.mkIf cfg.enable {
     services.greetd.astraAirlock = {
