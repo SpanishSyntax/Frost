@@ -48,5 +48,5 @@ When generating or modifying Nix code in Frost:
 ## Agentic Steps
 1. **Locate Target Path**: Identify where the file belongs in Frost. Check existing sibling modules to match idioms.
 2. **Generate the Module**: Write declarative Nix code matching the standard Frost option schema (`frost.home.apps.<category>.<tool>`).
-3. **Flake Check**: Use `cryo/nix_flake_check` (or `nix flake check`) to ensure no syntax or evaluation errors.
+3. **Flake Check**: Use `sled/nix_flake_check` (or `nix flake check`) to ensure no syntax or evaluation errors.
 4. **Fleet Enablement**: Provide the exact toggle line needed in the host configuration (e.g. `hosts/workstation/home-manager.nix`).
