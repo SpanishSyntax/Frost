@@ -1,5 +1,5 @@
-# Cryo MCP Store & Server Bridge Configuration
-# Managed via `cryo store` (Pack & Tool modes), `cryo enable/disable`, or Home Manager
+# Sled MCP Store & Server Bridge Configuration
+# Managed via `sled store` (Pack & Tool modes), `sled enable/disable`, or Home Manager
 
 [store]
 enabled_packs = [
@@ -97,8 +97,8 @@ enabled_tools = [
   "flaker_list",
   "flaker_info",
   "flaker_init",
-  "folio_build",
-  "folio_assemble",
+  "snowpack_build",
+  "snowpack_assemble",
   "borealis_status",
   "code_format",
   "code_lint",
