@@ -12,7 +12,7 @@ return {
           { pattern = "typst", icon = "󰬛 " },
           { pattern = "latex", icon = " " },
           { pattern = "markdown", icon = " " },
-          { pattern = "firn", icon = " " },
+          { pattern = "goggles", icon = " " },
           { pattern = "pdf", icon = "󰈦 " },
           { pattern = "prism", icon = "💎 " },
         },

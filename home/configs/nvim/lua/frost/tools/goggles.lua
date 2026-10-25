@@ -1,4 +1,4 @@
--- lua/frost/tools/firn.lua
+-- lua/frost/tools/goggles.lua
 local common = require("frost.tools.common")
 
 -- ===================================================================
@@ -13,9 +13,9 @@ local function get_active_markdown()
   return doc.dir, doc.dir
 end
 
-local function launch_firn(extra_args)
+local function launch_goggles(extra_args)
   local target, cwd = get_active_markdown()
-  local cmd = { "firn", target }
+  local cmd = { "goggles", target }
   if extra_args then
     for _, a in ipairs(extra_args) do
       table.insert(cmd, a)
@@ -23,9 +23,9 @@ local function launch_firn(extra_args)
   end
 
   vim.notify(
-    "Opening " .. vim.fn.fnamemodify(target, ":t") .. " in Firn",
+    "Opening " .. vim.fn.fnamemodify(target, ":t") .. " in Goggles",
     vim.log.levels.INFO,
-    { title = "firn" }
+    { title = "goggles" }
   )
 
   vim.fn.jobstart(cmd, {
@@ -38,17 +38,17 @@ end
 -- Keymaps
 -- ===================================================================
 
--- Preview active Markdown buffer in Firn native GFM viewer
+-- Preview active Markdown buffer in Goggles native GFM viewer
 vim.keymap.set("n", "<leader>wmp", function()
-  launch_firn()
-end, { desc = "Firn: Preview active markdown" })
+  launch_goggles()
+end, { desc = "Goggles: Preview active markdown" })
 
 -- Preview active Markdown buffer in GitHub Dark mode
 vim.keymap.set("n", "<leader>wmd", function()
-  launch_firn({ "--dark" })
-end, { desc = "Firn: Preview in dark mode" })
+  launch_goggles({ "--dark" })
+end, { desc = "Goggles: Preview in dark mode" })
 
 -- Preview active Markdown buffer in Wide Frameless mode
 vim.keymap.set("n", "<leader>wmw", function()
-  launch_firn({ "--wide", "--frameless" })
-end, { desc = "Firn: Preview in wide frameless window" })
+  launch_goggles({ "--wide", "--frameless" })
+end, { desc = "Goggles: Preview in wide frameless window" })
