@@ -82,26 +82,31 @@
     barograph = {
       url = "github:SpanishSyntax/Barograph";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
     };
 
     basecamp = {
       url = "github:SpanishSyntax/Basecamp";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
     };
 
     beacon = {
       url = "github:SpanishSyntax/Beacon";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
     };
 
     borealis = {
       url = "github:SpanishSyntax/Borealis";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
     };
 
     goggles = {
       url = "github:SpanishSyntax/Goggles";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
     };
 
     igloo = {
@@ -122,6 +127,7 @@
     rime = {
       url = "github:SpanishSyntax/Rime";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
     };
 
     # shards = {
@@ -132,11 +138,13 @@
     sled = {
       url = "github:SpanishSyntax/Sled";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
     };
 
     snowpack = {
       url = "github:SpanishSyntax/Snowpack";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
     };
 
     #################################################################
