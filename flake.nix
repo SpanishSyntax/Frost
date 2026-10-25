@@ -1,12 +1,29 @@
 {
   description = "Frost - Modular, Declarative NixOS Starter Framework";
   inputs = {
+    # Nix packages
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    #################################################################
+    # Other package managers
+    #################################################################
+
+    flox = {
+      url = "github:flox/flox";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak/?ref=latest";
+    };
+
+    # System
 
     disko = {
       url = "github:nix-community/disko";
@@ -18,13 +35,25 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    #################################################################
+    # Security
+    #################################################################
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    iio-hyprland = {
-      url = "github:commonkestrel/iio-hyprland";
+    autofirma-nix = {
+      url = "github:nix-community/autofirma-nix/develop";
+    };
+
+    #################################################################
+    # Virtualization
+    #################################################################
+
+    compose2nix = {
+      url = "github:aksiksi/compose2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -33,12 +62,35 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    #################################################################
+    # Desktop
+    #################################################################
+
+    iio-hyprland = {
+      url = "github:commonkestrel/iio-hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     mnw = {
       url = "github:Gerg-L/mnw";
     };
 
-    caelestia = {
-      url = "github:caelestia-dots/shell";
+    #################################################################
+    # Icebergs
+    #################################################################
+
+    barograph = {
+      url = "github:SpanishSyntax/Barograph";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    basecamp = {
+      url = "github:SpanishSyntax/Basecamp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    beacon = {
+      url = "github:SpanishSyntax/Beacon";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -47,28 +99,23 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    cryo = {
-      url = "github:SpanishSyntax/Cryo";
+    goggles = {
+      url = "github:SpanishSyntax/Goggles";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    firn = {
-      url = "github:SpanishSyntax/Firn";
+    igloo = {
+      url = "github:SpanishSyntax/Igloo";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flaker = {
-      url = "github:SpanishSyntax/Flaker";
+    permafrost = {
+      url = "github:SpanishSyntax/Permafrost";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    folio = {
-      url = "github:SpanishSyntax/Folio";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    glaze = {
-      url = "github:SpanishSyntax/Glaze";
+    prism = {
+      url = "github:SpanishSyntax/Prism";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -77,32 +124,33 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    prism = {
-      url = "github:SpanishSyntax/Prism";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.rime.follows = "rime";
-    };
-
-    astra-airlock = {
-      url = "github:AstraSuite/Airlock";
+    shards = {
+      url = "github:SpanishSyntax/Shards";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    autofirma-nix.url = "github:nix-community/autofirma-nix/develop";
-
-    flox = {
-      url = "github:flox/flox";
+    sled = {
+      url = "github:SpanishSyntax/Sled";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    snowpack = {
+      url = "github:SpanishSyntax/Snowpack";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    #################################################################
+    # AI
+    #################################################################
 
     antigravity-nix = {
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-flatpak = {
-      url = "github:gmodena/nix-flatpak/?ref=latest";
-    };
+    #################################################################
+    # Browsers
+    #################################################################
 
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
@@ -112,18 +160,12 @@
       };
     };
 
-    compose2nix = {
-      url = "github:aksiksi/compose2nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #################################################################
+    # Music
+    #################################################################
 
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    learnharness = {
-      url = "git+file:///home/usurper/Documents/learnharness";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
