@@ -9,7 +9,7 @@ in {
   imports = [inputs.rime.homeManagerModules.default];
 
   options.frost.home.apps.icebergs.rime = {
-    enable = lib.mkEnableOption "Crystalline zero-dependency terminal UI, ANSI styling, panels, and interactive menu engine";
+    enable = lib.mkEnableOption "Universal space-to-underscore & capitalization utility";
   };
 
   config = lib.mkIf cfg.enable {
