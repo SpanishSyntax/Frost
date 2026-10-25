@@ -205,7 +205,7 @@ Over 110 modular application wrappers managed by Home Manager:
 * **`system`**: `shell` (bat, curl, eza, fastfetch, file, fzf, glow, jq, kitty, magika, pay_respects, pdfgrep, ripgrep, secret_tool, starship, tmux, tree, wget, zoxide, zsh), `core` (bluetooth, sqlite, usbutils, zip), `desktop` (gnome_characters, gnome_file_roller, gnome_files, gnome_system_monitor, thunar), `virtualization` (boxbuddy, devbox, distrobox, docker, kontainer, virt_manager)
 * **`utility`**: `accessories` (calculator, gnome_calculator, gnome_calendar, gnome_clocks, gnome_fretboard, gnome_typing, gnome_weather, memorado, rss)
 * **`gaming`**: `launchers` (gamemode, heroic)
-* **`icebergs`**: `borealis`, `cryo`, `firn`, `flaker`, `folio`, `glaze`, `permafrost`, `prism`, `rime`
+* **`icebergs`**: `barograph`, `basecamp`, `beacon`, `borealis`, `goggles`, `igloo`, `permafrost`, `prism`, `rime`, `shards`, `sled`, `snowpack`
 * **`ai`**: `antigravity`, `flox`, `mcp_hub`, `n8n`, `opencode`
 
 ---
