@@ -45,7 +45,7 @@
     };
 
     autofirma-nix = {
-      url = "github:nix-community/autofirma-nix";
+      url = "github:nix-community/autofirma-nix/develop";
     };
 
     #################################################################
