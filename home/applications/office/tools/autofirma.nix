@@ -30,6 +30,12 @@ in {
     # DNIeRemote for using smartphone as DNIe reader
     programs.dnieremote = {
       enable = true;
+      package = pkgs.callPackage "${inputs.autofirma-nix}/nix/dnieremote/default.nix" {
+        openssl_1_1 = pkgs.openssl_1_1.overrideAttrs (oldAttrs: {
+          meta = (oldAttrs.meta or {}) // {knownVulnerabilities = [];};
+        });
+        glibmm = pkgs.glibmm_2_4 or pkgs.glibmm;
+      };
     };
     # Note: The Android app may not be available on Google Play for modern devices.
     # See the troubleshooting guide for installation alternatives.
