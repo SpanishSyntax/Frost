@@ -104,6 +104,7 @@ enabled_tools = [
   "barograph_build",
   "barograph_list",
   "goggles_view",
+  "searchlight_search",
   "code_format",
   "code_lint",
   "code_check",
