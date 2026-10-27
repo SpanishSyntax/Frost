@@ -129,6 +129,12 @@
       inputs.prism.follows = "prism";
     };
 
+    searchlight = {
+      url = "github:SpanishSyntax/Searchlight";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
+    };
+
     # shards = {
     #   url = "github:SpanishSyntax/Shards";
     #   inputs.nixpkgs.follows = "nixpkgs";
