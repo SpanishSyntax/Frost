@@ -1,6 +1,6 @@
 ---
 name: course-reader
-description: Synthesizes course notes, lecture slides, or textbooks into clean, single-column, mathematically rigorous explainer readers compiled via native Typst or Snowpack. Trigger with /reader or /chapter.
+description: Synthesizes course notes, lecture slides, or textbooks into clean, single-column, mathematically rigorous explainer readers compiled via native Typst or Snowpack. Trigger with /snowpack-reader.
 ---
 
 # Course Reader Generator (Single-Column Technical Reader Engine)
@@ -9,7 +9,7 @@ description: Synthesizes course notes, lecture slides, or textbooks into clean, 
 Synthesizes dense lecture slides, professor notes, and course textbooks into structured, highly readable, single-column technical readers. Built for high pedagogical clarity using TU Delft / European systems engineering standards, pairing mathematical derivations with high-resolution vector visualizations and zero-assumption mechanical intuition.
 
 ## When to Use
-- User types `/reader` or `/chapter`.
+- User types `/snowpack-reader`.
 - User provides raw course slide decks, reader PDFs, or lecture transcripts and requests a comprehensive course reader, cheatsheet notebook, or study companion.
 
 ---

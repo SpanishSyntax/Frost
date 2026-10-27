@@ -1,6 +1,6 @@
 ---
 name: snowpack-slides
-description: Generates high-impact 16:9 widescreen presentation slide decks in native Typst or Snowpack slides mode with vector hero plots and clean keynote cards. Trigger with /slides or /deck.
+description: Generates high-impact 16:9 widescreen presentation slide decks in native Typst or Snowpack slides mode with vector hero plots and clean keynote cards. Trigger with /snowpack-slides.
 ---
 
 # Snowpack Slides Generator (16:9 Keynote Deck Engine)
@@ -9,7 +9,7 @@ description: Generates high-impact 16:9 widescreen presentation slide decks in n
 Generates high-impact, mathematically rigorous 16:9 widescreen presentation slide decks directly compiled via Typst (`slides.typ` or `snowpack slides.md`). Utilizes an Apple Keynote-inspired design system with dark/light themes, clean typography, vector hero plots, and zero-assumption mathematical explanations.
 
 ## When to Use
-- User types `/slides`, `/deck`, or `/presentation`.
+- User types `/snowpack-slides`.
 - User wants to turn course material, technical reports, or research papers into presentation decks.
 
 ---
