@@ -1,12 +1,12 @@
 ---
 name: math-to-sim
-description: Bypasses tedious algebraic derivations by instantly generating and validating Python simulation code to visualize math dynamically, formatted for the basecamp MathVis template.
+description: Bypasses tedious algebraic derivations by instantly generating and validating Python simulation code to visualize math dynamically, formatted for the basecamp Barograph template.
 ---
 
 # Math to Sim
 
 ## Summary
-Bypasses tedious algebraic derivations by generating executable Python code to simulate and visualize dynamical systems, differential equations, and control theory concepts dynamically. Formatted for the clean, zero-boilerplate `basecamp` MathVis template powered by `barograph` for live-reloading preview and multi-backend export.
+Bypasses tedious algebraic derivations by generating executable Python code to simulate and visualize dynamical systems, differential equations, and control theory concepts dynamically. Formatted for the clean, zero-boilerplate `basecamp` Barograph template powered by `barograph` for live-reloading preview and multi-backend export.
 
 ## When to Use
 - User types `/sim` or asks to simulate/visualize a mathematical derivation, differential equation, matrix proof, or control theory concept.
@@ -15,9 +15,9 @@ Bypasses tedious algebraic derivations by generating executable Python code to s
 ## Steps
 1. **State the Physics**: Briefly state what the target equations represent physically (e.g. "Simulating the Zeno chattering of a hybrid bouncing ball with inelastic collisions").
 2. **Scaffold with Basecamp**:
-   - Check if project exists or recommend `basecamp new mv <name>` (or use `sled/basecamp_init`).
-   - Generate the complete, self-contained `plot.py`.
-3. **Basecamp MathVis Template Requirements (Powered by Barograph)**:
+   - Check if project exists or recommend `basecamp new bg <name>` (or `basecamp new barograph`).
+   - Generate the complete, self-contained `plot.py` and optional `dashboard.py`.
+3. **Basecamp Barograph Template Requirements (Powered by Barograph)**:
    - Construct self-contained Plotly or Matplotlib figures directly without boilerplate:
      ```python
      import plotly.graph_objects as go

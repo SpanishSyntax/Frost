@@ -196,8 +196,8 @@ function M.lang_init()
     -- Data & Scientific
     { label = " Python (uv + ruff)", cmd = { "basecamp", "init", "py" }, file = "pyproject.toml" },
     {
-      label = "󰦨 MathVis (Simulation stack)",
-      cmd = { "basecamp", "init", "mv" },
+      label = "📈 Barograph (Plotting stack)",
+      cmd = { "basecamp", "init", "bg" },
       file = "plot.py",
     },
     { label = " Julia", cmd = { "basecamp", "init", "julia" }, file = "Project.toml" },
@@ -324,7 +324,7 @@ function M.lang_new()
   local ctx = common.get_context_dir()
   local items = {
     { label = " Python (main.py)", cmd = { "basecamp", "new", "py" }, file = "main.py" },
-    { label = "󰦨 MathVis (plot.py)", cmd = { "basecamp", "new", "mv" }, file = "plot.py" },
+    { label = "📈 Barograph (plot.py + dashboard.py)", cmd = { "basecamp", "new", "bg" }, file = "plot.py" },
     { label = " Rust (src/main.rs)", cmd = { "basecamp", "new", "rust" }, file = "src/main.rs" },
     { label = " Go (main.go)", cmd = { "basecamp", "new", "go" }, file = "main.go" },
     { label = " TypeScript (index.ts)", cmd = { "basecamp", "new", "ts" }, file = "index.ts" },
