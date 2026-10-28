@@ -1,13 +1,14 @@
 ---
-name: snowpack-slides
+name: deep-slides
 description: >-
-  Generates high-impact 16:9 widescreen presentation slide decks directly
-  compiled with Snowpack or Typst using Keynote-inspired card layouts and
-  vector hero figures. Use this skill when the user asks to turn technical
-  notes, research papers, or algorithms into presentation slides.
+  Compiles high-impact 16:9 widescreen presentation slide decks directly into
+  publication-grade presentation PDFs using Snowpack and Typst with Apple
+  Keynote-style split-hero cards. Use this skill when the user asks to create,
+  compile, or design presentation slides, lecture decks, or conference talk
+  slides.
 ---
 
-# Snowpack Slides Generator (16:9 Keynote Deck Engine)
+# Deep Slides (16:9 Keynote Presentation Deck Engine)
 
 ## Summary
 Generates high-impact, mathematically rigorous 16:9 widescreen presentation slide decks directly compiled via **Snowpack** or native **Typst**. Employs an Apple Keynote-inspired design system with dark/light themes, clean typography, vector hero plots, and zero-assumption mathematical explanations.
@@ -17,29 +18,32 @@ Generates high-impact, mathematically rigorous 16:9 widescreen presentation slid
 - The user requests a 16:9 widescreen presentation deck formatted for Snowpack or Typst.
 - The user wants a clean, publication-grade slide template pairing vector diagrams with concise mathematical bullet points.
 
----
-
-## 1. Presentation Authoring Principles
-
-### Widescreen Layout & Typography
-- **16:9 Aspect Ratio**: Native $1920 \times 1080$ presentation format (`paper: "presentation-16-9"` in Typst, or `mode: slides` in Snowpack).
+## Operational Contract (🏛️ Deep / Production Compiler)
+- **16:9 Widescreen Geometry**: Strictly enforced $1920 \times 1080$ presentation format (`paper: "presentation-16-9"` in Typst, or `mode: slides` in Snowpack). Never portrait or A4.
 - **One Core Concept Per Slide**: Maximize visual engagement. Never crowd slides with walls of text or multi-paragraph blocks.
 - **Split-Hero Card Layout**:
   - **Left Column ($55-60\%$)**: High-resolution vector graphic (SVG) illustrating the geometric, dynamic, or architectural phenomenon.
   - **Right Column ($40-45\%$)**: Concise mathematical formulation, physical intuition, and diagnostic take-away.
-
-### Visuals & Theming
-- **Vector Graphics**: Always embed clean vector SVGs generated via Python plotting scripts (`barograph build plot.py --format svg`) or native Typst `cetz`. Avoid low-resolution raster images or ASCII diagrams.
-- **Theming**:
-  - **Dark Theme (Default)**: Deep slate/black background (`#09090b` / `#000000`) with high-contrast text, accent blue (`#2997ff`), and emerald (`#30d158`).
-  - **Light Theme**: Clean paper background (`#fbfbfd`) with crisp typography.
+- **Toolchain Orchestration**: Scaffolds via **Basecamp**, compiles via **Snowpack** (`slides` mode), and renders hero figures via **Barograph**.
 
 ---
 
-## 2. Scaffolding, Compilation & Tooling Pipeline
+## Visual Design & Theming Rules
 
-### Scaffolding via Basecamp
-Initialize a clean slides workspace using Basecamp:
+### Theming
+- **Dark Theme (Default)**: Deep slate/black background (`#09090b` / `#000000`) with high-contrast text, accent blue (`#2997ff`), and emerald (`#30d158`).
+- **Light Theme**: Clean paper background (`#fbfbfd`) with crisp typography.
+
+### Hero Figures
+- Always embed clean vector SVGs generated via Python plotting scripts (`barograph build plot.py --format svg`) or native Typst `cetz`.
+- Avoid low-resolution raster images or ASCII diagrams.
+
+---
+
+## Toolchain & Compilation Pipeline
+
+### Step 1: Scaffolding via Basecamp
+Initialize a clean slides workspace in the target directory:
 ```bash
 # Initialize a Snowpack workspace configured for 16:9 slides
 basecamp init snowpack slides
@@ -48,7 +52,7 @@ basecamp init snowpack slides
 basecamp init typst:slides
 ```
 
-### Authoring via Snowpack Markdown
+### Step 2: Authoring with Snowpack Markdown
 In Markdown, slide transitions are delineated by horizontal rules (`---`):
 ```markdown
 ---
@@ -74,10 +78,20 @@ engine: typst
 ---
 
 # The Riccati Solution
-...
+
+<div class="split">
+
+![Riccati Convergence](plot_riccati.svg)
+
+- Algebraic Riccati Equation (ARE):
+  $$A^T P + P A - P B R^{-1} B^T P + Q = 0$$
+- Optimal gain: $K = R^{-1} B^T P$
+- Stability guarantee: If $(A, B)$ controllable and $(A, Q^{1/2})$ observable, closed-loop is asymptotically stable.
+
+</div>
 ```
 
-### Compilation via Snowpack
+### Step 3: Compilation via Snowpack
 Compile presentation decks to PDF:
 ```bash
 # Compile slides.md in slides mode with hot-reload watch
@@ -87,7 +101,7 @@ snowpack slides.md -m slides -w
 snowpack slides.typ -w
 ```
 
-### Programmatic Sled MCP Integration
+### Step 4: Programmatic Sled MCP Integration
 Compile slides programmatically during agent sessions using Sled's `snowpack_build` atomic tool:
 ```json
 {
@@ -96,3 +110,5 @@ Compile slides programmatically during agent sessions using Sled's `snowpack_bui
   "engine": "typst"
 }
 ```
+Provide the user with a clickable link to the compiled slide deck:
+`[View Compiled Slide Deck](file:///path/to/slides.pdf)`
