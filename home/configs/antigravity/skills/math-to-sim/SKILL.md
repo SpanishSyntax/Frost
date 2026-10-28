@@ -1,36 +1,79 @@
 ---
 name: math-to-sim
-description: Bypasses tedious algebraic derivations by instantly generating and validating Python simulation code to visualize math dynamically, formatted for the basecamp Barograph template.
+description: >-
+  Generates executable, zero-boilerplate Python simulation and numerical
+  validation scripts to dynamically visualize differential equations,
+  state-space systems, and control concepts using Basecamp and Barograph. Use
+  this skill when the user asks to simulate, numerically validate, or dynamically
+  plot mathematical models, dynamical systems, or control proofs.
 ---
 
 # Math to Sim
 
 ## Summary
-Bypasses tedious algebraic derivations by generating executable Python code to simulate and visualize dynamical systems, differential equations, and control theory concepts dynamically. Formatted for the clean, zero-boilerplate `basecamp` Barograph template powered by `barograph` for live-reloading preview and multi-backend export.
+Generates executable, clean Python simulation scripts to simulate and visualize dynamical systems, ordinary differential equations (ODEs), matrix stability proofs, and control algorithms. Designed for rapid numerical validation within the Frost ecosystem using **Basecamp** for environment scaffolding and **Barograph** for multi-backend figure extraction, live-reload serving, and vector export.
 
 ## When to Use
-- User types `/sim` or asks to simulate/visualize a mathematical derivation, differential equation, matrix proof, or control theory concept.
-- When an analytical solution is intractable or unintuitive and needs an interactive phase portrait, trajectory, or bifurcation diagram.
+- The user asks to simulate, numerically validate, or visualize a system of differential equations, phase portrait, or dynamical trajectory.
+- An analytical algebraic proof is intractable, stiff, or counterintuitive and requires numerical simulation to verify convergence or stability.
+- The user requests a standalone plotting or simulation script formatted for the Frost ecosystem.
 
-## Steps
-1. **State the Physics**: Briefly state what the target equations represent physically (e.g. "Simulating the Zeno chattering of a hybrid bouncing ball with inelastic collisions").
-2. **Scaffold with Basecamp**:
-   - Check if project exists or recommend `basecamp new bg <name>` (or `basecamp new barograph`).
-   - Generate the complete, self-contained `plot.py` and optional `dashboard.py`.
-3. **Basecamp Barograph Template Requirements (Powered by Barograph)**:
-   - Construct self-contained Plotly or Matplotlib figures directly without boilerplate:
+## Operational Procedures
+
+1. **Physical Formulation**:
+   - Briefly define the state vector $x(t)$, inputs $u(t)$, and governing differential or difference equations $\dot{x} = f(x, u, t)$.
+   - Explicitly list physical parameter values with units (mass $m$, damping $c$, stiffness $k$, sampling period $T$).
+
+2. **Scaffold Environment via Basecamp**:
+   - For new simulation projects, utilize Basecamp to generate the reproducible Nix DevShell and starter template:
+     ```bash
+     basecamp init barograph
+     ```
+   - This sets up `flake.nix`, `.envrc`, and a starter `plot.py` with NumPy, SciPy, and Plotly pre-configured.
+
+3. **Construct Barograph-Compatible Simulation (`plot.py`)**:
+   - Structure the script to adhere to Barograph's zero-boilerplate figure extraction protocol:
      ```python
-     import plotly.graph_objects as go
      import numpy as np
+     import plotly.graph_objects as go
      from scipy.integrate import solve_ivp
 
-     # ... compute simulation data ...
+     # Define dynamics
+     def dynamics(t, state, m, c, k):
+         x, v = state
+         return [v, (-c * v - k * x) / m]
+
+     # Numerical integration
+     t_span = (0.0, 10.0)
+     t_eval = np.linspace(t_span[0], t_span[1], 500)
+     sol = solve_ivp(dynamics, t_span, [1.0, 0.0], args=(1.0, 0.2, 5.0), t_eval=t_eval)
+
+     # Top-level figure assignment for Barograph
      fig = go.Figure()
-     fig.add_trace(go.Scatter(x=t, y=y, name="Trajectory"))
-     fig.update_layout(title="Phase Portrait", margin=dict(l=40, r=40, t=60, b=40))
+     fig.add_trace(go.Scatter(x=sol.t, y=sol.y[0], mode="lines", name="Displacement (m)"))
+     fig.add_trace(go.Scatter(x=sol.t, y=sol.y[1], mode="lines", name="Velocity (m/s)"))
+     fig.update_layout(
+         title="Damped Harmonic Oscillator",
+         xaxis_title="Time (s)",
+         yaxis_title="State Amplitude",
+         margin=dict(l=40, r=40, t=60, b=40),
+     )
      ```
-   - Barograph automatically extracts `fig`, streams live preview via `barograph serve`, and handles vector/raster batch builds via `barograph build`.
-   - **Do NOT call `fig.show()`** or hardcode `index.html`.
-4. **Agentic Execution & Verification**:
-   - Verify that `scipy` converges without `LinAlgError`, unhandled zero-divisions, or `NaN`s, and run `barograph build` or `barograph serve --no-open` to confirm figure renders cleanly.
-5. **Highlight Key Variables**: Explicitly map code variables back to the abstract mathematical symbols from the paper/derivation.
+   - **Critical Rule**: Do NOT call `fig.show()` or `plt.show()`. Barograph automatically discovers `fig` or the Matplotlib figure stack.
+
+4. **Execution & Validation via Barograph**:
+   - **Interactive Live Preview**:
+     ```bash
+     barograph serve plot.py
+     ```
+     Starts a local HTTP server with automatic port discovery, file-watching, and instant browser synchronization.
+   - **Batch Vector Export**:
+     ```bash
+     barograph build plot.py --format svg
+     ```
+     Compiles figures to standalone SVG or HTML files ready for inclusion in readers, slide decks, or documentation.
+   - **Sled Programmatic MCP**: In agentic workflows, inspect and compile plots using Sled's `barograph_list` and `barograph_build` atomic tools.
+
+5. **Numerical Sanity Check**:
+   - Ensure simulations converge cleanly without `NaN`s, unhandled singularities, or solver warnings (`sol.success == True`).
+   - Clearly map code variables back to the abstract mathematical symbols from the original derivation.
