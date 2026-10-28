@@ -1,91 +1,135 @@
 ---
 name: deep-interactive
 description: >-
-  Generates interactive algorithmic explainer sites and Antigravity Artifacts
-  with embedded data visualizations and live browser previews powered by
-  Barograph. Use this skill when the user asks for an interactive explainer,
-  visual deep-dive, or dynamic algorithmic demonstration.
+  Generates interactive algorithmic explainer sites, live simulation
+  dashboards, and Antigravity Artifacts powered by Lantern (lantern serve,
+  lantern build), with embedded numerical plots executed via Barograph. Use this
+  skill when the user asks for an interactive explainer, visual deep-dive,
+  dynamic simulation dashboard, or browser-based algorithmic demonstration.
 ---
 
-# Deep Interactive (Visual Algorithmic Explainer & Live Dashboard Engine)
+# Deep Interactive (Interactive Explainer & Simulation Dashboard Engine)
 
 ## Summary
-Generates interactive, multi-section algorithmic explainer sites and Antigravity Markdown Artifacts with custom data visualizations, state-transition diagrams, and live-reloading browser preview powered by **Barograph**. Connects high-level intuition with mathematical derivations, parameter sensitivity explorations, and interactive plots.
+Generates interactive, production-grade algorithmic explainer sites, live simulation dashboards, and Antigravity Artifacts powered by **Lantern** as the interactive web counterpart to **Snowpack**, with numerical simulation plots executed and extracted via **Barograph**. Binds high-level physical intuition, rich KaTeX mathematics, and Mermaid diagrams with live parameter sliders, HTML5 canvases, and Plotly visualizations.
 
 ## When to Use
-- The user asks for an "interactive explainer", "visual deep-dive", "algorithmic breakdown with live plots", or "interactive dashboard".
-- An algorithm, dynamical model, or optimization scheme requires parameter exploration (e.g., zooming into trajectories, toggling state variables, viewing convergence surfaces).
-- The user wants companion simulation scripts with live browser hot-reload alongside documentation.
+- The user asks for an "interactive explainer", "visual deep-dive", "simulation dashboard", "interactive HTML demonstration", or "live parameter lab".
+- An algorithm, dynamical system, or optimization scheme requires dynamic parameter exploration (e.g., interactive convergence walkers, penalty/barrier sliders, phase portrait zooming, live state metrics).
+- The user wants a companion interactive web dashboard alongside static Snowpack PDFs (`deep-reader` / `deep-slides`).
 
 ## Operational Contract (🏛️ Deep / Production Compiler)
-- **Progressive Disclosure**: Emits an interactive Antigravity Markdown Artifact layered as: (1) High-level problem statement and physical intuition, (2) Embedded vector or interactive visualization, (3) Mermaid architectural flowchart, and (4) Expandable mathematical derivation and complexity bounds.
-- **Barograph Zero-Boilerplate Protocol**: Scripts (`plot.py`) construct standard **Plotly** (`fig = go.Figure()`) or **Matplotlib/Seaborn** figures without calling `fig.show()`. Barograph auto-extracts the top-level `fig` object.
-- **Live Preview Daemons**: Can launch `barograph serve plot.py` to spawn a local HTTP server with automatic port discovery, file-watching, and instant browser synchronization.
-- **Batch Export**: Emits standalone SVG or HTML files via `barograph build plot.py` or Sled MCP tool `barograph_build`.
+- **Web Counterpart to Snowpack**: Where `Snowpack` compiles static, publication-grade PDFs (Typst/LaTeX), `Lantern` compiles and serves dynamic, interactive web explainers (DOM, HTML5 Canvas, live parameter sliders, KaTeX math, Plotly embeds).
+- **Barograph Separation of Concerns**: Python simulation scripts (`plot_*.py`) are executed and extracted via `Barograph`, while `Lantern` handles the Markdown narrative, live-reloading dev server, interactive widgets, and standalone HTML bundle compilation.
+- **Live Preview Daemons**: Spawns `lantern serve explainer.md` (or Sled MCP `lantern_serve`) for real-time browser preview with server-sent events (SSE) auto-reload on file edits.
+- **Standalone Delivery**: Compiles zero-dependency, self-contained single `.html` files via `lantern build explainer.md -o dist/ --standalone` (or Sled MCP `lantern_build`).
 
 ---
 
 ## Toolchain & Execution Pipeline
 
-### Step 1: Script Construction (`plot.py`)
-Write the self-contained simulation script adhering to Barograph protocols:
-```python
-import numpy as np
-import plotly.graph_objects as go
-from scipy.integrate import solve_ivp
+```mermaid
+flowchart TD
+    subgraph Authoring["1. Authoring Layer"]
+        Plots["Python Plot Scripts<br/>(plot_*.py via Barograph)"]
+        Doc["Explainer Narrative<br/>(explainer.md with ::: Directives)"]
+    end
 
-# Define dynamic system (e.g. Lorenz Attractor)
-def lorenz(t, state, sigma=10.0, rho=28.0, beta=8.0 / 3.0):
-    x, y, z = state
-    return [sigma * (y - x), x * (rho - z) - y, x * y - beta * z]
+    subgraph Engine["2. Lantern Engine"]
+        Directives["Lantern Compiler<br/>(HTML5 Canvas, KaTeX, Sliders)"]
+        BaroExec["Barograph Plot Runner<br/>(In-Process / CLI Export)"]
+    end
 
-t_span = (0.0, 40.0)
-t_eval = np.linspace(t_span[0], t_span[1], 4000)
-sol = solve_ivp(lorenz, t_span, [1.0, 1.0, 1.0], t_eval=t_eval)
+    subgraph Output["3. Delivery & Serving"]
+        Serve["lantern serve explainer.md<br/>(Live SSE Browser Sync)"]
+        Build["lantern build -o dist/ --standalone<br/>(Self-Contained HTML)"]
+        Companion["Snowpack Companion<br/>(deep-reader / deep-slides PDF)"]
+    end
 
-# Construct interactive 3D figure
-fig = go.Figure()
-fig.add_trace(
-    go.Scatter3d(
-        x=sol.y[0],
-        y=sol.y[1],
-        z=sol.y[2],
-        mode="lines",
-        line=dict(color=sol.t, colorscale="Viridis", width=2),
-        name="Phase Trajectory",
-    )
-)
-fig.update_layout(
-    title="Lorenz Strange Attractor Phase Space",
-    scene=dict(xaxis_title="X", yaxis_title="Y", zaxis_title="Z"),
-    margin=dict(l=0, r=0, t=40, b=0),
-)
+    Plots --> BaroExec
+    Doc --> Directives
+    BaroExec --> Directives
+    Directives --> Serve
+    Directives --> Build
+    Build -.-> Companion
 ```
 
-### Step 2: Live Browser Serving via Barograph
-Start the interactive server:
-```bash
-barograph serve plot.py
-```
-This discovers an open port, pushes the interactive Plotly HTML to the default browser, and continuously watches `plot.py` for updates.
+### Step 1: Write Standalone Python Plot Scripts (`plot_*.py`)
+Write focused, self-contained Python plotting scripts adhering to Barograph protocols:
+- Use standard **Plotly** (`fig = go.Figure()`) or **Matplotlib/Seaborn**.
+- **Do NOT call `fig.show()` or `plt.show()`**; Barograph automatically discovers and extracts `fig`.
+- Example (`plot_trajectory.py`):
+  ```python
+  import numpy as np
+  import plotly.graph_objects as go
+  from scipy.integrate import solve_ivp
 
-### Step 3: Batch Vector & HTML Export
-Compile standalone visual assets for inclusion in Artifacts:
-```bash
-barograph build plot.py --format svg --out-dir dist/
-barograph build plot.py --format html --out-dir dist/
-```
-Or via Sled MCP:
-```json
-{
-  "path": "plot.py",
-  "format": "svg"
-}
-```
+  def dynamics(t, state):
+      x, v = state
+      return [v, -0.3 * v - np.sin(x)]
 
-### Step 4: Antigravity Markdown Artifact Construction
-Create a comprehensive Markdown Artifact combining:
-1. **Executive Concept & Physical Analogy**: Intuitive grounding of the algorithm.
-2. **Interactive Visual Link / Embedded Plot**: Link to live localhost server or embedded SVG.
-3. **Mermaid Flowchart**: Visualizing algorithmic iterations, convergence checks, or state transitions.
-4. **Mathematical Derivation**: Formal proofs, Lyapunov candidate functions, and asymptotic stability bounds.
+  t_eval = np.linspace(0, 20, 1000)
+  sol = solve_ivp(dynamics, (0, 20), [2.5, 0.0], t_eval=t_eval)
+
+  fig = go.Figure()
+  fig.add_trace(go.Scatter(x=sol.t, y=sol.y[0], mode="lines", name="Angle θ(t)"))
+  fig.add_trace(go.Scatter(x=sol.t, y=sol.y[1], mode="lines", name="Velocity ω(t)"))
+  fig.update_layout(
+      title="Nonlinear Pendulum Dynamics",
+      xaxis_title="Time (s)",
+      yaxis_title="State Amplitude",
+      margin=dict(l=40, r=40, t=50, b=40),
+  )
+  ```
+
+### Step 2: Compose Narrative & Interactive Directives (`explainer.md`)
+Compose the document in `explainer.md` using Lantern's custom Markdown directives:
+
+1. **`::: plot <script.py> [backend=plotly|svg] [height=500px]`**:
+   Executes the plotting script via `barograph` and embeds the interactive Plotly div or vector SVG.
+   ```markdown
+   ::: plot plot_trajectory.py backend=plotly height=520px
+   :::
+   ```
+
+2. **`::: canvas-walker [landscape=rosenbrock|ellipse|rastrigin|saddle] [algorithms=gd,armijo,newton,bfgs,momentum]`**:
+   Injects a high-DPI HTML5 interactive canvas with real-time algorithm simulation, click-to-seed coordinate picker, and live readout metrics.
+   ```markdown
+   ::: canvas-walker landscape=rosenbrock algorithms=gd,armijo,newton,bfgs,momentum
+   :::
+   ```
+
+3. **`::: barrier-vs-penalty`**:
+   Injects an interactive constraint boundary lab with real-time penalty/barrier multiplier sliders and 2D contour + 1D slice plots.
+   ```markdown
+   ::: barrier-vs-penalty
+   :::
+   ```
+
+4. **`::: callout type=[note|tip|warning|danger]`**:
+   GitHub/Frost style alert boxes.
+   ```markdown
+   ::: callout type=tip
+   Second-order methods like Newton-Raphson achieve quadratic convergence near the local optimum.
+   :::
+   ```
+
+### Step 3: Launch Live Preview or Build Standalone HTML
+* **Live Serving with Hot-Reload**:
+  ```bash
+  lantern serve explainer.md
+  ```
+  Or via Sled MCP tool `lantern_serve(path="explainer.md")`.
+  Spawns the local HTTP server with automatic port discovery, watches Markdown and Python files, and pushes instant browser updates over SSE.
+
+* **Production Standalone Compilation**:
+  ```bash
+  lantern build explainer.md -o dist/ --standalone
+  ```
+  Or via Sled MCP tool `lantern_build(path="explainer.md", out_dir="dist", standalone=True)`.
+  Compiles a zero-dependency, single `.html` file ready for sharing, hosting, or embedding in Antigravity Artifacts.
+
+### Step 4: Companion Static Deliverables via Snowpack
+When presenting the work, link the interactive Lantern explainer directly to its static companion deliverables:
+* Formal syllabus textbook chapter: [`deep-reader`](file:///home/usurper/Frost/home/configs/antigravity/skills/deep-reader/SKILL.md) (`snowpack report.md -m report`)
+* 16:9 keynote presentation deck: [`deep-slides`](file:///home/usurper/Frost/home/configs/antigravity/skills/deep-slides/SKILL.md) (`snowpack slides.md -m slides`)
