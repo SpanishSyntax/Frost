@@ -643,11 +643,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793294944,
-        "narHash": "sha256-EkTxw3kx7mtJ3FWqayZzhBnvTphah7Z45QSYH4NWF9A=",
+        "lastModified": 1793307101,
+        "narHash": "sha256-kFeWbBfLJpPjKXEjBfpzwjNMsOTkxm6wghBgCrK6xEQ=",
         "owner": "SpanishSyntax",
         "repo": "Goggles",
-        "rev": "5c9195629ec966abc27d946ebd0c5b95007c8e87",
+        "rev": "3435f9ea68138ca64991f98dd1b3e6dd258a080c",
         "type": "github"
       },
       "original": {
