@@ -10,7 +10,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs.stirling-pdf-desktop
+      pkgs.unstable.stirling-pdf-desktop
     ];
   };
 }
