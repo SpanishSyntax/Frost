@@ -201,14 +201,37 @@ All controls emit standard DOM custom events (`lantern:input` with `{ id, value 
 #### ⚡ Family 3: Editorial Content, Feedback & Micro-Interactions
 1. **`::: plot <script.py> [backend=plotly|svg] [height=500px] [title="..."]`**:
    Runs script in-process via Barograph and embeds the interactive plot with fullscreen lightbox.
-   - If `title="..."` is declared: renders only the plot title string (no redundant marketing badges).
-   - If `title` is omitted: renders clean plot canvas without header.
+   - **Automatic Reactive Frame Sync**: If `plot.py` defines Plotly `frames` named with parameter numbers (e.g. `f"{w:.2f}"`) or `f"{id}:{val}"`, moving any Markdown `::: slider id="..."` automatically scrubs Plotly frames at 60 FPS without camera jump!
+   - **Camera & Zoom Lock**: Automatically injects `uirevision` so 3D orbital camera orientation and 2D pan/zoom ranges stay locked when frames change.
    ```markdown
    ::: plot plot_membrane.py backend=plotly height=480px title="Fundamental Eigenmode"
    :::
    ```
 
-2. **`::: tabs`**:
+2. **`::: math-plot fn="..." [domain="0, 10"] [height=360px] [title="..."]`**:
+   Instant client-side 60 FPS mathematical formula evaluator. Evaluates `fn` across `domain` using live slider variables (`omega`, `gamma`, `alpha`, `beta`, `k`, `A`):
+   ```markdown
+   ::: slider id="omega" label="Frequency" min=1 max=15 default=4
+   :::
+   ::: math-plot fn="Math.exp(-gamma * x) * Math.cos(omega * x)" domain="0, 10" height=380px title="Damped Wave"
+   :::
+   ```
+
+3. **`::: widget [id="..."] [height=360px] [title="..."]`**:
+   Composable Generative Sandbox for custom physics, canvas animations, and interactive models. Provides High-DPI auto-resizing canvas, `ctx`, `theme`, and live parameter lookup via `window.lantern.get(id, default)`:
+   ```markdown
+   ::: widget id="cart-pendulum" height=320px title="Inverted Pendulum Lab"
+   let theta = 0.2;
+   function loop() {
+     const damping = window.lantern.get('gamma', 0.2);
+     // Draw to ctx using theme.cyan, theme.purple...
+     requestAnimationFrame(loop);
+   }
+   requestAnimationFrame(loop);
+   :::
+   ```
+
+4. **`::: tabs`**:
    Multi-perspective tabbed switcher:
    ```markdown
    ::: tabs
