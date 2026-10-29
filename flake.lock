@@ -810,11 +810,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793232408,
-        "narHash": "sha256-5++9amOvh6BPkuZZqWpqdm8ZuEqbS+iCsCPCoNs6zTA=",
+        "lastModified": 1793291867,
+        "narHash": "sha256-ymqAGElQ8zdhZOk+aQJgQRCAKsXdLOoOW6w2SFd8QCU=",
         "owner": "SpanishSyntax",
         "repo": "Lantern",
-        "rev": "ac7a9ef6733c866a9149ae482aca4d3b49443acd",
+        "rev": "fc92b48f13150e12822fe4d0fce5f81e3c8c37b6",
         "type": "github"
       },
       "original": {
