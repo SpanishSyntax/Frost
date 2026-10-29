@@ -163,6 +163,21 @@ Write focused, self-contained Python plotting scripts adhering to Barograph prot
   ```
   Compiles a zero-dependency, single `.html` file ready for sharing, hosting, or embedding in Antigravity Artifacts.
 
+* **Production Bundle & Server Export**:
+  Export deployable static bundles or standalone Python Jinja2 projects:
+  ```bash
+  lantern export explainer.md --format static   # Deployable static bundle for Caddy / Nginx / Cloudflare
+  lantern export explainer.md --format jinja    # Standalone Jinja2 WSGI project (app.py, templates, Dockerfile)
+  ```
+
+* **Agent & Tool Automation Mode**:
+  Pass `--agent` (`-A`) or `--json` to suppress ANSI boxes and emit compact, structured JSON payloads:
+  ```bash
+  lantern status --json
+  lantern build explainer.md --json
+  lantern export explainer.md --json
+  ```
+
 ---
 
 ### Step 4: Companion Static Deliverables via Snowpack
