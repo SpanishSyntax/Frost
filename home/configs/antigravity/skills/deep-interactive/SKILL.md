@@ -88,58 +88,191 @@ Write focused, self-contained Python plotting scripts adhering to Barograph prot
 
 ### Step 2: Compose Narrative & Interactive Directives (`explainer.md`)
 
-`Lantern` provides a complete, two-tier design system right inside Markdown:
+`Lantern` provides a complete, production-grade component ecosystem right inside Markdown. All components have built-in styling, zero runtime dependencies, and work offline.
+
+#### 📄 Document Frontmatter
+```yaml
+---
+title: "Document Title"
+subtitle: "Analytical Subtitle or Abstract"
+author: "Research Group / Author"
+date: "2026-10-29"                # Optional (omitted if not declared)
+badge: "Interactive Lab"          # Optional hero badge
+footer: "Custom footer text"      # Optional footer override
+nav_dots: true                    # Set false to disable vertical dot rail
+snowpack_pdf: "report.pdf"        # Optional link to companion PDF reader
+template: explainer               # 'explainer' (default) or 'dashboard'
+---
+```
 
 #### 📐 Family 1: Layout Strips & Spatial Chrome
-1. **`::: grid [50/50 | 60/40 | 40/60 | 3-col | 4-col]`**:
-   Creates responsive side-by-side rows. Automatically collapses on mobile.
+1. **`::: grid [50/50 | 60/40 | 40/60 | 3-col | 33/33/33 | 4-col]`**:
+   Creates responsive multi-column layouts with equal-height baseline enforcement:
    ```markdown
    ::: grid 60/40
-   === Left
-   ::: plot plot_trajectory.py height=500px
+   === Simulation View
+   ::: plot plot_trajectory.py height=480px title="Phase Orbit"
    :::
 
-   === Right
-   ### Parameter Exploration
-   ::: slider id="damping" label="Damping Coefficient γ" min=0.0 max=2.0 step=0.1 default=0.3
+   === Controls
+   ::: card title="Parameters" icon="🎛️"
+   ::: slider id="gamma" label="Damping" min=0.0 max=2.0 step=0.1 default=0.3 unit=""
    :::
-   ::: metrics
-   - Settling Time: 4.2 s
-   - Peak Overshoot: 18.4 %
-   - State: Stable
    :::
    :::
    ```
+
 2. **`::: card [title="..."] [badge="..."] [icon="..."]`**:
-   Glassmorphic bordered boxes inside any column or document flow.
+   Glassmorphic elevated card with optional header icon, title, and status badge:
+   ```markdown
+   ::: card title="Boundary Mechanics" badge="Active" icon="📐"
+   Card content, equations ($x^2$), and control atoms.
+   :::
+   ```
+
 3. **`::: stepper id="..."`**:
-   Step-by-step phase indicators for multi-stage algorithms (e.g., Step 1 $\to$ Step 2 $\to$ Step 3).
-4. **`::: curtain`**:
-   Draggable split-slider revealing before/after or comparison states.
+   Zero-jerk progressive phase walkthrough using CSS Grid stacking:
+   ```markdown
+   ::: stepper id="solver-stepper"
+   === Step 1: Formulation
+   Formulate continuous operator $-\Delta u = \lambda u$.
+
+   === Step 2: Discretization
+   Discretize on mesh $h = \Delta x$.
+
+   === Step 3: Spectral Solve
+   Solve generalized eigenvalue matrix system $K \mathbf{u} = \lambda M \mathbf{u}$.
+   :::
+   ```
+
+4. **`::: curtain [before="Before"] [after="After"]`**:
+   Side-by-side or before/after comparison split cards:
+   ```markdown
+   ::: curtain before="Initial Mesh" after="Refined Mesh"
+   Content or plots for initial state.
+   ===
+   Content or plots for refined state.
+   :::
+   ```
 
 #### 🎛️ Family 2: Interactive Controls & Lab Inputs
+All controls emit standard DOM custom events (`lantern:input` with `{ id, value }`) and update live badge readouts without page reloads.
+
 1. **`::: slider id="..." label="..." min=... max=... step=... default=... [unit="..."]`**:
-   Parameter slider with a live numeric readout badge updating synchronously on drag.
+   ```markdown
+   ::: slider id="alpha" label="Step Size α" min="0.001" max="0.1" step="0.005" default="0.01" unit="s"
+   :::
+   ```
+
 2. **`::: switch id="..." label="..." [default=true|false]`**:
-   Smooth iOS-style boolean toggle switch.
+   ```markdown
+   ::: switch id="damping" label="Enable Damping Regularization" default=true
+   :::
+   ```
+
 3. **`::: segments id="..." default="..."`**:
-   Mutually exclusive tactile pill button selector group.
-4. **`::: player target="..."`**:
-   Simulation media bar (`[ ⏮ Reset ] [ ⏯ Play/Pause ] [ ⏭ Step ]`, speed multipliers).
+   Mutually exclusive tactile pill button selector group:
+   ```markdown
+   ::: segments id="mode-selector" default="fine"
+   - [coarse]: Coarse Mesh (30×30)
+   - [fine]: Fine Mesh (60×60)
+   - [ultra]: Ultra Resolution (120×120)
+   :::
+   ```
+
+4. **`::: select id="..." label="..." [default="..."]`**:
+   Native dropdown selector with themed obsidian skin:
+   ```markdown
+   ::: select id="colormap" label="Colormap Palette"
+   - [jet]: Jet (MATLAB Retro)
+   - [viridis]: Viridis
+   - [magma]: Magma
+   - [ice]: Obsidian Frost
+   :::
+   ```
+
+5. **`::: player id="..." target="..." speeds="0.5x, 1x, 2x, 5x"`**:
+   Simulation transport media scrub bar (`[⏮ Reset] [⏯ Play/Pause] [⏭ Step]`):
+   ```markdown
+   ::: player id="sim-player" target="phase-space" speeds="0.5x, 1x, 2x, 5x"
+   :::
+   ```
 
 #### ⚡ Family 3: Editorial Content, Feedback & Micro-Interactions
-1. **`::: plot <script.py> [backend=plotly|svg] [height=500px]`**:
-   Executes via `Barograph` and embeds the figure with a full-screen lightbox expander button.
+1. **`::: plot <script.py> [backend=plotly|svg] [height=500px] [title="..."]`**:
+   Runs script in-process via Barograph and embeds the interactive plot with fullscreen lightbox.
+   - If `title="..."` is declared: renders only the plot title string (no redundant marketing badges).
+   - If `title` is omitted: renders clean plot canvas without header.
+   ```markdown
+   ::: plot plot_membrane.py backend=plotly height=480px title="Fundamental Eigenmode"
+   :::
+   ```
+
 2. **`::: tabs`**:
-   Multi-perspective tabbed view switcher (e.g. `=== Intuition`, `=== Derivation`, `=== Simulation`).
-3. **`::: accordion title="..." [open]`**:
-   Smooth collapsible deep-dive cards for proofs, derivations, and appendices.
-4. **`::: metrics`**:
-   KPI stat cards with bold figures and status badges.
+   Multi-perspective tabbed switcher:
+   ```markdown
+   ::: tabs
+   === Theory & Derivation
+   Mathematical formulation with KaTeX display math:
+   $$\min_{x} f(x) \quad \text{subject to} \quad g(x) \le 0$$
+
+   === Discrete Implementation
+   ```python
+   def solve_eigenvalues(K, M):
+       return scipy.linalg.eigh(K, M)
+   ```
+   :::
+
+3. **`::: accordion title="..." [open=true|false]`**:
+   Collapsible deep-dive cards for proofs, derivations, and appendices:
+   ```markdown
+   ::: accordion title="Proof of Quadratic Convergence for Newton-Raphson"
+   Let $e_k = x_k - x^*$. By Taylor expansion:
+   $$\|e_{k+1}\| \le \frac{L}{2 \mu} \|e_k\|^2$$
+   :::
+   ```
+
+4. **`::: metrics [cols=2|3|4]`**:
+   KPI status row with color badges (`emerald`, `cyan`, `purple`, `amber`, `rose`):
+   ```markdown
+   ::: metrics cols=4
+   - Iterations: 42
+   - Residual: 1.2e-7 [badge=emerald]
+   - Condition Number: 18.4 [badge=cyan]
+   - Convergence: Verified [badge=purple]
+   :::
+   ```
+
 5. **`::: comparison`**:
-   Two-column side-by-side trade-off cards (Method A vs. Method B).
-6. **`::: callout type=[note|tip|warning|danger]`**:
-   Alert banners.
+   Two-column comparative trade-off card (Method A vs. Method B):
+   ```markdown
+   ::: comparison
+   === Left: First-Order Gradient Descent
+   - Memory complexity $O(n)$
+   - Linear convergence rate $O(1/k)$
+
+   === Right: Second-Order Newton-Raphson
+   - Memory complexity $O(n^2)$
+   - Quadratic local convergence
+   :::
+   ```
+
+6. **`::: callout type=[note|tip|warning|danger] [title="..."]`**:
+   Callout alert banner:
+   ```markdown
+   ::: callout type=tip title="Mesh Refinement"
+   Corner singularities require graded geometric bisection near the reentrant vertex.
+   :::
+   ```
+
+7. **`[?term: hint]` Inline Tooltips**:
+   Contextual hover tooltips for specialized nomenclature:
+   ```markdown
+   Near the [?reentrant corner: An interior corner angle greater than 180 degrees that induces singular stress fields], stress approaches infinity.
+   ```
+
+8. **Automated Floating Section Dot Rail**:
+   Lantern automatically generates an active ScrollSpy vertical dot rail on the right margin from all `## Section` headings when 2 or more sections exist. Hovering any dot shows the section title, and clicking smoothly scrolls to that anchor. Toggle off with `nav_dots: false` in frontmatter if not desired.
 
 ---
 
