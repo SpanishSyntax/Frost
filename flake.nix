@@ -113,6 +113,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    lantern = {
+      url = "github:SpanishSyntax/Lantern";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
+    };
+
     # permafrost = {
     #   url = "github:SpanishSyntax/Permafrost";
     #   inputs.nixpkgs.follows = "nixpkgs";
