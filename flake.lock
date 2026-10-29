@@ -100,11 +100,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793120255,
-        "narHash": "sha256-QRCk8yA2o0ugz/LeoMPiYO/dss6RWnugBJh2+dLpuzk=",
+        "lastModified": 1793230273,
+        "narHash": "sha256-qzK8+ugIT64ddii93IBYHF+xxp45xoQC6hf0kentcT8=",
         "owner": "SpanishSyntax",
         "repo": "Barograph",
-        "rev": "af74359c4bb347f527f687ceb19b69a168114835",
+        "rev": "4cf33c163ce2f33a22590f7aeaa12e174044d1fc",
         "type": "github"
       },
       "original": {
@@ -643,11 +643,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792964531,
-        "narHash": "sha256-dOgYJRRMTE/5SzaJMhKEoy7t7OS2H88wHMEbfGQtRac=",
+        "lastModified": 1793294944,
+        "narHash": "sha256-EkTxw3kx7mtJ3FWqayZzhBnvTphah7Z45QSYH4NWF9A=",
         "owner": "SpanishSyntax",
         "repo": "Goggles",
-        "rev": "564f16316372f2690a276d597741d95f7983c6af",
+        "rev": "5c9195629ec966abc27d946ebd0c5b95007c8e87",
         "type": "github"
       },
       "original": {
@@ -810,11 +810,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793291867,
-        "narHash": "sha256-ymqAGElQ8zdhZOk+aQJgQRCAKsXdLOoOW6w2SFd8QCU=",
+        "lastModified": 1793295130,
+        "narHash": "sha256-Sopttv9F17+9Hy3KPc7/H27fG9QHwwr57wdeCklmXHk=",
         "owner": "SpanishSyntax",
         "repo": "Lantern",
-        "rev": "fc92b48f13150e12822fe4d0fce5f81e3c8c37b6",
+        "rev": "88b8391751d90dad11460db9476f561799237b20",
         "type": "github"
       },
       "original": {
