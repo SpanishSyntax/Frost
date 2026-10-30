@@ -17,6 +17,11 @@ in {
       default = 22;
       description = "SSH server port";
     };
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to open the SSH port in the firewall.";
+    };
     user = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = null;
@@ -64,7 +69,8 @@ in {
         port = 22;
 
         authorizedKeys =
-          if cfg.user != null then
+          if cfg.user != null
+          then
             builtins.filter
             (key: !lib.strings.hasPrefix "sk-" key)
             (config.users.users."${cfg.user}".openssh.authorizedKeys.keys or [])
@@ -80,6 +86,7 @@ in {
     # --- Standard System OpenSSH Configuration ---
     services.openssh = {
       enable = true;
+      openFirewall = cfg.openFirewall;
       ports = [cfg.port];
 
       # --- KEY CREATION LOGIC ---
@@ -92,11 +99,13 @@ in {
       };
     };
 
-    users.users = {
-      root.openssh.authorizedKeys.keys = cfg.rootAuthorizedKeys;
-    } // lib.optionalAttrs (cfg.user != null) {
-      "${cfg.user}".openssh.authorizedKeys.keys = cfg.authorizedKeys;
-    };
+    users.users =
+      {
+        root.openssh.authorizedKeys.keys = cfg.rootAuthorizedKeys;
+      }
+      // lib.optionalAttrs (cfg.user != null) {
+        "${cfg.user}".openssh.authorizedKeys.keys = cfg.authorizedKeys;
+      };
 
     services.fail2ban = {
       enable = true;
@@ -105,6 +114,22 @@ in {
         enable = true;
         rndtime = "30m";
       };
+    };
+
+    # Impermanence persistence for host keys, dropbear keys, and fail2ban state
+    frost.storage.impermanence = {
+      directories = [
+        "/var/lib/fail2ban"
+      ];
+      files =
+        [
+          "/etc/ssh/ssh_host_ed25519_key"
+          "/etc/ssh/ssh_host_ed25519_key.pub"
+        ]
+        ++ lib.optionals cfg.initrdUnlock.enable [
+          "/etc/secrets/initrd/dropbear_ed25519_host_key"
+          "/etc/secrets/initrd/dropbear_ed25519_host_key.pub"
+        ];
     };
   };
 }

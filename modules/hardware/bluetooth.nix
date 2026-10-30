@@ -13,5 +13,9 @@ in {
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;
     # services.blueman.enable = true; # Enables the DBus service blueman needs
+
+    frost.storage.impermanence.directories = [
+      "/var/lib/bluetooth"
+    ];
   };
 }

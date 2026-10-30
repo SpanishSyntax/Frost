@@ -48,7 +48,7 @@ in {
     networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [80 443];
 
     # Impermanence persistence for internal CA certificates and state
-    environment.persistence."/persist".directories = lib.mkIf (config.frost.storage.impermanence.enable or false) [
+    frost.storage.impermanence.directories = [
       "/var/lib/caddy"
     ];
 

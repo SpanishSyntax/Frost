@@ -10,26 +10,32 @@ in {
 
   options.frost.storage.impermanence = {
     enable = lib.mkEnableOption "Impermanence layer";
+    persistPath = lib.mkOption {
+      type = lib.types.str;
+      default = "/persist";
+      description = "Root mount path for persistent storage.";
+    };
     directories = lib.mkOption {
       type = lib.types.listOf lib.types.anything;
       default = [];
+      description = "Directories to persist across boots.";
     };
     files = lib.mkOption {
       type = lib.types.listOf lib.types.anything;
       default = [];
+      description = "Files to persist across boots.";
     };
   };
 
   config = lib.mkIf cfg.enable {
-    fileSystems."/persist".neededForBoot = true;
+    fileSystems."${cfg.persistPath}".neededForBoot = true;
 
-    environment.persistence."/persist" = {
+    environment.persistence."${cfg.persistPath}" = {
       hideMounts = true;
       directories =
         [
           "/var/log"
           "/var/lib/nixos"
-          "/var/lib/fail2ban"
           "/var/lib/systemd/coredump"
         ]
         ++ cfg.directories;
@@ -37,10 +43,6 @@ in {
       files =
         [
           "/etc/machine-id"
-          "/etc/ssh/ssh_host_ed25519_key"
-          "/etc/ssh/ssh_host_ed25519_key.pub"
-          "/etc/secrets/initrd/dropbear_ed25519_host_key"
-          "/etc/secrets/initrd/dropbear_ed25519_host_key.pub"
         ]
         ++ cfg.files;
     };

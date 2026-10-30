@@ -173,28 +173,31 @@ in {
 
           trustedInterfaces =
             []
-            ++ lib.optionals tailscaleEnabled ["tailscale0"]
             ++ lib.optional (cfg.staticIp.bridge != null) cfg.staticIp.bridge
             ++ lib.attrNames cfg.staticIp.taps;
 
-          allowedTCPPorts = lib.optionals (!cfg.panicMode) (
-            cfg.extraTCPPorts
-            ++ lib.optionals (config.services.openssh.enable or false)
-            config.services.openssh.ports
-          );
+          allowedTCPPorts = cfg.extraTCPPorts;
 
-          allowedTCPPortRanges = lib.optionals (!cfg.panicMode) cfg.extraTCPPortRanges;
+          allowedTCPPortRanges = cfg.extraTCPPortRanges;
 
-          allowedUDPPorts = lib.optionals (!cfg.panicMode) (
-            cfg.extraUDPPorts
-            ++ lib.optionals tailscaleEnabled
-            [config.services.tailscale.port]
-          );
+          allowedUDPPorts = cfg.extraUDPPorts;
 
-          allowedUDPPortRanges = lib.optionals (!cfg.panicMode) cfg.extraUDPPortRanges;
+          allowedUDPPortRanges = cfg.extraUDPPortRanges;
         };
       };
     }
+
+    ########################################
+    # Panic Mode Override
+    ########################################
+    (lib.mkIf cfg.panicMode {
+      networking.firewall = {
+        allowedTCPPorts = lib.mkForce [];
+        allowedTCPPortRanges = lib.mkForce [];
+        allowedUDPPorts = lib.mkForce [];
+        allowedUDPPortRanges = lib.mkForce [];
+      };
+    })
 
     ########################################
     # NetworkManager backend
@@ -202,6 +205,10 @@ in {
     (lib.mkIf isNM {
       networking.networkmanager.enable = true;
       systemd.network.enable = false;
+
+      frost.storage.impermanence.directories = [
+        "/etc/NetworkManager/system-connections"
+      ];
 
       assertions = [
         {

@@ -18,9 +18,21 @@ in {
       default = null;
       description = "SOPS file containing jellyfin-url secret.";
     };
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 8096;
+      description = "Host HTTP port for Jellyfin.";
+    };
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to open the Jellyfin port in the firewall.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [cfg.port];
+
     sops.secrets.jellyfin-url = lib.mkIf (cfg.sopsFile != null && cfg.publishedServerUrl == null) {
       sopsFile = cfg.sopsFile;
       format = "yaml";
@@ -40,14 +52,16 @@ in {
         config.sops.templates."jellyfin.env".path
       ];
       ports = [
-        "8096:8096/tcp"
+        "${toString cfg.port}:8096/tcp"
         "7359:7359/udp"
       ];
-      environment = {
-        TMPDIR = tmpDir;
-      } // lib.optionalAttrs (cfg.publishedServerUrl != null) {
-        JELLYFIN_PublishedServerUrl = cfg.publishedServerUrl;
-      };
+      environment =
+        {
+          TMPDIR = tmpDir;
+        }
+        // lib.optionalAttrs (cfg.publishedServerUrl != null) {
+          JELLYFIN_PublishedServerUrl = cfg.publishedServerUrl;
+        };
       volumes = [
         "/mnt/services/jellyfin/config:/config"
         "/mnt/services/jellyfin/cache:/cache"

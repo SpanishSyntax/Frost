@@ -24,5 +24,9 @@ in {
     environment.systemPackages = with pkgs; [
       docker-buildx
     ];
+
+    frost.storage.impermanence.directories = [
+      "/var/lib/docker"
+    ];
   };
 }

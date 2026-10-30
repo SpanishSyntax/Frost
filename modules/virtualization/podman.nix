@@ -24,5 +24,9 @@ in {
         log_level = "info";
       };
     };
+
+    frost.storage.impermanence.directories = [
+      "/var/lib/containers"
+    ];
   };
 }

@@ -19,9 +19,23 @@ in {
       default = null;
       description = "SOPS file containing immich environment secrets.";
     };
+
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 2283;
+      description = "Host HTTP port for Immich.";
+    };
+
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to open the Immich port in the firewall.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [cfg.port];
+
     sops.secrets.immich = lib.mkIf (cfg.sopsFile != null) {
       sopsFile = cfg.sopsFile;
       format = "yaml";
@@ -186,7 +200,7 @@ in {
           "/etc/localtime:/etc/localtime:ro"
         ];
         ports = [
-          "2283:2283/tcp"
+          "${toString cfg.port}:2283/tcp"
         ];
         dependsOn = [
           "immich_redis"

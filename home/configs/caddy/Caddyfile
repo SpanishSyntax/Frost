@@ -56,7 +56,7 @@
 # Accessible from any device on your Wi-Fi, Ethernet, or Tailscale network
 # without SSL certificate warning prompts.
 :80 {
-	import common_routes
+	redir https://{host}{uri} permanent
 }
 
 # HTTPS Gateway (Port 443)

@@ -23,9 +23,23 @@ in {
       default = null;
       description = "SOPS file containing pgadmin credentials.";
     };
+
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 9999;
+      description = "Host HTTP port for pgAdmin.";
+    };
+
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to open the pgAdmin port in the firewall.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [cfg.port];
+
     sops.secrets.pgadmin = lib.mkIf (cfg.sopsFile != null) {
       sopsFile = cfg.sopsFile;
       format = "yaml";
@@ -38,7 +52,7 @@ in {
 
     virtualisation.oci-containers.containers.pgadmin = {
       image = "docker.io/dpage/pgadmin4:latest";
-      ports = ["9999:80"];
+      ports = ["${toString cfg.port}:80"];
       volumes = [
         "${toString cfg.dataPath}:/var/lib/pgadmin"
       ];
