@@ -348,3 +348,64 @@ snowpack_pdf: report.pdf
 Lantern will automatically render a prominent hero header button linking to the companion PDF reader compiled by Snowpack!
 * Formal syllabus textbook chapter: [`deep-reader`](file:///home/usurper/Frost/home/configs/antigravity/skills/deep-reader/SKILL.md) (`snowpack report.md -m report`)
 * 16:9 keynote presentation deck: [`deep-slides`](file:///home/usurper/Frost/home/configs/antigravity/skills/deep-slides/SKILL.md) (`snowpack slides.md -m slides`)
+
+---
+
+### Step 5: Multi-Page Scientific Portals & Course Hubs
+
+When authoring a comprehensive technical portal (e.g. university courses, multi-chapter textbook sites, or multi-algorithm suites with dedicated quiz pages), **do not create a monolithic 200+ KB single markdown file with client-side hash hacks**. Instead, use Lantern's MkDocs-style **Multi-Page Architecture**:
+
+#### 1. Directory-as-Routing Layout
+```text
+my-project/
+├── site.yaml                       # Navigation tree & global settings
+├── styles/
+│   └── site.css                    # Shared design system (cards, KPIs, quizzes)
+├── plots/                          # Python simulation scripts (executed via Barograph)
+│   ├── plot_rosenbrock_3d.py
+│   └── ...
+└── content/                        # Markdown source hierarchy
+    ├── index.md                    # Root landing catalog (/)
+    ├── algos/
+    │   ├── gd.md                   # Clean ~80 line guide for Gradient Descent
+    │   ├── gd.css                  # Sibling CSS automatically scoped to gd.md!
+    │   └── newton.md
+    └── quizzes/
+        ├── gd.md                   # Dedicated method quiz
+        └── newton.md
+```
+
+#### 2. Site Manifest (`site.yaml`)
+```yaml
+site_name: "SC42056 Optimization for Systems and Control"
+brand: "SC42056 Hub"
+brand_icon: "🎴"
+template: "explainer"
+snowpack_pdf: "../report.pdf"       # Companion PDF reader
+
+extra_css:
+  - "styles/site.css"              # Global stylesheet applied across all pages
+
+nav:
+  - Catalog: "content/index.md"
+  - Unconstrained Methods:
+      - "Gradient Descent": "content/algos/gd.md"
+      - "Newton-Raphson": "content/algos/newton.md"
+  - Dedicated Quizzes:
+      - "Gradient Descent Quiz": "content/quizzes/gd.md"
+```
+
+#### 3. Sibling CSS & Zero Inline Styling
+- **No inline `<style>` in Markdown**: Put component and design system classes in `styles/site.css`.
+- **Sibling CSS Discovery**: If `content/algos/gd.md` has a sibling `content/algos/gd.css`, Lantern automatically injects and scopes it to only that page's `<head>`.
+
+#### 4. Multi-Page Build & Serve Commands
+* **Sled MCP**:
+  - `lantern_build(path="site.yaml", out_dir="dist")`
+  - `lantern_serve(path="site.yaml", port=8080)`
+* **CLI**:
+  ```bash
+  lantern build site.yaml -o dist/     # Compiles entire site into dist/ with clean URLs
+  lantern serve site.yaml -p 8080      # Serves multi-page site with live SSE reload on any .md/.py edit
+  ```
+
