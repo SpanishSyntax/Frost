@@ -5,6 +5,7 @@
 # ==============================================================================
 {
 	admin localhost:2019
+	skip_install_trust
 }
 
 (common_routes) {
@@ -53,8 +54,7 @@
 }
 
 # HTTP Gateway (Port 80)
-# Accessible from any device on your Wi-Fi, Ethernet, or Tailscale network
-# without SSL certificate warning prompts.
+# Automatically upgrades all unencrypted HTTP requests to secure HTTPS.
 :80 {
 	redir https://{host}{uri} permanent
 }
@@ -62,6 +62,8 @@
 # HTTPS Gateway (Port 443)
 # Automatic internal self-signed TLS for secure local / LAN / Tailscale connections.
 :443 {
-	tls internal
+	tls internal {
+		on_demand
+	}
 	import common_routes
 }
