@@ -42,9 +42,9 @@ in {
 
       boot.kernelParams = lib.optional (cfg.hibernation.resumeOffset != null) "resume_offset=${toString cfg.hibernation.resumeOffset}";
 
-      systemd.sleep.extraConfig = lib.optionalString (cfg.hibernation.delaySec != null) ''
-        HibernateDelaySec=${cfg.hibernation.delaySec}
-      '';
+      systemd.sleep.settings.Sleep = lib.mkIf (cfg.hibernation.delaySec != null) {
+        HibernateDelaySec = cfg.hibernation.delaySec;
+      };
     })
   ]);
 }
