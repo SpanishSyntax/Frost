@@ -3,12 +3,9 @@
   lib,
   inputs,
   ...
-}:
-
-let
+}: let
   cfg = config.frost.virtualization.flatpak;
-in
-{
+in {
   imports = [
     inputs.nix-flatpak.nixosModules.nix-flatpak
   ];
@@ -23,9 +20,13 @@ in
 
       overrides = {
         global = {
-          Context.filesystems = [ "/nix/store:ro" ];
+          Context.filesystems = ["/nix/store:ro"];
         };
       };
     };
+
+    frost.storage.impermanence.directories = [
+      "/var/lib/flatpak"
+    ];
   };
 }

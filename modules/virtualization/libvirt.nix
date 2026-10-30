@@ -35,5 +35,9 @@ in {
       "virtsecretd".wantedBy = ["sockets.target"];
       "virtnwfilterd".wantedBy = ["sockets.target"];
     };
+
+    frost.storage.impermanence.directories = [
+      "/var/lib/libvirt"
+    ];
   };
 }

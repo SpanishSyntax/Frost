@@ -40,5 +40,9 @@ in {
       custom-sddm-astronaut
       kdePackages.qtmultimedia
     ];
+
+    frost.storage.impermanence.directories = [
+      "/var/lib/sddm"
+    ];
   };
 }

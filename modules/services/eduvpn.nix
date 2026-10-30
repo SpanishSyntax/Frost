@@ -25,5 +25,9 @@ in {
       "wg-eduvpn+"
       "tun-eduvpn+"
     ];
+
+    frost.storage.impermanence.directories = [
+      "/var/lib/eduvpn-common"
+    ];
   };
 }

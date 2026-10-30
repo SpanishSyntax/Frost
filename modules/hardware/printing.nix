@@ -11,5 +11,9 @@ in {
 
   config = lib.mkIf cfg.enable {
     services.printing.enable = true;
+
+    frost.storage.impermanence.directories = [
+      "/var/lib/cups"
+    ];
   };
 }
