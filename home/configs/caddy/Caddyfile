@@ -1,0 +1,67 @@
+# ==============================================================================
+# Frost Caddy Gateway Configuration
+# Live configuration: edit here or at ~/.config/caddy/Caddyfile
+# Reload instantly without rebuilds: `caddy-reload` or `caddy reload --config ~/.config/caddy/Caddyfile`
+# ==============================================================================
+{
+	admin localhost:2019
+}
+
+(common_routes) {
+	# --------------------------------------------------------------------------
+	# 1. Lantern Explorable Documentation Engine (Default Gateway Service)
+	# --------------------------------------------------------------------------
+	# Proxies to local `lantern serve` running on port 8080.
+	# Access from any LAN device at http://<laptop-ip>/ or https://<laptop-ip>/
+	handle /lantern* {
+		reverse_proxy localhost:8080
+	}
+
+	# --------------------------------------------------------------------------
+	# 2. Local Python / Uvicorn / FastAPI Backend Applications
+	# --------------------------------------------------------------------------
+	# Proxies backend API requests to a local Uvicorn server running on port 8000.
+	# Example: uvicorn main:app --port 8000
+	handle /api* {
+		reverse_proxy localhost:8000
+	}
+
+	# --------------------------------------------------------------------------
+	# 3. Docker Containers (e.g., pgAdmin on port 9999)
+	# --------------------------------------------------------------------------
+	# Uncomment to expose containerized services to your local network:
+	# handle /pgadmin* {
+	# 	reverse_proxy localhost:9999
+	# }
+
+	# --------------------------------------------------------------------------
+	# 4. Static Directory File Server (e.g. prebuilt HTML/dist sites)
+	# --------------------------------------------------------------------------
+	# Uncomment to serve prebuilt static assets:
+	# handle /static-site* {
+	# 	root * /home/usurper/Workspace/site/dist
+	# 	file_server
+	# }
+
+	# --------------------------------------------------------------------------
+	# 5. Default Fallback Handler
+	# --------------------------------------------------------------------------
+	# Forwards root traffic to the active development service (Lantern on 8080).
+	handle {
+		reverse_proxy localhost:8080
+	}
+}
+
+# HTTP Gateway (Port 80)
+# Accessible from any device on your Wi-Fi, Ethernet, or Tailscale network
+# without SSL certificate warning prompts.
+:80 {
+	import common_routes
+}
+
+# HTTPS Gateway (Port 443)
+# Automatic internal self-signed TLS for secure local / LAN / Tailscale connections.
+:443 {
+	tls internal
+	import common_routes
+}
