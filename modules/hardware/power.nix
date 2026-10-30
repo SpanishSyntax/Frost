@@ -8,8 +8,41 @@ in {
   options.frost.hardware.power = {
     enable = lib.mkEnableOption "Power management";
 
+    mode = lib.mkOption {
+      type = lib.types.enum ["suspend" "hibernate" "suspend-then-hibernate" "hybrid-sleep" "ignore"];
+      default = "suspend";
+      description = "Default sleep action when closing the lid or triggering sleep.";
+    };
+
+    lidSwitch = lib.mkOption {
+      type = lib.types.enum ["suspend" "hibernate" "suspend-then-hibernate" "hybrid-sleep" "ignore" "lock"];
+      default = cfg.mode;
+      description = "Action when closing the laptop lid on battery.";
+    };
+
+    lidSwitchExternalPower = lib.mkOption {
+      type = lib.types.enum ["suspend" "hibernate" "suspend-then-hibernate" "hybrid-sleep" "ignore" "lock"];
+      default = cfg.mode;
+      description = "Action when closing the laptop lid while connected to AC power.";
+    };
+
+    lidSwitchDocked = lib.mkOption {
+      type = lib.types.enum ["suspend" "hibernate" "suspend-then-hibernate" "hybrid-sleep" "ignore" "lock"];
+      default = "ignore";
+      description = "Action when closing the laptop lid while connected to an external display (clamshell mode).";
+    };
+
     hibernation = {
-      enable = lib.mkEnableOption "Hibernation / Resume support";
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default =
+          cfg.mode
+          == "hibernate"
+          || cfg.mode == "suspend-then-hibernate"
+          || cfg.lidSwitch == "hibernate"
+          || cfg.lidSwitch == "suspend-then-hibernate";
+        description = "Enable kernel resume support for hibernation.";
+      };
 
       resumeDevice = lib.mkOption {
         type = lib.types.nullOr lib.types.str;
@@ -25,9 +58,9 @@ in {
 
       delaySec = lib.mkOption {
         type = lib.types.nullOr lib.types.str;
-        default = null;
+        default = "1800";
         example = "1800";
-        description = "HibernateDelaySec for suspend-then-hibernate.";
+        description = "HibernateDelaySec for suspend-then-hibernate (defaults to 30 minutes).";
       };
     };
   };
@@ -35,6 +68,12 @@ in {
   config = lib.mkIf cfg.enable (lib.mkMerge [
     {
       powerManagement.enable = true;
+
+      services.logind.settings.Login = {
+        HandleLidSwitch = cfg.lidSwitch;
+        HandleLidSwitchExternalPower = cfg.lidSwitchExternalPower;
+        HandleLidSwitchDocked = cfg.lidSwitchDocked;
+      };
     }
 
     (lib.mkIf cfg.hibernation.enable {
