@@ -158,6 +158,12 @@
       inputs.prism.follows = "prism";
     };
 
+    skald = {
+      url = "github:SpanishSyntax/Skald";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.prism.follows = "prism";
+    };
+
     #################################################################
     # AI
     #################################################################
