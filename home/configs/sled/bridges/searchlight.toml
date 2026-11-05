@@ -1,0 +1,8 @@
+# Searchlight MCP Bridge Descriptor for Sled
+# Discovered by Sled, inactive by default until activated in sled.toml or via `sled bridge enable searchlight`
+
+name = "searchlight"
+binary = "searchlight"
+command = ["searchlight", "mcp"]
+pack = "icebergs"
+description = "High-performance PDF full-text regex querying, metadata inspection, and page viewer"

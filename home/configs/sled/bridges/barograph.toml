@@ -1,0 +1,6 @@
+# Barograph MCP Bridge Descriptor for Sled
+name = "barograph"
+binary = "barograph"
+command = ["barograph", "mcp"]
+pack = "icebergs"
+description = "Universal plot batch-runner, multi-backend exporter (SVG/HTML/PNG/PDF), and script discoverer"

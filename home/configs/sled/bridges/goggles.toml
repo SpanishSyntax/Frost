@@ -1,0 +1,6 @@
+# Goggles MCP Bridge Descriptor for Sled
+name = "goggles"
+binary = "goggles"
+command = ["goggles", "mcp"]
+pack = "icebergs"
+description = "Instant GitHub-Flavored Markdown (GFM) native desktop viewer"

@@ -1,0 +1,6 @@
+# Basecamp MCP Bridge Descriptor for Sled
+name = "basecamp"
+binary = "basecamp"
+command = ["basecamp", "mcp"]
+pack = "icebergs"
+description = "Polyglot Nix Flake DevShell scaffolder, template manager, and role catalog engine"

@@ -1,0 +1,6 @@
+# Lantern MCP Bridge Descriptor for Sled
+name = "lantern"
+binary = "lantern"
+command = ["lantern", "mcp"]
+pack = "icebergs"
+description = "Interactive explainer & simulation dashboard compiler, live dev server, and workspace scaffolder"

@@ -1,0 +1,6 @@
+# Borealis MCP Bridge Descriptor for Sled
+name = "borealis"
+binary = "borealis"
+command = ["borealis", "mcp"]
+pack = "icebergs"
+description = "Atmospheric, celestial, and space-weather dynamic wallpaper telemetry engine"

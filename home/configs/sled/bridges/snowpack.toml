@@ -1,0 +1,6 @@
+# Snowpack MCP Bridge Descriptor for Sled
+name = "snowpack"
+binary = "snowpack"
+command = ["snowpack", "mcp"]
+pack = "icebergs"
+description = "Polyglot document & presentation compiler (Typst + LaTeX) and modular chapter assembler"
