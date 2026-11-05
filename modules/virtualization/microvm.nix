@@ -20,11 +20,16 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    environment.systemPackages = [
-      inputs.microvm.packages.${pkgs.system}.microvm
-    ];
+  config = lib.mkMerge [
+    {
+      microvm.host.enable = cfg.enable;
+    }
+    (lib.mkIf cfg.enable {
+      microvm.vms = cfg.vms;
 
-    microvm.vms = cfg.vms;
-  };
+      frost.storage.impermanence.directories = lib.mkIf config.frost.storage.impermanence.enable [
+        config.microvm.stateDir
+      ];
+    })
+  ];
 }
