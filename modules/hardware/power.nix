@@ -63,6 +63,26 @@ in {
         description = "HibernateDelaySec for suspend-then-hibernate (defaults to 30 minutes).";
       };
     };
+
+    battery = {
+      chargeProtection = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Enable battery charge protection (limiting maximum charge to extend battery health).";
+      };
+
+      maxCharge = lib.mkOption {
+        type = lib.types.int;
+        default = 80;
+        description = "Maximum battery charge percentage threshold (stops charging when reached).";
+      };
+
+      startCharge = lib.mkOption {
+        type = lib.types.nullOr lib.types.int;
+        default = 75;
+        description = "Threshold percentage where charging begins again when connected to AC.";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
@@ -84,6 +104,25 @@ in {
       systemd.sleep.settings.Sleep = lib.mkIf (cfg.hibernation.delaySec != null) {
         HibernateDelaySec = cfg.hibernation.delaySec;
       };
+    })
+
+    (lib.mkIf cfg.battery.chargeProtection {
+      systemd.tmpfiles.rules = [
+        "w- /sys/class/power_supply/BAT*/charge_control_end_threshold - - - - ${toString cfg.battery.maxCharge}"
+        "w- /sys/class/power_supply/BAT*/charge_stop_threshold - - - - ${toString cfg.battery.maxCharge}"
+      ] ++ lib.optionals (cfg.battery.startCharge != null) [
+        "w- /sys/class/power_supply/BAT*/charge_control_start_threshold - - - - ${toString cfg.battery.startCharge}"
+        "w- /sys/class/power_supply/BAT*/charge_start_threshold - - - - ${toString cfg.battery.startCharge}"
+      ];
+
+      services.udev.extraRules = ''
+        ACTION=="add|change", SUBSYSTEM=="power_supply", ATTR{type}=="Battery", ATTR{charge_control_end_threshold}="${toString cfg.battery.maxCharge}"
+        ACTION=="add|change", SUBSYSTEM=="power_supply", ATTR{type}=="Battery", ATTR{charge_stop_threshold}="${toString cfg.battery.maxCharge}"
+        ${lib.optionalString (cfg.battery.startCharge != null) ''
+          ACTION=="add|change", SUBSYSTEM=="power_supply", ATTR{type}=="Battery", ATTR{charge_control_start_threshold}="${toString cfg.battery.startCharge}"
+          ACTION=="add|change", SUBSYSTEM=="power_supply", ATTR{type}=="Battery", ATTR{charge_start_threshold}="${toString cfg.battery.startCharge}"
+        ''}
+      '';
     })
   ]);
 }
