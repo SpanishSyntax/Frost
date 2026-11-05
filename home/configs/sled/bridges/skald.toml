@@ -1,0 +1,8 @@
+# Skald MCP Bridge Descriptor for Sled
+# Discovered by Sled, but INACTIVE by default until enabled in sled.toml or via `sled bridge enable skald`
+
+name = "skald"
+binary = "skald"
+command = ["skald", "mcp"]
+pack = "icebergs"
+description = "Arctic oral companion & multi-chapter M4B audiobook compiler"

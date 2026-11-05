@@ -86,5 +86,9 @@ in {
     xdg.configFile."sled/sled.toml" = lib.mkIf useOutOfStore {
       source = config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/sled/sled.toml";
     };
+
+    xdg.configFile."sled/bridges" = lib.mkIf useOutOfStore {
+      source = config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/sled/bridges";
+    };
   };
 }
