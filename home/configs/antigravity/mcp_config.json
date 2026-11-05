@@ -3,14 +3,6 @@
     "sled": {
       "command": "sled",
       "args": ["serve"]
-    },
-    "searchlight": {
-      "command": "searchlight-mcp",
-      "args": []
-    },
-    "skald": {
-      "command": "skald",
-      "args": ["mcp"]
     }
   }
 }

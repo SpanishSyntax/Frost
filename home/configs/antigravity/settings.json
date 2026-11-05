@@ -3,7 +3,6 @@
   "permissions": {
     "allow": [
       "mcp(sled/*)",
-      "mcp(skald/*)",
       "command(snowpack*)",
       "command(lantern*)",
       "command(skald*)",
