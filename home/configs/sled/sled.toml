@@ -1,8 +1,8 @@
-# Sled MCP Store & Server Bridge Configuration
-# Managed via `sled store` (Pack & Tool modes), `sled enable/disable`, or Home Manager
+# Sled MCP Unified Pack & Tool Configuration
+# Managed via `sled store`, `sled enable/disable`, or Home Manager
 
-[store]
-enabled_packs = [
+[packs]
+enabled = [
   "fs",
   "git",
   "system",
@@ -12,7 +12,9 @@ enabled_packs = [
   "network",
   "dev",
 ]
-enabled_tools = [
+
+[tools]
+enabled = [
   "ls",
   "cat",
   "head",
@@ -28,6 +30,7 @@ enabled_tools = [
   "wc",
   "du",
   "realpath",
+  "trash_put",
   "git_status",
   "git_log",
   "git_diff",
@@ -74,6 +77,11 @@ enabled_tools = [
   "docker_compose_ps",
   "docker_compose_logs",
   "docker_compose_config",
+  "docker_compose_up",
+  "docker_compose_down",
+  "docker_compose_restart",
+  "docker_action",
+  "docker_compose",
   "systemctl_list",
   "systemctl_status",
   "journalctl",
@@ -87,12 +95,14 @@ enabled_tools = [
   "nix_flake_check",
   "nix_diff_generations",
   "nix_locate",
+  "nix_build",
   "ip_addr",
   "ip_route",
   "ss_ports",
   "ping",
   "tailscale_status",
   "dns_lookup",
+  "http_probe",
   "code_format",
   "code_lint",
   "code_check",
