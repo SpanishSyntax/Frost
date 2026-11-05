@@ -33,18 +33,12 @@ in {
         "systemd"
         "nixos"
         "network"
+        "dev"
       ]);
-      default = [
-        "fs"
-        "git"
-        "system"
-        "docker"
-        "systemd"
-        "nixos"
-        "network"
-      ];
+      default = [];
       description = ''
         Capability packs enabled in Sled when using pure declarative mode (`configsPath = null`).
+        Defaults to empty (zero-trust: no tools exposed until explicitly whitelisted).
       '';
     };
 
