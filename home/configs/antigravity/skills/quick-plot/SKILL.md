@@ -62,9 +62,13 @@ Generates and executes focused, zero-boilerplate Python simulation scripts to nu
      ```
 
 3. **Execute & Render Vector SVG**:
-   - Compile headless:
+   - Compile headless with Agent Mode (`-A`) to suppress decorative terminal banners and ANSI margin lines:
      ```bash
-     barograph build <artifactDir>/scratch/plot.py --format svg --out-dir <artifactDir>/scratch/
+     barograph build <artifactDir>/scratch/plot.py --format svg --out-dir <artifactDir>/scratch/ -A
+     ```
+   - For structured machine inspection, use `--json`:
+     ```bash
+     barograph build <artifactDir>/scratch/plot.py --format svg --out-dir <artifactDir>/scratch/ --json
      ```
    - Embed the generated SVG and summary stats directly into the response:
      ```markdown

@@ -94,8 +94,14 @@ engine: typst
 ### Step 3: Compilation via Snowpack
 Compile presentation decks to PDF:
 ```bash
-# Compile slides.md in slides mode with hot-reload watch
+# Compile slides.md in slides mode with hot-reload watch (human interactive)
 snowpack slides.md -m slides -w
+
+# Agent mode (-A / --agent): suppresses box borders, emojis, and ANSI margins
+snowpack slides.md -m slides -A
+
+# Structured machine output (--json or --toon)
+snowpack slides.md -m slides --json
 
 # Native Typst compilation
 snowpack slides.typ -w

@@ -187,8 +187,11 @@ skald voices --locale nl-NL
 ### Step 2: Synthesize Transcripts (`skald narrate`)
 Compile individual chapter transcripts into standalone `.m4b` and `.mp3` files:
 ```bash
-# Narrate a single transcript
+# Narrate a single transcript (human mode)
 skald narrate transcripts/01_intro.md --voice en-US-GuyNeural -o ./dist/
+
+# Agent mode (-A / --agent): clean, no decorative borders or emojis
+skald narrate transcripts/01_intro.md --voice en-US-GuyNeural -o ./dist/ -A
 
 # Machine JSON output for agents
 skald narrate transcripts/01_intro.md --json

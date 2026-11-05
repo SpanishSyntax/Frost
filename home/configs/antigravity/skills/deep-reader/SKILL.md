@@ -76,8 +76,14 @@ basecamp init typ
 ### Step 3: Compilation via Snowpack
 Compile the document to a publication-grade PDF:
 ```bash
-# Compile report.md in report mode
+# Compile report.md in report mode (human interactive mode)
 snowpack report.md -m report
+
+# Agent mode (-A / --agent): suppresses box borders, emojis, and ANSI margins
+snowpack report.md -m report -A
+
+# Structured machine output (--json or --toon)
+snowpack report.md -m report --json
 
 # Continuous live-watch mode during authoring
 snowpack report.md -m report -w
