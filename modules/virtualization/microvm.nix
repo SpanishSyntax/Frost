@@ -27,6 +27,18 @@ in {
     (lib.mkIf cfg.enable {
       microvm.vms = cfg.vms;
 
+      # Ensure VM state directories exist prior to install-microvm-*.service execution
+      system.activationScripts.microvm-dirs = ''
+        mkdir -p "${config.microvm.stateDir}"
+        chown microvm:kvm "${config.microvm.stateDir}"
+        chmod 0775 "${config.microvm.stateDir}"
+        ${lib.concatLines (lib.mapAttrsToList (name: vm: ''
+          mkdir -p "${config.microvm.stateDir}/${name}"
+          chown microvm:kvm "${config.microvm.stateDir}/${name}"
+          chmod 0775 "${config.microvm.stateDir}/${name}"
+        '') cfg.vms)}
+      '';
+
       frost.storage.impermanence.directories = lib.mkIf config.frost.storage.impermanence.enable [
         config.microvm.stateDir
       ];
