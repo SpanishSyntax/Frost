@@ -97,3 +97,21 @@ When compiling from agent sessions, trigger Sled's `snowpack_build` atomic tool:
 ```
 Provide the user with a clickable link to the compiled PDF deliverable:
 `[View Compiled Reader](file:///path/to/report.pdf)`
+
+---
+
+## Multi-Chapter Parallel Swarm Workflow
+
+When compiling a multi-chapter textbook, reader, or course syllabus:
+
+1. **Master Outline & Scaffolding**:
+   - Create the book manifest and target chapter directory (`chapters/chapter_01.md`, `chapters/chapter_02.md`, ...).
+   - Define explicit contracts, mathematical notation standards, and section scopes for each chapter.
+2. **Concurrent Swarm Spawning**:
+   - Spawn parallel worker subagents using `invoke_subagent` in a single tool turn (using `TypeName: "self"` and distinguishable roles like `"Chapter 1 Writer"`, `"Chapter 2 Writer"`).
+   - Instruct each worker to draft its designated chapter strictly adhering to the **7-Stage Pedagogical Progression** and save it directly to `chapters/chapter_XX.md`.
+3. **Reactive Assembly**:
+   - Await completion signals from all chapter workers.
+   - Assemble the unified master reader using Snowpack (`snowpack assemble chapters/ -o reader.pdf` or via `snowpack_assemble`).
+4. **Session Cleanup**:
+   - Terminate the worker swarm immediately using `manage_subagents(Action: "kill_all")`.

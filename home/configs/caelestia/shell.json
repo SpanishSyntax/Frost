@@ -72,6 +72,11 @@
     "utilities": {
         "cards": {
             "recorder": false
+        },
+        "vpn": {
+            "provider": [
+            ],
+            "selectedProvider": ""
         }
     }
 }

@@ -42,5 +42,15 @@ in {
       if cfg.configsPath != null
       then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/antigravity/skills"
       else "${inputs.self}/home/configs/antigravity/skills";
+
+    home.file.".gemini/config/agents".source =
+      if cfg.configsPath != null
+      then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/antigravity/agents"
+      else "${inputs.self}/home/configs/antigravity/agents";
+
+    home.file.".gemini/antigravity-cli/settings.json".source =
+      if cfg.configsPath != null
+      then config.lib.file.mkOutOfStoreSymlink "${cfg.configsPath}/antigravity/settings.json"
+      else "${inputs.self}/home/configs/antigravity/settings.json";
   };
 }

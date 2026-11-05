@@ -46,3 +46,12 @@ When generating or modifying Nix code in Frost:
 - Keep responses concise and mathematically/technically precise.
 - Format all file references and symbols as clickable markdown links (`file:///absolute/path#L1-L10`).
 - Favor interactive Antigravity Artifacts (with Mermaid diagrams or math) for complex architectures or tradeoff comparisons.
+
+## 4. Multi-Agent Swarm & Parallel Task Delegation
+- **Parallel-First Execution**: Whenever a task can be partitioned into decoupled, independent units of work (e.g. drafting chapters for Skald / Snowpack, generating decoupled views or simulation modules for Lantern, running multi-file refactoring passes, or executing independent audits/reviews):
+  1. **DO NOT execute sequentially** within the main orchestrator loop.
+  2. **Partition & Contract**: Define explicit task boundaries, output file paths, and contracts for each worker.
+  3. **Concurrent Swarm Dispatch**: Spawn all worker subagents concurrently in a single turn using `invoke_subagent`. Default to `TypeName: "self"` (or custom subagents configured with write and MCP capabilities) and assign explicit, distinguishable `Role` and `Prompt` parameters.
+  4. **Non-Blocking Reactive Orchestration**: Rely on reactive wakeups when subagents report completions; never poll or loop.
+  5. **Assembly & Final Stitching**: Once worker notifications arrive, aggregate and compile the outputs using master compilers (`snowpack assemble`, `lantern build`, `skald stitch`, or test runners).
+  6. **Resource Cleanup**: Always call `manage_subagents(Action: "kill_all")` immediately after final assembly to terminate idle background worker sessions.
