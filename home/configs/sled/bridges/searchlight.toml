@@ -4,5 +4,4 @@
 name = "searchlight"
 binary = "searchlight"
 command = ["searchlight", "mcp"]
-pack = "icebergs"
 description = "High-performance PDF full-text regex querying, metadata inspection, and page viewer"

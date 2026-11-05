@@ -2,5 +2,4 @@
 name = "rime"
 binary = "rime"
 command = ["rime", "mcp"]
-pack = "icebergs"
 description = "Universal filename sanitizer, case transformer, and batch renamer"

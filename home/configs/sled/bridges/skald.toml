@@ -4,5 +4,4 @@
 name = "skald"
 binary = "skald"
 command = ["skald", "mcp"]
-pack = "icebergs"
 description = "Arctic oral companion & multi-chapter M4B audiobook compiler"
