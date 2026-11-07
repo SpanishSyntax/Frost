@@ -200,10 +200,10 @@
     stateVersion = "26.05";
 
     helpers = import ./lib/helpers {inherit lib inputs stateVersion;};
-    inherit (helpers) mkSystem;
+    inherit (helpers) mkSystem mkHome;
   in {
     lib = {
-      inherit mkSystem;
+      inherit mkSystem mkHome;
       inherit (helpers) getFiles;
     };
 
@@ -226,6 +226,13 @@
     nixosConfigurations = {
       workstation = mkSystem {host = "workstation";};
       server = mkSystem {host = "server";};
+    };
+
+    homeConfigurations = {
+      frost = mkHome {
+        username = "frost";
+        host = "frost";
+      };
     };
 
     packages.x86_64-linux = let

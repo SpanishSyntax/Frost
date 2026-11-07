@@ -42,4 +42,47 @@
         inherit inputs stateVersion host getFiles;
       } // specialArgs;
     };
+
+  mkHome = {
+    username ? "frost",
+    host ? null,
+    system ? "x86_64-linux",
+    homeDirectory ? "/home/${username}",
+    modules ? [],
+    specialArgs ? {},
+  }:
+    inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        overlays = [
+          (final: prev: {
+            unstable = import inputs.nixpkgs-unstable {
+              inherit (prev.stdenv.hostPlatform) system;
+              config.allowUnfree = true;
+            };
+          })
+        ];
+      };
+
+      modules = [
+        inputs.self.homeManagerModules.default
+        {
+          home.username = username;
+          home.homeDirectory = homeDirectory;
+          home.stateVersion = stateVersion;
+          programs.home-manager.enable = true;
+        }
+      ]
+      ++ (
+        if host != null && modules == [] && builtins.pathExists "${inputs.self}/home/users/${host}.nix"
+        then ["${inputs.self}/home/users/${host}.nix"]
+        else []
+      )
+      ++ modules;
+
+      extraSpecialArgs = {
+        inherit inputs stateVersion host getFiles;
+      } // specialArgs;
+    };
 }
