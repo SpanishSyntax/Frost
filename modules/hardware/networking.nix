@@ -28,6 +28,13 @@ in {
       default = "nixos";
     };
 
+    hostId = lib.mkOption {
+      type = lib.types.nullOr (lib.types.strMatching "[0-9a-fA-F]{8}");
+      default = null;
+      example = "4e37bc2c";
+      description = "The unique 32-bit host identifier (8 hex characters) for this machine.";
+    };
+
     backend = lib.mkOption {
       type = lib.types.enum ["networkmanager" "networkd"];
       default = "networkmanager";
@@ -147,6 +154,7 @@ in {
 
       networking = {
         hostName = lib.mkDefault cfg.hostname;
+        hostId = lib.mkIf (cfg.hostId != null) (lib.mkDefault cfg.hostId);
         enableIPv6 = lib.mkDefault false;
         firewall.trustedInterfaces =
           lib.optional (cfg.staticIp.bridge != null) cfg.staticIp.bridge
