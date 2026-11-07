@@ -37,6 +37,7 @@ in {
     extraTCPPorts = lib.mkOption {
       type = lib.types.listOf lib.types.port;
       default = [];
+      description = "Deprecated: Use frost.security.firewall.extraTCPPorts instead.";
     };
 
     extraTCPPortRanges = lib.mkOption {
@@ -47,11 +48,13 @@ in {
         };
       });
       default = [];
+      description = "Deprecated: Use frost.security.firewall.extraTCPPortRanges instead.";
     };
 
     extraUDPPorts = lib.mkOption {
       type = lib.types.listOf lib.types.port;
       default = [];
+      description = "Deprecated: Use frost.security.firewall.extraUDPPorts instead.";
     };
 
     extraUDPPortRanges = lib.mkOption {
@@ -62,9 +65,10 @@ in {
         };
       });
       default = [];
+      description = "Deprecated: Use frost.security.firewall.extraUDPPortRanges instead.";
     };
 
-    panicMode = lib.mkEnableOption "Drop most incoming traffic";
+    panicMode = lib.mkEnableOption "Deprecated: Use frost.security.firewall.panicMode instead.";
 
     staticIp = {
       address = lib.mkOption {
@@ -144,58 +148,20 @@ in {
       networking = {
         hostName = lib.mkDefault cfg.hostname;
         enableIPv6 = lib.mkDefault false;
-        nftables.enable = lib.mkDefault true;
-
-        firewall = {
-          enable = lib.mkDefault true;
-
-          interfaces = {
-            "docker0" = {
-              allowedUDPPorts = [53];
-              allowedTCPPorts = [53];
-            };
-            "br-*" = {
-              allowedUDPPorts = [53];
-              allowedTCPPorts = [53];
-            };
-            "podman*" = {
-              allowedUDPPorts = [53];
-              allowedTCPPorts = [53];
-            };
-          };
-
-          pingLimit =
-            if cfg.panicMode
-            then "1/minute"
-            else "10/minute burst 5 packets";
-
-          checkReversePath = "loose";
-
-          trustedInterfaces =
-            []
-            ++ lib.optional (cfg.staticIp.bridge != null) cfg.staticIp.bridge
-            ++ lib.attrNames cfg.staticIp.taps;
-
-          allowedTCPPorts = cfg.extraTCPPorts;
-
-          allowedTCPPortRanges = cfg.extraTCPPortRanges;
-
-          allowedUDPPorts = cfg.extraUDPPorts;
-
-          allowedUDPPortRanges = cfg.extraUDPPortRanges;
-        };
+        firewall.trustedInterfaces =
+          lib.optional (cfg.staticIp.bridge != null) cfg.staticIp.bridge
+          ++ lib.attrNames cfg.staticIp.taps;
       };
     }
 
-    ########################################
-    # Panic Mode Override
-    ########################################
-    (lib.mkIf cfg.panicMode {
-      networking.firewall = {
-        allowedTCPPorts = lib.mkForce [];
-        allowedTCPPortRanges = lib.mkForce [];
-        allowedUDPPorts = lib.mkForce [];
-        allowedUDPPortRanges = lib.mkForce [];
+    # Backward compatibility forwarding to frost.security.firewall
+    (lib.mkIf (cfg.extraTCPPorts != [] || cfg.extraTCPPortRanges != [] || cfg.extraUDPPorts != [] || cfg.extraUDPPortRanges != [] || cfg.panicMode) {
+      frost.security.firewall = {
+        extraTCPPorts = cfg.extraTCPPorts;
+        extraTCPPortRanges = cfg.extraTCPPortRanges;
+        extraUDPPorts = cfg.extraUDPPorts;
+        extraUDPPortRanges = cfg.extraUDPPortRanges;
+        inherit (cfg) panicMode;
       };
     })
 
