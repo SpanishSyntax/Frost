@@ -203,8 +203,17 @@ in {
     # NetworkManager backend
     ########################################
     (lib.mkIf isNM {
-      networking.networkmanager.enable = true;
-      systemd.network.enable = false;
+      networking.networkmanager = {
+        enable = lib.mkDefault true;
+        unmanaged = [
+          "microvm"
+          "vm-*"
+          "docker0"
+          "br-*"
+          "podman*"
+        ];
+      };
+      systemd.network.enable = lib.mkDefault false;
 
       frost.storage.impermanence.directories = [
         "/etc/NetworkManager/system-connections"
@@ -228,8 +237,8 @@ in {
     ########################################
     (lib.mkIf isNetworkd {
       networking = {
-        networkmanager.enable = false;
-        useDHCP = false;
+        networkmanager.enable = lib.mkDefault false;
+        useDHCP = lib.mkDefault false;
         nat = lib.mkIf (cfg.staticIp.taps != {}) {
           enable = true;
           internalInterfaces = lib.attrNames cfg.staticIp.taps;
@@ -237,8 +246,8 @@ in {
         };
       };
 
-      services.resolved.enable = true;
-      systemd.network.enable = true;
+      services.resolved.enable = lib.mkDefault true;
+      systemd.network.enable = lib.mkDefault true;
 
       systemd.network = {
         netdevs = lib.mkMerge [
@@ -317,6 +326,15 @@ in {
               ];
             })
           cfg.staticIp.taps)
+
+          # Fallback plug-and-play DHCP for any other physical ethernet NICs
+          {
+            "99-ethernet-default" = {
+              matchConfig.Type = "ether";
+              networkConfig.DHCP = "yes";
+              linkConfig.RequiredForOnline = "no";
+            };
+          }
         ];
       };
     })
