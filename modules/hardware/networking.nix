@@ -142,7 +142,7 @@ in {
       };
 
       networking = {
-        hostName = cfg.hostname;
+        hostName = lib.mkDefault cfg.hostname;
         enableIPv6 = false;
         nftables.enable = true;
 
