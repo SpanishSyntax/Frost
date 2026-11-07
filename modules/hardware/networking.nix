@@ -143,11 +143,11 @@ in {
 
       networking = {
         hostName = lib.mkDefault cfg.hostname;
-        enableIPv6 = false;
-        nftables.enable = true;
+        enableIPv6 = lib.mkDefault false;
+        nftables.enable = lib.mkDefault true;
 
         firewall = {
-          enable = true;
+          enable = lib.mkDefault true;
 
           interfaces = {
             "docker0" = {
