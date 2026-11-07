@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   inputs,
   stateVersion,
   host,
@@ -18,6 +19,10 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = [
+      pkgs.home-manager
+    ];
+
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
@@ -25,6 +30,9 @@ in {
       extraSpecialArgs = {inherit inputs stateVersion host getFiles;};
       sharedModules = [
         ../../home/home.nix
+        {
+          programs.home-manager.enable = true;
+        }
       ];
     };
   };
