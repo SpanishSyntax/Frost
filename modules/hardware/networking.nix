@@ -230,7 +230,7 @@ in {
       networking = {
         networkmanager.enable = false;
         useDHCP = false;
-        nat = {
+        nat = lib.mkIf (cfg.staticIp.taps != {}) {
           enable = true;
           internalInterfaces = lib.attrNames cfg.staticIp.taps;
           externalInterface = cfg.staticIp.interface;

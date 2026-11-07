@@ -13,6 +13,67 @@ in {
 
   options.frost.virtualization.microvm = {
     enable = lib.mkEnableOption "Microvm hypervisor host support";
+
+    hostBridge = {
+      enable = lib.mkEnableOption "Host NAT bridge with DHCP for MicroVM guests";
+
+      bridgeName = lib.mkOption {
+        type = lib.types.str;
+        default = "microvm";
+        description = "Name of the host bridge network interface.";
+      };
+
+      tapPattern = lib.mkOption {
+        type = lib.types.str;
+        default = "vm-*";
+        description = "systemd-networkd wildcard pattern matching guest TAP interfaces.";
+      };
+
+      subnet = lib.mkOption {
+        type = lib.types.str;
+        default = "10.100.0.0/24";
+        description = "IPv4 subnet for the MicroVM guest network.";
+      };
+
+      gateway = lib.mkOption {
+        type = lib.types.str;
+        default = "10.100.0.1";
+        description = "Host IPv4 address on the bridge interface.";
+      };
+
+      prefixLength = lib.mkOption {
+        type = lib.types.int;
+        default = 24;
+        description = "Subnet prefix length (e.g. 24 for /24).";
+      };
+
+      dhcp = {
+        enable = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "Whether to run systemd-networkd DHCP server on the bridge.";
+        };
+
+        poolOffset = lib.mkOption {
+          type = lib.types.int;
+          default = 10;
+          description = "DHCP dynamic IP pool start offset.";
+        };
+
+        poolSize = lib.mkOption {
+          type = lib.types.int;
+          default = 50;
+          description = "DHCP dynamic IP pool size.";
+        };
+
+        dns = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = ["1.1.1.1" "8.8.8.8"];
+          description = "DNS servers announced via DHCP to guest MicroVMs.";
+        };
+      };
+    };
+
     vms = lib.mkOption {
       type = lib.types.attrsOf (lib.types.submodule ({ name, ... }: {
         options = {
@@ -85,5 +146,48 @@ in {
         config.microvm.stateDir
       ];
     }))
+    (lib.mkIf (cfg.enable && cfg.hostBridge.enable) {
+      systemd.network = {
+        enable = true;
+        netdevs."10-${cfg.hostBridge.bridgeName}" = {
+          netdevConfig = {
+            Kind = "bridge";
+            Name = cfg.hostBridge.bridgeName;
+          };
+        };
+
+        networks."10-${cfg.hostBridge.bridgeName}" = {
+          matchConfig.Name = cfg.hostBridge.bridgeName;
+          networkConfig = {
+            DHCPServer = cfg.hostBridge.dhcp.enable;
+            IPv4Forwarding = "yes";
+          };
+          dhcpServerConfig = lib.mkIf cfg.hostBridge.dhcp.enable {
+            PoolOffset = cfg.hostBridge.dhcp.poolOffset;
+            PoolSize = cfg.hostBridge.dhcp.poolSize;
+            EmitDNS = true;
+            DNS = cfg.hostBridge.dhcp.dns;
+          };
+          address = ["${cfg.hostBridge.gateway}/${toString cfg.hostBridge.prefixLength}"];
+        };
+
+        networks."11-${cfg.hostBridge.bridgeName}-taps" = {
+          matchConfig.Name = cfg.hostBridge.tapPattern;
+          networkConfig.Bridge = cfg.hostBridge.bridgeName;
+          linkConfig.RequiredForOnline = "no";
+        };
+      };
+
+      networking = {
+        nat = {
+          enable = true;
+          internalIPs = [cfg.hostBridge.subnet];
+        };
+        firewall = {
+          allowedUDPPorts = lib.optionals cfg.hostBridge.dhcp.enable [67];
+          trustedInterfaces = [cfg.hostBridge.bridgeName];
+        };
+      };
+    })
   ];
 }
