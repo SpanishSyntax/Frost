@@ -75,7 +75,7 @@ in {
     };
 
     vms = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.submodule ({ name, ... }: {
+      type = lib.types.attrsOf (lib.types.submodule ({name, ...}: {
         options = {
           enable = lib.mkOption {
             type = lib.types.bool;
@@ -126,9 +126,11 @@ in {
     (lib.mkIf cfg.enable (let
       enabledVms = lib.filterAttrs (_name: vm: vm.enable) cfg.vms;
     in {
-      microvm.vms = lib.mapAttrs (name: vm: {
-        inherit (vm) autostart restartIfChanged config extraModules specialArgs;
-      }) enabledVms;
+      microvm.vms =
+        lib.mapAttrs (name: vm: {
+          inherit (vm) autostart restartIfChanged config extraModules specialArgs;
+        })
+        enabledVms;
 
       # Ensure VM state directories exist prior to install-microvm-*.service execution
       system.activationScripts.microvm-dirs = ''
@@ -136,10 +138,11 @@ in {
         chown microvm:kvm "${config.microvm.stateDir}"
         chmod 0775 "${config.microvm.stateDir}"
         ${lib.concatLines (lib.mapAttrsToList (name: _vm: ''
-          mkdir -p "${config.microvm.stateDir}/${name}"
-          chown microvm:kvm "${config.microvm.stateDir}/${name}"
-          chmod 0775 "${config.microvm.stateDir}/${name}"
-        '') enabledVms)}
+            mkdir -p "${config.microvm.stateDir}/${name}"
+            chown microvm:kvm "${config.microvm.stateDir}/${name}"
+            chmod 0775 "${config.microvm.stateDir}/${name}"
+          '')
+          enabledVms)}
       '';
 
       frost.storage.impermanence.directories = lib.mkIf config.frost.storage.impermanence.enable [
@@ -158,6 +161,7 @@ in {
 
         networks."10-${cfg.hostBridge.bridgeName}" = {
           matchConfig.Name = cfg.hostBridge.bridgeName;
+          linkConfig.RequiredForOnline = "no";
           networkConfig = {
             DHCPServer = cfg.hostBridge.dhcp.enable;
             IPv4Forwarding = "yes";

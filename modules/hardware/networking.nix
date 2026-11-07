@@ -222,6 +222,17 @@ in {
 
       services.resolved.enable = lib.mkDefault true;
       systemd.network.enable = lib.mkDefault true;
+      systemd.network.wait-online = {
+        anyInterface = lib.mkDefault true;
+        timeout = lib.mkDefault 15;
+        ignoredInterfaces = [
+          "microvm"
+          "vm-*"
+          "docker0"
+          "br-*"
+          "podman*"
+        ];
+      };
 
       systemd.network = {
         netdevs = lib.mkMerge [
