@@ -145,6 +145,10 @@ in {
           enabledVms)}
       '';
 
+      # Allow microvm hypervisor to access block devices (e.g. ZFS Zvols)
+      users.users.microvm.extraGroups = ["disk" "kvm"];
+      systemd.services."microvm@".serviceConfig.SupplementaryGroups = ["disk" "kvm"];
+
       frost.storage.impermanence.directories = lib.mkIf config.frost.storage.impermanence.enable [
         config.microvm.stateDir
       ];
