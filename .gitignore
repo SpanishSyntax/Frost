@@ -1,0 +1,74 @@
+# ==========================================
+# 1. Shell & User History (Crucial for NixOS)
+# ==========================================
+.zsh_history
+.zcompdump*
+.bash_history
+.history
+
+# ==========================================
+# 2. Nix & Development Artifacts
+# ==========================================
+# Direnv local environment caches (can become massive)
+.direnv/
+
+# Local nix build symlinks
+result
+result-*
+
+# Nix-shell and tool-specific GC roots
+.nix-gc-roots/
+
+# ==========================================
+# 3. Python, Scripts & AI Tools
+# ==========================================
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Python bytecode & cache directories
+__pycache__/
+*$py.class
+
+# Python tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# AI Coding assistants (Aider logs/history)
+.aider*
+
+# ==========================================
+# 4. Secrets & Encryption (Safety Nets)
+# ==========================================
+# Keep actual secrets out of Git (even if using SOPS/Agenix)
+*.env
+*.secret
+*.pem
+*.key
+# Note: Keep your encrypted .sops.yaml or secrets.nix tracked, 
+# but ignore untransformed raw secret text files if you make them.
+
+# ==========================================
+# 5. Editors & System Clutter
+# ==========================================
+# Vim/Neovim swap and backup files
+*.swp
+*.swo
+*~
+
+# VS Code and JetBrains IDE configurations
+.vscode/
+.idea/
+
+# OS-specific clutter
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# 6. Local Documentation & Audits (Private)
+# ==========================================
+gameplan.md
+report.md
