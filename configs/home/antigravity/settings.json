@@ -1,0 +1,33 @@
+{
+  "model": "Gemini 3.8 Flash (Medium)",
+  "permissions": {
+    "allow": [
+      "mcp(sled/*)",
+      "command(snowpack*)",
+      "command(lantern*)",
+      "command(skald*)",
+      "command(barograph*)",
+      "command(typst*)",
+      "command(latex*)",
+      "command(pdflatex*)",
+      "command(python*)",
+      "command(pip*)",
+      "command(uv*)",
+      "command(git*)",
+      "command(cargo*)",
+      "command(nix*)",
+      "command(pytest*)",
+      "command(curl*)",
+      "command(wget*)",
+      "command(grep*)",
+      "command(sed*)",
+      "command(find*)",
+      "command(ls*)",
+      "command(uname*)",
+      "command(hostname*)",
+      "command(date*)",
+      "command(uptime*)"
+    ]
+  },
+  "trustedWorkspaces": []
+}

@@ -1,0 +1,7 @@
+# Example Sled MCP Bridge Descriptor (Template)
+# Place real bridges here or in Glacier configs/home/sled/bridges/
+#
+# name = "example"
+# binary = "example"
+# command = ["example", "mcp"]
+# description = "Example bridge description"

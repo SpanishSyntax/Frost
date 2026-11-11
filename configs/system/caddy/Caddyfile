@@ -1,0 +1,6 @@
+# Frost System Caddy Gateway (Starter / Template)
+# Configure production reverse proxies and sites here or in Glacier configs/system/caddy/Caddyfile.
+
+:80 {
+	# reverse_proxy localhost:8000
+}

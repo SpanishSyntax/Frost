@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sled": {
+      "command": "sled",
+      "args": ["serve"]
+    }
+  }
+}
