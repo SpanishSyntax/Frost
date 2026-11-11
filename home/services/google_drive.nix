@@ -74,7 +74,7 @@ in {
           automatically sync that subdirectory.
 
           Positional:
-            SUBDIR                  Relative subfolder inside workspace (e.g. 'TUDelft')
+            SUBDIR                  Relative subfolder inside workspace (e.g. 'Documents')
 
           Options:
             -s, --src PATH          Explicit source directory (overrides default workspace root)
