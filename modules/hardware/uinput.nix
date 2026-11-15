@@ -3,10 +3,10 @@
   lib,
   ...
 }: let
-  cfg = config.frost.desktop.tools.caelestia;
+  cfg = config.frost.hardware.uinput;
 in {
-  options.frost.desktop.tools.caelestia = {
-    enable = lib.mkEnableOption "Caelestia system integration";
+  options.frost.hardware.uinput = {
+    enable = lib.mkEnableOption "uinput virtual input device";
   };
 
   config = lib.mkIf cfg.enable {

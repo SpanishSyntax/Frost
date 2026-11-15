@@ -119,10 +119,10 @@
       inputs.prism.follows = "prism";
     };
 
-    # permafrost = {
-    #   url = "github:SpanishSyntax/Permafrost";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    permafrost = {
+      url = "github:SpanishSyntax/PermaFrost";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     prism = {
       url = "github:SpanishSyntax/Prism";
