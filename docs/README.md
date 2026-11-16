@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/wordmark.svg" width="360" alt="Frost Wordmark" />
+  <img src="assets/banner.png" alt="Delicate frost needle crystals coating moorland heather beneath a winter dawn sky" width="100%" />
 </p>
 
 # Frost ❄️
