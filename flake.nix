@@ -146,6 +146,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    fjord = {
+      url = "github:SpanishSyntax/Fjord";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    helm = {
+      url = "github:SpanishSyntax/Helm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     sled = {
       url = "github:SpanishSyntax/Sled";
       inputs.nixpkgs.follows = "nixpkgs";

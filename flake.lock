@@ -301,6 +301,26 @@
         "type": "github"
       }
     },
+    "fjord": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794837598,
+        "narHash": "sha256-KwgDykEoq+pRg8rbgQ7OoAuTVQUFuDohO9kZiM6ljLg=",
+        "owner": "SpanishSyntax",
+        "repo": "Fjord",
+        "rev": "096d8a65638b4a32ed21aa551dbbfa6e6d0b6c6b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SpanishSyntax",
+        "repo": "Fjord",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -671,6 +691,26 @@
       "original": {
         "owner": "SpanishSyntax",
         "repo": "Goggles",
+        "type": "github"
+      }
+    },
+    "helm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794837630,
+        "narHash": "sha256-unUBF2+fM6UA/uBbYyiEWGME4Uf/P9P4+1g0Jyh1RpI=",
+        "owner": "SpanishSyntax",
+        "repo": "Helm",
+        "rev": "3e79574e0b8846a65e0ffd5eabfa2ab6eca88357",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SpanishSyntax",
+        "repo": "Helm",
         "type": "github"
       }
     },
@@ -1194,8 +1234,10 @@
         "borealis": "borealis",
         "compose2nix": "compose2nix",
         "disko": "disko",
+        "fjord": "fjord",
         "flox": "flox",
         "goggles": "goggles",
+        "helm": "helm",
         "home-manager": "home-manager_2",
         "igloo": "igloo",
         "iio-hyprland": "iio-hyprland",
