@@ -141,10 +141,10 @@
       inputs.prism.follows = "prism";
     };
 
-    # shards = {
-    #   url = "github:SpanishSyntax/Shards";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    shards = {
+      url = "github:SpanishSyntax/Shards";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     sled = {
       url = "github:SpanishSyntax/Sled";

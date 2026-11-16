@@ -1210,6 +1210,7 @@
         "prism": "prism",
         "rime": "rime",
         "searchlight": "searchlight",
+        "shards": "shards",
         "skald": "skald",
         "sled": "sled",
         "snowpack": "snowpack",
@@ -1256,6 +1257,26 @@
       "original": {
         "owner": "SpanishSyntax",
         "repo": "Searchlight",
+        "type": "github"
+      }
+    },
+    "shards": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794833059,
+        "narHash": "sha256-7Czv1XgPkFzMYy9JmoQC1ZhGcDSCHj/ib4gf2KLRajc=",
+        "owner": "SpanishSyntax",
+        "repo": "Shards",
+        "rev": "02f41ec0bb9af6d7a6392c874546153664e2be63",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SpanishSyntax",
+        "repo": "Shards",
         "type": "github"
       }
     },
