@@ -696,16 +696,17 @@
     },
     "helm": {
       "inputs": {
+        "m3shapes": "m3shapes",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1794842134,
-        "narHash": "sha256-ysU+L6YMTW2btuHcIlh9Qzs1bUi/dljj00paTd0A8Hg=",
+        "lastModified": 1794844330,
+        "narHash": "sha256-wyYLd9+0KSqg3TVJQ8daIQs80ESkn8XWRaARmpojG8w=",
         "owner": "SpanishSyntax",
         "repo": "Helm",
-        "rev": "e055ab206bee7a098a02af589541fde5abeeb304",
+        "rev": "329f6201d498409f29a06ac21a6d6187bb8fb560",
         "type": "github"
       },
       "original": {
@@ -777,7 +778,7 @@
     "igloo": {
       "inputs": {
         "caelestia-cli": "caelestia-cli",
-        "m3shapes": "m3shapes",
+        "m3shapes": "m3shapes_2",
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -881,6 +882,23 @@
       }
     },
     "m3shapes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781017666,
+        "narHash": "sha256-kfHyzZaPHgqZML48OA+5JwBOsLdQJ2ci/aGPShvUB4Y=",
+        "owner": "soramanew",
+        "repo": "m3shapes",
+        "rev": "bdc327b29f95394a732baf3c9b19658ba23755b6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "soramanew",
+        "repo": "m3shapes",
+        "rev": "bdc327b29f95394a732baf3c9b19658ba23755b6",
+        "type": "github"
+      }
+    },
+    "m3shapes_2": {
       "inputs": {
         "nixpkgs": [
           "igloo",
@@ -902,7 +920,7 @@
         "type": "github"
       }
     },
-    "m3shapes_2": {
+    "m3shapes_3": {
       "flake": false,
       "locked": {
         "lastModified": 1781017666,
@@ -1137,7 +1155,7 @@
     },
     "permafrost": {
       "inputs": {
-        "m3shapes": "m3shapes_2",
+        "m3shapes": "m3shapes_3",
         "nixpkgs": [
           "nixpkgs"
         ]

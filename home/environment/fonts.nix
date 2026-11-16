@@ -18,6 +18,7 @@ in {
 
       font-awesome
       material-design-icons
+      material-symbols
     ];
 
     fonts.fontconfig = {

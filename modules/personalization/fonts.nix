@@ -13,6 +13,7 @@ in {
     fonts = {
       packages = with pkgs; [
         inter
+        material-symbols
 
         libertinus
         source-serif
