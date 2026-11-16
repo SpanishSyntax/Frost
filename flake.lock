@@ -145,11 +145,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794858187,
-        "narHash": "sha256-mHI5mGrALiIagUTH3d0eJXYb+UxdiWpiibpC+KjibzI=",
+        "lastModified": 1794858835,
+        "narHash": "sha256-ZCxoyh64is+Mlbt8ey6sfvSrJ3/h3DsN8UbWkmtXlok=",
         "owner": "SpanishSyntax",
         "repo": "Beacon",
-        "rev": "c2609d31895a010fe5a38a6df683cdeab99e6b62",
+        "rev": "cbdc9c1b452d0f4fda0b54d6fa7f890b6dcabff5",
         "type": "github"
       },
       "original": {
