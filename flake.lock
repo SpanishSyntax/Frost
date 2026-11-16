@@ -308,11 +308,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794840911,
-        "narHash": "sha256-83nVzVgdISTWxPZP6mUzjNgRH1OJsbwfo0me8g7B/BE=",
+        "lastModified": 1794850814,
+        "narHash": "sha256-j8twwzCbH/9qSxQ1QtUoJ4huyyEodjsAYyLlOxs9lmQ=",
         "owner": "SpanishSyntax",
         "repo": "Fjord",
-        "rev": "1a49802d66d6b599f1dd6a573c4bb4aafce96a77",
+        "rev": "b16bb213cd1d1b16854d50b7ae6296a93ce3e0e8",
         "type": "github"
       },
       "original": {
