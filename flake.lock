@@ -701,11 +701,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794840829,
-        "narHash": "sha256-RVLWgnS6/cZ0js7Pfy+vMEnbk90htXUDk1+H3JYZPtA=",
+        "lastModified": 1794842134,
+        "narHash": "sha256-ysU+L6YMTW2btuHcIlh9Qzs1bUi/dljj00paTd0A8Hg=",
         "owner": "SpanishSyntax",
         "repo": "Helm",
-        "rev": "aea35977641dc6ac51c34040803dd75427f625f0",
+        "rev": "e055ab206bee7a098a02af589541fde5abeeb304",
         "type": "github"
       },
       "original": {
