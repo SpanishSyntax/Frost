@@ -308,11 +308,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794837598,
-        "narHash": "sha256-KwgDykEoq+pRg8rbgQ7OoAuTVQUFuDohO9kZiM6ljLg=",
+        "lastModified": 1794840911,
+        "narHash": "sha256-83nVzVgdISTWxPZP6mUzjNgRH1OJsbwfo0me8g7B/BE=",
         "owner": "SpanishSyntax",
         "repo": "Fjord",
-        "rev": "096d8a65638b4a32ed21aa551dbbfa6e6d0b6c6b",
+        "rev": "1a49802d66d6b599f1dd6a573c4bb4aafce96a77",
         "type": "github"
       },
       "original": {
@@ -701,11 +701,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794837630,
-        "narHash": "sha256-unUBF2+fM6UA/uBbYyiEWGME4Uf/P9P4+1g0Jyh1RpI=",
+        "lastModified": 1794840829,
+        "narHash": "sha256-RVLWgnS6/cZ0js7Pfy+vMEnbk90htXUDk1+H3JYZPtA=",
         "owner": "SpanishSyntax",
         "repo": "Helm",
-        "rev": "3e79574e0b8846a65e0ffd5eabfa2ab6eca88357",
+        "rev": "aea35977641dc6ac51c34040803dd75427f625f0",
         "type": "github"
       },
       "original": {
