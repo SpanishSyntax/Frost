@@ -4,6 +4,7 @@
     ++ getFiles ./environment
     ++ getFiles ./flatpak
     ++ getFiles ./hardware
+    ++ getFiles ./icebergs
     ++ getFiles ./leisure
     ++ getFiles ./oci
     ++ getFiles ./personalization
