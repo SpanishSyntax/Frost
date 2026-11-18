@@ -210,11 +210,11 @@
     stateVersion = "26.05";
 
     helpers = import ./lib/helpers {inherit lib inputs stateVersion;};
-    inherit (helpers) mkSystem mkHome;
+    inherit (helpers) mkSystem mkHome wrapBin;
   in {
     lib = {
-      inherit mkSystem mkHome;
-      inherit (helpers) getFiles;
+      inherit mkSystem mkHome wrapBin;
+      inherit (helpers) getFiles helpers;
     };
 
     nixosModules = {

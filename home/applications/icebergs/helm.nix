@@ -3,6 +3,7 @@
   lib,
   pkgs,
   inputs,
+  wrapBin,
   ...
 }: let
   cfg = config.frost.home.apps.icebergs.helm;
@@ -22,14 +23,10 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      (pkgs.symlinkJoin {
-        name = "helm-wrapped";
-        paths = [
-          (pkgs.writeShellScriptBin "helm" ''
-            exec ${cfg.package}/bin/flightdeck "$@"
-          '')
-          cfg.package
-        ];
+      (wrapBin pkgs {
+        pkg = cfg.package;
+        name = "helm";
+        target = "flightdeck";
       })
     ];
   };

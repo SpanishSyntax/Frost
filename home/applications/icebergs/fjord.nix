@@ -3,6 +3,7 @@
   lib,
   pkgs,
   inputs,
+  wrapBin,
   ...
 }: let
   cfg = config.frost.home.apps.icebergs.fjord;
@@ -22,14 +23,10 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      (pkgs.symlinkJoin {
-        name = "fjord-wrapped";
-        paths = [
-          (pkgs.writeShellScriptBin "fjord" ''
-            exec ${cfg.package}/bin/wormhole "$@"
-          '')
-          cfg.package
-        ];
+      (wrapBin pkgs {
+        pkg = cfg.package;
+        name = "fjord";
+        target = "wormhole";
       })
     ];
   };

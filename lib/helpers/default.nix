@@ -8,6 +8,35 @@
     (file: lib.hasSuffix ".nix" (toString file))
     (lib.filesystem.listFilesRecursive dir);
 
+  wrapBin = pkgs: {
+    pkg,
+    name,
+    target ? null,
+    env ? {},
+  }: let
+    targetBin =
+      if target != null
+      then target
+      else (pkg.meta.mainProgram or pkg.pname or pkg.name);
+    envExports = lib.concatStringsSep "\n" (
+      lib.mapAttrsToList (k: v: ''export ${k}="${toString v}"'') env
+    );
+  in
+    pkgs.symlinkJoin {
+      name = "${name}-wrapped";
+      paths = [
+        (pkgs.writeShellScriptBin name ''
+          ${envExports}
+          exec ${pkg}/bin/${targetBin} "$@"
+        '')
+        pkg
+      ];
+    };
+
+  helpers = {
+    inherit getFiles mkSystem mkHome wrapBin;
+  };
+
   mkSystem = {
     host ? null,
     system ? "x86_64-linux",
@@ -39,7 +68,7 @@
       ++ modules;
 
       specialArgs = {
-        inherit inputs stateVersion host getFiles;
+        inherit inputs stateVersion host getFiles helpers wrapBin;
       } // specialArgs;
     };
 
@@ -82,7 +111,7 @@
       ++ modules;
 
       extraSpecialArgs = {
-        inherit inputs stateVersion host getFiles;
+        inherit inputs stateVersion host getFiles helpers wrapBin;
       } // specialArgs;
     };
 }
