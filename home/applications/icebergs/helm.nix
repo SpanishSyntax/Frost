@@ -21,6 +21,16 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ cfg.package ];
+    home.packages = [
+      (pkgs.symlinkJoin {
+        name = "helm-wrapped";
+        paths = [
+          (pkgs.writeShellScriptBin "helm" ''
+            exec ${cfg.package}/bin/flightdeck "$@"
+          '')
+          cfg.package
+        ];
+      })
+    ];
   };
 }

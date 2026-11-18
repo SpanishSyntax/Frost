@@ -28,7 +28,17 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ cfg.package ];
+    home.packages = [
+      (pkgs.symlinkJoin {
+        name = "shards-wrapped";
+        paths = [
+          (pkgs.writeShellScriptBin "shards" ''
+            exec ${cfg.package}/bin/stowaway "$@"
+          '')
+          cfg.package
+        ];
+      })
+    ];
 
     systemd.user.services.stowaway = lib.mkIf cfg.daemon.enable {
       Unit = {

@@ -21,6 +21,16 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ cfg.package ];
+    home.packages = [
+      (pkgs.symlinkJoin {
+        name = "fjord-wrapped";
+        paths = [
+          (pkgs.writeShellScriptBin "fjord" ''
+            exec ${cfg.package}/bin/wormhole "$@"
+          '')
+          cfg.package
+        ];
+      })
+    ];
   };
 }
