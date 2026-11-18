@@ -53,6 +53,7 @@ in {
       };
       Install = {
         WantedBy = [ "graphical-session.target" ];
+        Alias = [ "shards.service" ];
       };
     };
   };
