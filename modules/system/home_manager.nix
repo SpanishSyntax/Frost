@@ -6,9 +6,15 @@
   stateVersion,
   host,
   getFiles,
+  helpers ? {},
+  wrapBin ? null,
   ...
 }: let
   cfg = config.frost.system.home_manager;
+  resolvedWrapBin =
+    if wrapBin != null
+    then wrapBin
+    else (helpers.wrapBin or null);
 in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -27,7 +33,10 @@ in {
       useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "backup";
-      extraSpecialArgs = {inherit inputs stateVersion host getFiles;};
+      extraSpecialArgs = {
+        inherit inputs stateVersion host getFiles helpers;
+        wrapBin = resolvedWrapBin;
+      };
       sharedModules = [
         ../../home/home.nix
         {
