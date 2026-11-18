@@ -1,18 +1,26 @@
 {
   config,
   lib,
+  pkgs,
   inputs,
   ...
 }: let
   cfg = config.frost.home.apps.icebergs.helm;
+  pkg =
+    if inputs ? helm
+    then inputs.helm.packages.${pkgs.stdenv.hostPlatform.system}.default
+    else pkgs.writeShellScriptBin "flightdeck" "echo 'helm input missing'; exit 1";
 in {
-  imports = [inputs.helm.homeManagerModules.default];
-
   options.frost.home.apps.icebergs.helm = {
     enable = lib.mkEnableOption "Helm (FlightDeck) Hyprland configuration manager";
+    package = lib.mkOption {
+      type = lib.types.package;
+      default = pkg;
+      description = "The FlightDeck package to use.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    programs.helm.enable = true;
+    home.packages = [ cfg.package ];
   };
 }

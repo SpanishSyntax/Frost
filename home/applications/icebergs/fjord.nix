@@ -1,18 +1,26 @@
 {
   config,
   lib,
+  pkgs,
   inputs,
   ...
 }: let
   cfg = config.frost.home.apps.icebergs.fjord;
+  pkg =
+    if inputs ? fjord
+    then inputs.fjord.packages.${pkgs.stdenv.hostPlatform.system}.default
+    else pkgs.writeShellScriptBin "wormhole" "echo 'fjord input missing'; exit 1";
 in {
-  imports = [inputs.fjord.homeManagerModules.default];
-
   options.frost.home.apps.icebergs.fjord = {
     enable = lib.mkEnableOption "Fjord (Wormhole) Material 3 XDG Desktop Portal daemon & dialogs";
+    package = lib.mkOption {
+      type = lib.types.package;
+      default = pkg;
+      description = "The Wormhole package to use.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    programs.fjord.enable = true;
+    home.packages = [ cfg.package ];
   };
 }
