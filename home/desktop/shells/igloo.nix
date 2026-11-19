@@ -6,15 +6,25 @@
   wrapBin,
   ...
 }: let
-  cfg = config.frost.home.desktop.tools.igloo;
+  cfg = config.frost.home.desktop.shells.igloo;
   system = pkgs.stdenv.hostPlatform.system;
 in {
   imports = [
     inputs.igloo.homeManagerModules.default
   ];
 
-  options.frost.home.desktop.tools.igloo = {
-    enable = lib.mkEnableOption "Igloo desktop shell";
+  options.frost.home.desktop.shells.igloo = {
+    enable = lib.mkEnableOption "Igloo (Caelestia) desktop shell";
+
+    compositor = lib.mkOption {
+      type = lib.types.str;
+      default = "hyprland";
+      example = "hyprland";
+      description = ''
+        Target Wayland compositor name for compositor-scoped UWSM environment overrides
+        (`~/.config/uwsm/env-<compositor>`), keeping multiple shells isolated across compositors.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -35,11 +45,9 @@ in {
           hideTarget = false;
         };
       };
-      # ydotool.enable = true;
-      systemd = {
-        enable = false;
-      };
+      systemd.enable = false;
     };
+
     home.packages = with pkgs; [
       cliphist
       wl-clipboard
@@ -49,15 +57,14 @@ in {
       hyprcursor
     ];
 
-    # UWSM Environment Injection
-    # Stated here: https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/
-    xdg.configFile."uwsm/env".text = ''
+    # Compositor-scoped UWSM environment injection (~/.config/uwsm/env-<compositor>)
+    xdg.configFile."uwsm/env-${cfg.compositor}".text = ''
       # 1. Source Home Manager's generated environment variables first
       if [ -f "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh" ]; then
         . "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh"
       fi
 
-      # 2. Caelestia Qt & Platform overrides
+      # 2. Igloo (Caelestia) Qt & Platform overrides
       export QT_QPA_PLATFORMTHEME='qtengine'
       export QT_WAYLAND_DISABLE_WINDOWDECORATION='1'
       export QT_AUTO_SCREEN_SCALE_FACTOR='1'

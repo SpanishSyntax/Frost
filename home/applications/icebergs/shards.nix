@@ -43,6 +43,7 @@ in {
         Description = "Shards Wayland Clipboard Daemon";
         PartOf = ["graphical-session.target"];
         After = ["graphical-session.target"];
+        ConditionEnvironment = "!XDG_CURRENT_DESKTOP=GNOME";
       };
       Service = {
         ExecStart = "${cfg.package}/bin/stowaway --daemon --foreground";

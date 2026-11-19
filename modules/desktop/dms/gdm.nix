@@ -13,5 +13,8 @@ in {
         enable = true;
       };
     };
+
+    frost.desktop.dms.defaultSession =
+      lib.mkIf (config.frost.desktop.des.gnome.enable or false) (lib.mkDefault "gnome");
   };
 }

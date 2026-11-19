@@ -70,6 +70,11 @@
       url = "github:Gerg-L/mnw";
     };
 
+    tapes = {
+      url = "github:futurekismo-oss/tapes";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     #################################################################
     # Icebergs
     #################################################################

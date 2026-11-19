@@ -54,9 +54,9 @@ in {
       extraPortals = [pkgs.xdg-desktop-portal-gtk] ++ cfg.extraPortals;
       config = lib.mapAttrs (_: fallbacks:
         {
-          default = cfg.portalOrder ++ ["gtk"] ++ fallbacks;
+          default = lib.mkOverride 90 (cfg.portalOrder ++ ["gtk"] ++ fallbacks);
         }
-        // cfg.interfaceOverrides)
+        // lib.mapAttrs (_: lib.mkOverride 90) cfg.interfaceOverrides)
       cfg.sessions;
     };
   };
