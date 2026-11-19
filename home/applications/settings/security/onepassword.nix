@@ -7,11 +7,7 @@
   cfg = config.frost.home.apps.settings.security.onepassword;
 in {
   options.frost.home.apps.settings.security.onepassword = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = config.frost.home.desktop.wms.hyprland.enable;
-      description = "Enable 1password (defaults to true when Hyprland is enabled).";
-    };
+    enable = lib.mkEnableOption "1Password autostart daemon";
   };
 
   config = lib.mkIf cfg.enable {

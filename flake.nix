@@ -66,11 +66,6 @@
     # Desktop
     #################################################################
 
-    iio-hyprland = {
-      url = "github:commonkestrel/iio-hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     mnw = {
       url = "github:Gerg-L/mnw";
     };

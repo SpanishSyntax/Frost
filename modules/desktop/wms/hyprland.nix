@@ -2,35 +2,56 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }: let
   cfg = config.frost.desktop.wms.hyprland;
+  iioEnabled = config.frost.hardware.iio.enable or false;
+  polkitEnabled = config.frost.security.polkit.enable or false;
 in {
   options.frost.desktop.wms = {
     hyprland = {
       enable = lib.mkEnableOption "Hyprland feature set";
-
-      iio = {
-        enable = lib.mkEnableOption "iio-hyprland screen rotation support";
-      };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    # environment.systemPackages = [pkgs.uwsm];
-    # systemd.packages = [pkgs.uwsm];
-    # environment.pathsToLink = ["/share/uwsm"];
-    #
-    # services.dbus.implementation = "broker";
-
-    environment.systemPackages = lib.optional cfg.iio.enable inputs.iio-hyprland.packages.${pkgs.stdenv.hostPlatform.system}.default;
-
-    hardware.sensor.iio.enable = lib.mkIf cfg.iio.enable true;
-
     programs.hyprland = {
       enable = true;
       withUWSM = true;
     };
+
+    systemd.user.services = {
+      iio-hyprland = lib.mkIf iioEnabled {
+        description = "iio-hyprland screen rotation daemon";
+        partOf = ["graphical-session.target"];
+        after = ["graphical-session.target"];
+        wantedBy = ["graphical-session.target"];
+        unitConfig.ConditionEnvironment = "HYPRLAND_INSTANCE_SIGNATURE";
+        serviceConfig = {
+          Type = "simple";
+          ExecStart = "${pkgs.iio-hyprland}/bin/iio-hyprland";
+          Restart = "on-failure";
+          RestartSec = 2;
+        };
+      };
+
+      hyprpolkitagent = lib.mkIf polkitEnabled {
+        description = "Hyprland Polkit Authentication Agent";
+        documentation = ["https://wiki.hyprland.org/Hypr-Ecosystem/hyprpolkitagent/"];
+        partOf = ["graphical-session.target"];
+        after = ["graphical-session.target"];
+        wantedBy = ["graphical-session.target"];
+        unitConfig.ConditionEnvironment = "HYPRLAND_INSTANCE_SIGNATURE";
+        serviceConfig = {
+          Type = "simple";
+          ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
+        };
+      };
+    };
+
+    frost.personalization.xdg.sessions.hyprland = ["hyprland"];
   };
 }

@@ -7,11 +7,7 @@
   cfg = config.frost.home.apps.system.core.bluetooth;
 in {
   options.frost.home.apps.system.core.bluetooth = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = config.frost.home.desktop.wms.hyprland.enable;
-      description = "Enable bluetooth CLI tools (defaults to true when Hyprland is enabled).";
-    };
+    enable = lib.mkEnableOption "bluetooth CLI tools";
   };
 
   config = lib.mkIf cfg.enable {
