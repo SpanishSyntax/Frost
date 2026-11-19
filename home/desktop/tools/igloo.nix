@@ -3,22 +3,38 @@
   pkgs,
   lib,
   inputs,
+  wrapBin,
   ...
 }: let
   cfg = config.frost.home.desktop.tools.igloo;
+  system = pkgs.stdenv.hostPlatform.system;
 in {
   imports = [
     inputs.igloo.homeManagerModules.default
   ];
 
   options.frost.home.desktop.tools.igloo = {
-    enable = lib.mkEnableOption "caelestia";
+    enable = lib.mkEnableOption "Igloo desktop shell";
   };
 
   config = lib.mkIf cfg.enable {
     programs.caelestia = {
       enable = true;
-      cli.enable = true;
+      package = wrapBin pkgs {
+        pkg = inputs.igloo.packages.${system}.with-cli;
+        name = "igloo-shell";
+        target = "caelestia-shell";
+        hideTarget = false;
+      };
+      cli = {
+        enable = true;
+        package = wrapBin pkgs {
+          pkg = inputs.igloo.inputs.caelestia-cli.packages.${system}.default;
+          name = "igloo";
+          target = "caelestia";
+          hideTarget = false;
+        };
+      };
       # ydotool.enable = true;
       systemd = {
         enable = false;
