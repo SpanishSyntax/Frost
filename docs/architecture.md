@@ -65,18 +65,23 @@ Frost/
 │   ├── boot.nix            # standard systemd-boot loader configuration
 │   ├── workstation/        # Starter graphical workstation profile
 │   └── server/             # Starter headless server profile
-├── modules/                # System-level modules (frost.* namespace)
-│   ├── desktop/            # Window managers, desktop environments, display managers
-│   ├── hardware/           # PipeWire audio, Bluetooth, Networking, Power
-│   ├── oci/                # OCI containerized services (Jellyfin, Immich, pgAdmin)
-│   ├── security/           # Polkit, PAM (U2F), SOPS-nix, 1Password
-│   ├── services/           # Tailscale, SSH, Cloudflared, Syncthing, AdGuard
-│   ├── storage/            # Disko, Btrfs rollback, Impermanence, ZFS
-│   └── virtualization/     # MicroVM, Docker, Podman, Libvirt, Bottles
+├── modules/                # System-level 2-level modules (frost.* namespace)
+│   ├── system/             # Boot, locale, runtime (home_manager, fhs), storage (impermanence, zfs)
+│   ├── hardware/           # PipeWire audio, peripherals (Bluetooth, printing), power, sensors (IIO)
+│   ├── network/            # Stack, edge (Caddy, AdGuard), remote (SSH, WayVNC), sync, VPNs
+│   ├── security/           # Auth (PAM, Polkit, YubiKey) & secrets (SOPS, 1Password, keyring)
+│   ├── desktop/            # 8 DMs, 8 DEs, 8 WMs, and session-scoped XDG portals
+│   ├── virtualization/     # Containers (Docker, Podman, OCI), VMs (MicroVM, Libvirt), stacks
+│   └── programs/           # Flatpak, gaming (Steam), system utilities
+├── configs/                # Starter dotfiles & system configs
+│   ├── home/               # Starter user configs (caelestia, nvim, sled, zsh.d, antigravity)
+│   └── system/             # Starter system configs (caddy)
 └── home/                   # User-level Home Manager modules (frost.home.* namespace)
     ├── home.nix            # Central user module collector
-    ├── applications/       # 110+ granular app modules (dev, creative, shell, office)
-    ├── environment/        # Shell environment, fonts, GTK, XDG settings
+    ├── applications/       # 110+ XDG-categorized app modules (ai, dev, graphics, media, office, ...)
+    ├── desktop/            # Wayland shells (igloo) & desktop tools (borealis, shards, igloo_cli)
+    ├── environment/        # configsPath / mkSource, fonts, GTK, XDG, global ignores
+    ├── services/           # User services (syncthing, google_drive)
     └── users/              # User profiles
         └── frost.nix       # Generic starter user environment
 ```
@@ -107,17 +112,21 @@ In `hosts/workstation/disko.nix`, the storage layout is partitioned into:
 
 ---
 
-## Out-of-Store Symlinking
+## Out-of-Store Symlinking & Tapes v2
 
-Iterating on Wayland configurations or desktop dotfiles traditionally requires a `nixos-rebuild switch`. Frost provides parameterized out-of-store symlinking:
+Iterating on Wayland configurations or desktop dotfiles traditionally requires a `nixos-rebuild switch`. Frost provides centralized path resolution via `frost.home.environment.configsPath` and `mkSource`:
 
 ```nix
-frost.home = {
-  dotfiles = {
-    enableSymlinks = true;
-    symlinkSourcePath = "/home/youruser/Frost/configs/home";
-  };
+frost.home.environment = {
+  # String path -> mutable out-of-store symlinks (live hot-reloading)
+  configsPath = "${config.home.homeDirectory}/Glacier/configs/home";
+
+  # Nix path literal -> immutable in-store copy (pure server builds)
+  # configsPath = ../configs/home;
+  # mutable = false;
 };
 ```
 
-When `enableSymlinks` is active, Home Manager generates symlinks using `config.lib.file.mkOutOfStoreSymlink` pointing directly into your local checkout. File modifications take effect instantly on save without invoking `nixos-rebuild`.
+- When `configsPath` is a string and `mutable = true`, `mkSource` delegates to `config.lib.file.mkOutOfStoreSymlink`, so edits take effect immediately on save without invoking `nixos-rebuild`.
+- When `configsPath` is `null`, Frost falls back to its built-in starter templates in `configs/home/`.
+- For desktop/WM rices (`hypr/`, `caelestia/`, `waybar/`, etc.), Frost also packages **Tapes v2** (`frost.home.apps.settings.desktop.tapes.enable = true`), allowing users to pull and atomically swap additional `~/.config` rices without disturbing Home Manager-owned tool configs (`sled/`, `nvim/`, `zsh.d/`).

@@ -1,153 +1,178 @@
 # Module Reference
 
-Frost provides a unified, structured option hierarchy partitioned into system-level NixOS modules (`frost.*`) and user-level Home Manager modules (`frost.home.*`).
+Frost provides a strict 2-level option hierarchy for system-level NixOS modules (`frost.<domain>.<category>.<module>`) and XDG-categorized user-level Home Manager modules (`frost.home.*`).
 
 ---
 
 ## System Modules (`frost.*`)
 
-System modules configure hardware devices, base daemons, desktop environments, virtualization layers, and storage policies.
+### System (`frost.system.*`)
 
-### Desktop & Display Management
-
-| Option | Type | Description |
+| Category | Modules | Description |
 | :--- | :--- | :--- |
-| `frost.desktop.wms.hyprland.enable` | boolean | Configures Hyprland Wayland compositor with UWSM session management and portal integration |
-| `frost.desktop.des.gnome.enable` | boolean | Enables GNOME desktop environment and core system extensions |
-| `frost.desktop.des.xfce.enable` | boolean | Enables lightweight XFCE desktop environment |
-| `frost.desktop.dms.sddm.enable` | boolean | Configures SDDM display manager with Wayland support |
-| `frost.desktop.dms.gdm.enable` | boolean | Configures GDM display manager |
-| `frost.desktop.dms.ly.enable` | boolean | Enables lightweight TTY-based Ly display manager |
-| `frost.desktop.dms.permafrost.enable` | boolean | Enables Airlock / PermaFrost Material 3 Quickshell frontend for greetd |
+| `boot` | `console`, `plymouth` | TTY console settings and graphical boot splash |
+| `locale` | `datetime`, `fonts`, `locales` | Timezone, NTP, system font stack, and locale defaults |
+| `runtime` | `environment`, `fhs`, `home_manager` | Base system packages, `nix-ld` / FHS compatibility, and Home Manager integration |
+| `storage` | `btrfs_rollback`, `impermanence`, `trash`, `zfs` | Ephemeral root rollback, `/persist` bind-mounts, trash management, and OpenZFS |
 
-### Hardware & Sound
+### Desktop & Display Management (`frost.desktop.*`)
 
-| Option | Type | Description |
+| Category | Modules | Description |
 | :--- | :--- | :--- |
-| `frost.hardware.pipewire.enable` | boolean | Enables low-latency PipeWire sound server with ALSA, PulseAudio, and JACK emulation |
-| `frost.hardware.bluetooth.enable` | boolean | Configures BlueZ daemon with modern audio codecs and Blueman GUI applet |
-| `frost.hardware.networking.enable` | boolean | Configures NetworkManager or systemd-networkd network stacks |
-| `frost.hardware.power.enable` | boolean | Enables TLP or auto-cpufreq battery management and thermal throttling policies |
-| `frost.hardware.printing.enable` | boolean | Enables CUPS printing daemon with automatic network driver discovery |
+| `dms` | `permafrost`, `greetd`, `sddm`, `gdm`, `ly`, `lightdm`, `cosmic_greeter` | Decoupled display managers with unified `frost.desktop.dms.defaultSession` resolution |
+| `des` | `gnome`, `plasma`, `cosmic`, `xfce`, `cinnamon`, `mate`, `lxqt`, `budgie` | Full desktop environments (co-installable without portal or service conflicts) |
+| `wms` | `hyprland`, `niri`, `sway`, `river`, `i3`, `bspwm`, `awesome`, `qtile` | Wayland and X11 window managers with session-scoped services |
+| `portals` | `xdg`, `fjord` | Session-scoped XDG Desktop Portal unifier (`<session>-portals.conf`) and Fjord portal |
 
-### Security & Secrets Management
+### Hardware (`frost.hardware.*`)
 
-| Option | Type | Description |
+| Category | Modules | Description |
 | :--- | :--- | :--- |
-| `frost.security.sops_nix.enable` | boolean | Enables SOPS-nix runtime decryption using host age keys |
-| `frost.security.sops_nix.defaultSopsFile` | path | Path to encrypted YAML or JSON secrets file |
-| `frost.security.pam.enable` | boolean | Configures PAM modules, including YubiKey U2F multi-factor auth |
-| `frost.security.polkit.enable` | boolean | Enables Polkit daemon with user desktop authentication agent |
-| `frost.security.gnome_keyring.enable` | boolean | Enables GNOME Keyring daemon with PAM auto-unlocking |
-| `frost.security.firewall.enable` | boolean | Configures iptables / nftables declarative firewall rules |
-| `frost.security.onepassword.enable` | boolean | Installs 1Password CLI and system authentication helper |
+| `audio` | `pipewire` | Low-latency PipeWire sound server with ALSA, PulseAudio, and JACK emulation |
+| `peripherals` | `bluetooth`, `printing`, `uinput` | BlueZ stack, CUPS printing + discovery, and `uinput` device permissions |
+| `power` | `power` (`frost.hardware.power`) | Laptop power profiles, TLP / thermal management |
+| `sensors` | `iio` | `iio-sensor-proxy` accelerometer / auto-rotation support |
 
-### System Services & Networking
+### Network (`frost.network.*`)
 
-| Option | Type | Description |
+| Category | Modules | Description |
 | :--- | :--- | :--- |
-| `frost.services.ssh.enable` | boolean | Hardened OpenSSH daemon (disables root login, enforces pubkey auth) |
-| `frost.services.tailscale.enable` | boolean | Enables Tailscale mesh VPN daemon with routing options |
-| `frost.services.wireguard.enable` | boolean | Declarative WireGuard tunnels and key management |
-| `frost.services.syncthing.enable` | boolean | Declarative folder synchronization with systemd user unit |
-| `frost.services.caddy.enable` | boolean | Modern reverse proxy with automatic HTTPS certificate provisioning |
-| `frost.services.cloudflared.enable` | boolean | Cloudflare Zero Trust tunnel daemon |
-| `frost.services.adguard.enable` | boolean | AdGuard Home DNS sinkhole and ad-blocking server |
+| `stack` | `firewall`, `networking` | Declarative nftables/iptables firewall and NetworkManager / networkd |
+| `edge` | `adguard`, `caddy`, `cloudflared` | DNS sinkhole, automatic HTTPS reverse proxy, and Cloudflare Zero Trust tunnels |
+| `remote` | `kde_connect`, `ssh`, `wayvnc` | Hardened OpenSSH daemon, KDE Connect firewall/daemon, and WayVNC |
+| `sync` | `google_drive`, `syncthing` | System-level Syncthing and Google Drive sync helpers |
+| `vpn` | `eduvpn`, `openvpn`, `tailscale`, `wireguard` | Mesh and traditional VPN tunnels |
 
-### Storage & Impermanence
+### Security (`frost.security.*`)
 
-| Option | Type | Description |
+| Category | Modules | Description |
 | :--- | :--- | :--- |
-| `frost.storage.impermanence.enable` | boolean | Mounts root filesystem on ephemeral tmpfs or resets Btrfs subvolume on boot |
-| `frost.storage.btrfs_rollback.enable` | boolean | Automatically restores blank `@` subvolume during initrd stage |
-| `frost.storage.disko.enable` | boolean | Declares automated disk formatting and partitioning schemes |
-| `frost.storage.zfs.enable` | boolean | Configures OpenZFS kernel modules and automated snapshot maintenance |
+| `auth` | `pam`, `polkit`, `yubikey` | PAM U2F/FIDO2 authentication, Polkit daemon, and YubiKey smartcard/udev rules |
+| `secrets` | `gnome_keyring`, `onepassword`, `sops_nix` | SOPS-nix runtime decryption, GNOME Keyring, and 1Password CLI/GUI integration |
 
-### Virtualization & Containers
+### Virtualization (`frost.virtualization.*`)
 
-| Option | Type | Description |
+| Category | Modules | Description |
 | :--- | :--- | :--- |
-| `frost.virtualization.docker.enable` | boolean | Installs Docker daemon with rootless execution options |
-| `frost.virtualization.podman.enable` | boolean | Enables Podman rootless container runtime |
-| `frost.virtualization.microvm.enable` | boolean | Declarative lightweight hypervisor VMs managed by systemd |
-| `frost.virtualization.libvirt.enable` | boolean | Enables KVM/QEMU hypervisor with Virt-Manager UI support |
-| `frost.virtualization.bottles.enable` | boolean | Enables Bottles / Wine gaming container runtime |
+| `containers` | `compose2nix`, `docker`, `oci`, `podman` | Docker, Podman, and declarative OCI container runtimes |
+| `vms` | `libvirt`, `microvm`, `virtualbox` | KVM/QEMU hypervisor, declarative MicroVMs, and VirtualBox |
+| `stacks` | `immich`, `jellyfin`, `pgadmin` | Pre-wired self-hosted containerized service stacks |
+
+### Programs (`frost.programs.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `flatpak` | `flatpak` (`default`), `bottles`, `flatseal`, `museum` | Flatpak runtime and curated desktop Flatpak apps |
+| `gaming` | `steam` | Steam + Gamemode / Gamescope gaming stack |
+| `utilities` | `gnome_disk_usage`, `gnome_disks`, `iamb` | System-level disk and CLI utilities |
 
 ---
 
 ## User Modules (`frost.home.*`)
 
-User modules configure desktop tools, terminal utilities, development compilers, and office software managed by Home Manager.
+User modules live under `frost.home.apps.*` (following XDG desktop categories), `frost.home.desktop.*`, `frost.home.environment.*`, and `frost.home.services.*`.
 
-### Option Tree
+### Applications (`frost.home.apps.*`)
 
-User applications are organized under `frost.home.applications`:
-
+- **`ai`**: `antigravity`, `beacon`, `flox`, `n8n`, `opencode`, `sled`
 - **`development`**:
   - `editors`: `nvim`, `vscode`, `zed`, `android_studio`
-  - `tools`: `git`, `heimdall`, `postman`, `dbeaver`
+  - `tools`: `basecamp`, `dbeaver`, `git`, `heimdall`, `postman`, `prism`
   - `langs`: `bash`, `cpp`, `go`, `java`, `js`, `latex`, `lua`, `markdown`, `nginx`, `nix`, `python`, `rust`, `toml`, `typst`, `yaml`
+- **`gaming.launchers`**: `gamemode`, `heroic`
 - **`graphics`**:
-  - `raster`: `gimp`, `sly`
-  - `vector`: `inkscape`
   - `cad`: `blender`, `model_viewer`
-  - `viewers`: `gnome_image_viewer`, `gnome_image_editor`
-  - `scanning`: `gnome_scanner`, `gnome_ocr`
+  - `raster`: `gimp`, `sly`
+  - `scanning`: `gnome_ocr`, `gnome_scanner`
+  - `vector`: `inkscape`
+  - `viewers`: `gnome_image_editor`, `gnome_image_viewer`
 - **`media`**:
-  - `audio`: `spotify`, `gnome_radio`, `pwvucontrol`
-  - `video`: `anime`, `netflix`, `obs`, `kdenlive`, `gnome_video_player`
+  - `audio`: `cozy`, `gnome_radio`, `pwvucontrol`, `skald`, `spotify`
+  - `video`: `anime`, `gnome_video_player`, `kdenlive`, `netflix`, `obs`
 - **`network`**:
   - `browsers`: `chrome`, `firefox`, `tor`, `zen`
   - `chat`: `discord`, `teams`, `telegram`, `tut`, `whatsapp`
+  - `remote`: `dnsutils`, `eduvpn`, `gnome_network_displays`, `iperf`, `kde_connect`, `mappers`, `openssl`, `remmina`
   - `transfer`: `aria2`, `gnome_torrents`, `parabolic`
-  - `remote`: `dnsutils`, `eduvpn`, `gnome_network_displays`, `iperf`, `kde_connect`, `remmina`
 - **`office`**:
-  - `docs`: `libreoffice`, `obsidian`, `marktext`, `rnote`, `gnome_markdown`, `todoist`
-  - `readers`: `zathura`, `sioyek`, `calibre`, `foliate`, `zlibrary`, `gnome_document_viewer`
-  - `tools`: `pandoc`, `ghostscript`, `mermaid`, `stirling`, `autofirma`, `bento_pdf`, `zotero`
+  - `docs`: `gnome_markdown`, `libreoffice`, `marktext`, `obsidian`, `rnote`, `todoist`
+  - `readers`: `calibre`, `foliate`, `gnome_document_viewer`, `goggles`, `sioyek`, `zathura`, `zlibrary`
+  - `tools`: `autofirma`, `bento_pdf`, `ghostscript`, `gnome_pomodoro`, `mermaid`, `pandoc`, `searchlight`, `snowpack`, `stirling`, `zotero`
 - **`science`**:
-  - `math`: `octave`
-  - `gis`: `qgis`
-  - `diagrams`: `drawio`
+  - `diagrams`: `drawio`, `lantern`
   - `electronics`: `kicad`
+  - `gis`: `qgis`
+  - `math`: `barograph`, `octave`
+- **`settings`**:
+  - `desktop`: `helm`, `nwg_look`, `tapes`
+  - `packages`: `gnome_software`
+  - `security`: `gnome_seahorse`, `onepassword`, `pass`, `sops`, `vulnix`
 - **`system`**:
-  - `shell`: `bat`, `curl`, `eza`, `fastfetch`, `file`, `fzf`, `glow`, `jq`, `kitty`, `magika`, `pay_respects`, `pdfgrep`, `ripgrep`, `starship`, `tmux`, `tree`, `wget`, `zoxide`, `zsh`
   - `core`: `bluetooth`, `sqlite`, `usbutils`, `zip`
   - `desktop`: `gnome_characters`, `gnome_file_roller`, `gnome_files`, `gnome_system_monitor`, `thunar`
-- **`icebergs`**:
-  - Integrations for ecosystem tools: `barograph`, `basecamp`, `beacon`, `borealis`, `goggles`, `igloo`, `lantern`, `permafrost`, `prism`, `rime`, `searchlight`, `shards`, `sled`, `snowpack`, `skald`
-- **`ai`**:
-  - `antigravity`, `flox`, `n8n`, `opencode`
+  - `shell`: `bat`, `curl`, `eza`, `fastfetch`, `file`, `fzf`, `glow`, `jq`, `kitty`, `magika`, `pay_respects`, `pdfgrep`, `ripgrep`, `starship`, `tmux`, `tree`, `wget`, `zoxide`, `zsh`
+  - `virtualization`: `boxbuddy`, `devbox`, `distrobox`, `docker`, `kontainer`, `virt_manager`
+- **`utility.accessories`**: `calculator`, `gnome_calculator`, `gnome_calendar`, `gnome_clocks`, `gnome_fretboard`, `gnome_typing`, `gnome_weather`, `memorado`, `rime`, `rss`
+
+### Desktop Shells & Tools (`frost.home.desktop.*`)
+
+- **`shells`**: `igloo` (`manageConfig`, `manageHyprConfig`, `compositor`, `systemd.enable`)
+- **`tools`**: `awww`, `borealis`, `igloo_cli`, `shards`
+
+### Environment & Services (`frost.home.environment.*`, `frost.home.services.*`)
+
+- **`environment`**: `configsPath`, `mutable`, `mkSource`, `fonts`, `gtk`, `xdg`, `ignores`
+- **`services`**: `google_drive`, `syncthing`
 
 ### Example Configuration
 
 ```nix
-{ pkgs, ... }: {
-  frost.home.applications = {
-    development = {
-      editors.nvim.enable = true;
-      tools.git.enable = true;
-      langs = {
-        nix.enable = true;
-        rust.enable = true;
-        typst.enable = true;
-        python.enable = true;
+{ config, ... }: {
+  frost.home = {
+    apps = {
+      ai.sled.enable = true;
+      development = {
+        editors.nvim.enable = true;
+        tools.git.enable = true;
+        langs = {
+          nix.enable = true;
+          rust.enable = true;
+          typst.enable = true;
+          python.enable = true;
+        };
+      };
+      settings.desktop.tapes.enable = true;
+      system.shell = {
+        kitty.enable = true;
+        zsh.enable = true;
+        starship.enable = true;
+        zoxide.enable = true;
+        ripgrep.enable = true;
+        eza.enable = true;
+        fzf.enable = true;
+      };
+      network.browsers.firefox.enable = true;
+      office.readers.sioyek.enable = true;
+    };
+
+    desktop = {
+      shells.igloo = {
+        enable = true;
+        manageConfig = true;
+        manageHyprConfig = false; # Set true if tracking hypr/ in configsPath
+      };
+      tools = {
+        borealis.enable = true;
+        igloo_cli.enable = true;
+        shards.enable = true;
       };
     };
-    system.shell = {
-      kitty.enable = true;
-      zsh.enable = true;
-      starship.enable = true;
-      zoxide.enable = true;
-      ripgrep.enable = true;
-      eza.enable = true;
-      fzf.enable = true;
-    };
-    network.browsers.firefox.enable = true;
-    office.readers.sioyek.enable = true;
-    icebergs = {
-      sled.enable = true;
-      borealis.enable = true;
+
+    environment = {
+      configsPath = "${config.home.homeDirectory}/Glacier/configs/home";
+      fonts.enable = true;
+      gtk.enable = true;
+      xdg.enable = true;
     };
   };
 }

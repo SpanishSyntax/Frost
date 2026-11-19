@@ -7,7 +7,7 @@
 }: {
   options.frost.home.environment = {
     configsPath = lib.mkOption {
-      type = lib.types.nullOr lib.types.path;
+      type = lib.types.nullOr (lib.types.either lib.types.str lib.types.path);
       default = null;
       example = "${config.home.homeDirectory}/Glacier/configs/home";
       description = ''

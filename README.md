@@ -50,17 +50,23 @@ Frost/
 │   ├── boot.nix            # Standard systemd-boot loader configuration
 │   ├── workstation/        # Starter graphical workstation (Hyprland + GNOME)
 │   └── server/             # Starter headless server (Docker + SSH)
-├── modules/                # System-level modules (frost.* namespace)
-│   ├── desktop/            # Window managers, desktop environments, display managers
-│   ├── hardware/           # Audio (PipeWire), Bluetooth, Networking, Power
-│   ├── oci/                # OCI containerized services (Jellyfin, Immich, pgAdmin)
-│   ├── security/           # Polkit, PAM (U2F), SOPS-nix, 1Password
-│   ├── services/           # Tailscale, SSH, Cloudflared, Syncthing, AdGuard
-│   ├── storage/            # Disko, Btrfs rollback, Impermanence, ZFS
-│   └── virtualization/     # MicroVM, Docker, Podman, Libvirt, Bottles
+├── modules/                # System-level 2-level modules (frost.* namespace)
+│   ├── system/             # Boot, locale, runtime (home_manager, fhs), storage (impermanence, zfs)
+│   ├── hardware/           # Audio (PipeWire), peripherals (Bluetooth, printing), power, sensors (IIO)
+│   ├── network/            # Stack, edge (Caddy, AdGuard), remote (SSH, WayVNC), sync, VPNs
+│   ├── security/           # Auth (PAM, Polkit, YubiKey) & secrets (SOPS, 1Password, keyring)
+│   ├── desktop/            # 8 DMs, 8 DEs, 8 WMs, and session-scoped XDG portals
+│   ├── virtualization/     # Containers (Docker, Podman, OCI), VMs (MicroVM, Libvirt), stacks
+│   └── programs/           # Flatpak, gaming (Steam), system utilities
+├── configs/                # Starter dotfiles & system configs (out-of-store or in-store)
+│   ├── home/               # Starter user configs (caelestia, nvim, sled, zsh.d, antigravity)
+│   └── system/             # Starter system configs (caddy)
 └── home/                   # User-level Home Manager modules (frost.home.* namespace)
     ├── home.nix            # Central user module collector
-    ├── applications/       # 110+ granular app modules (dev, creative, shell, office)
+    ├── applications/       # 110+ XDG-categorized app modules (ai, dev, graphics, media, office, ...)
+    ├── desktop/            # Wayland shells (igloo) & desktop tools (borealis, shards, igloo_cli)
+    ├── environment/        # configsPath / mkSource, fonts, GTK, XDG, global ignores
+    ├── services/           # User services (syncthing, google_drive)
     └── users/              # User profiles
         └── frost.nix       # Generic starter user environment
 ```
@@ -148,10 +154,10 @@ Ideal if you maintain a private fleet repository containing host identities, dis
 
      frost = {
        desktop.wms.hyprland.enable = true;
-       hardware.pipewire.enable = true;
-       hardware.bluetooth.enable = true;
-       security.polkit.enable = true;
-       system.home_manager.enable = true;
+       hardware.audio.pipewire.enable = true;
+       hardware.peripherals.bluetooth.enable = true;
+       security.auth.polkit.enable = true;
+       system.runtime.home_manager.enable = true;
      };
    }
    ```
@@ -195,48 +201,74 @@ sudo nixos-enter
 
 ### System Options (`frost.*`)
 
+All system modules follow a strict 2-level hierarchy (`frost.<domain>.<category>.<module>`):
+
 | Namespace | Capabilities |
 | :--- | :--- |
-| `frost.desktop.wms` | `hyprland` (UWSM, Waybar, Caelestia integration) |
-| `frost.desktop.des` | `gnome`, `xfce` |
-| `frost.desktop.dms` | `sddm`, `gdm`, `ly`, `permafrost` |
-| `frost.hardware` | `pipewire`, `bluetooth`, `power`, `networking`, `printing` |
-| `frost.security` | `pam` (YubiKey U2F), `sops_nix`, `polkit`, `gnome_keyring`, `onepassword`, `firewall` |
-| `frost.services` | `ssh`, `tailscale`, `wireguard`, `cloudflared`, `syncthing`, `adguard`, `caddy` |
-| `frost.storage` | `disko`, `impermanence` (root-on-tmpfs), `btrfs_rollback`, `zfs` |
-| `frost.virtualization` | `microvm`, `docker`, `podman`, `libvirt`, `compose2nix`, `bottles` |
-| `frost.system` | `home_manager`, `console`, `datetime`, `plymouth` |
+| `frost.system` | `boot` (`console`, `plymouth`), `locale` (`datetime`, `fonts`, `locales`), `runtime` (`environment`, `fhs`, `home_manager`), `storage` (`btrfs_rollback`, `impermanence`, `trash`, `zfs`) |
+| `frost.hardware` | `audio` (`pipewire`), `peripherals` (`bluetooth`, `printing`, `uinput`), `power`, `sensors` (`iio`) |
+| `frost.network` | `stack` (`firewall`, `networking`), `edge` (`adguard`, `caddy`, `cloudflared`), `remote` (`kde_connect`, `ssh`, `wayvnc`), `sync` (`google_drive`, `syncthing`), `vpn` (`eduvpn`, `openvpn`, `tailscale`, `wireguard`) |
+| `frost.security` | `auth` (`pam`, `polkit`, `yubikey`), `secrets` (`gnome_keyring`, `onepassword`, `sops_nix`) |
+| `frost.desktop` | `dms` (`permafrost`, `greetd`, `sddm`, `gdm`, `ly`, `lightdm`, `cosmic_greeter` + unified `defaultSession`), `des` (`gnome`, `plasma`, `cosmic`, `xfce`, `cinnamon`, `mate`, `lxqt`, `budgie`), `wms` (`hyprland`, `niri`, `sway`, `river`, `i3`, `bspwm`, `awesome`, `qtile`), `portals` (`xdg`, `fjord`) |
+| `frost.virtualization` | `containers` (`docker`, `podman`, `oci`, `compose2nix`), `vms` (`libvirt`, `microvm`, `virtualbox`), `stacks` (`immich`, `jellyfin`, `pgadmin`) |
+| `frost.programs` | `flatpak` (`bottles`, `flatseal`, `museum`), `gaming` (`steam`), `utilities` (`gnome_disks`, `gnome_disk_usage`, `iamb`) |
 
-### User Options (`frost.home.applications.*`)
+### User Options (`frost.home.*`)
 
-Over 110 modular application wrappers managed by Home Manager:
+Over 110 modular application wrappers organized by XDG desktop categories under `frost.home.apps.*`, plus desktop shells/tools under `frost.home.desktop.*`:
 
-- **`development`**: `editors` (nvim, vscode, zed), `tools` (git, heimdall, postman), `langs` (bash, cpp, go, java, js, latex, lua, markdown, nix, python, rust, typst)
-- **`graphics`**: `raster` (gimp, sly), `vector` (inkscape), `cad` (blender), `viewers` (gnome_image_viewer)
-- **`media`**: `audio` (spotify, pwvucontrol), `video` (obs, kdenlive, gnome_video_player)
-- **`network`**: `browsers` (chrome, firefox, tor, zen), `chat` (discord, teams, telegram), `remote` (iperf, kde_connect, remmina)
-- **`office`**: `docs` (libreoffice, obsidian, marktext), `readers` (zathura, sioyek), `tools` (pandoc, ghostscript, zotero)
-- **`science`**: `math` (octave), `gis` (qgis), `diagrams` (drawio), `electronics` (kicad)
-- **`system`**: `shell` (bat, curl, eza, fzf, jq, kitty, ripgrep, starship, tmux, zoxide, zsh), `desktop` (gnome_files, thunar)
-- **`icebergs`**: `barograph`, `basecamp`, `beacon`, `borealis`, `goggles`, `lantern`, `permafrost`, `prism`, `rime`, `sled`, `snowpack`, `skald`
-- **`ai`**: `antigravity`, `flox`, `n8n`, `opencode`
+- **`apps.ai`**: `antigravity`, `beacon`, `flox`, `n8n`, `opencode`, `sled`
+- **`apps.development`**: `editors` (`nvim`, `vscode`, `zed`, `android_studio`), `tools` (`basecamp`, `git`, `heimdall`, `postman`, `prism`, `dbeaver`), `langs` (`bash`, `cpp`, `go`, `java`, `js`, `latex`, `lua`, `markdown`, `nginx`, `nix`, `python`, `rust`, `toml`, `typst`, `yaml`)
+- **`apps.graphics`**: `raster` (`gimp`, `sly`), `vector` (`inkscape`), `cad` (`blender`, `model_viewer`), `viewers` (`gnome_image_viewer`, `gnome_image_editor`), `scanning` (`gnome_scanner`, `gnome_ocr`)
+- **`apps.media`**: `audio` (`cozy`, `skald`, `spotify`, `pwvucontrol`, `gnome_radio`), `video` (`anime`, `netflix`, `obs`, `kdenlive`, `gnome_video_player`)
+- **`apps.network`**: `browsers` (`chrome`, `firefox`, `tor`, `zen`), `chat` (`discord`, `teams`, `telegram`, `tut`, `whatsapp`), `remote` (`dnsutils`, `eduvpn`, `iperf`, `kde_connect`, `mappers`, `openssl`, `remmina`), `transfer` (`aria2`, `gnome_torrents`, `parabolic`)
+- **`apps.office`**: `docs` (`libreoffice`, `obsidian`, `marktext`, `rnote`), `readers` (`calibre`, `foliate`, `goggles`, `sioyek`, `zathura`, `zlibrary`), `tools` (`autofirma`, `ghostscript`, `mermaid`, `pandoc`, `searchlight`, `snowpack`, `stirling`, `zotero`)
+- **`apps.science`**: `diagrams` (`drawio`, `lantern`), `electronics` (`kicad`), `gis` (`qgis`), `math` (`barograph`, `octave`)
+- **`apps.settings`**: `desktop` (`helm`, `nwg_look`, `tapes`), `packages` (`gnome_software`), `security` (`gnome_seahorse`, `onepassword`, `pass`, `sops`, `vulnix`)
+- **`apps.system`**: `shell` (`bat`, `curl`, `eza`, `fastfetch`, `fzf`, `glow`, `jq`, `kitty`, `ripgrep`, `starship`, `tmux`, `zoxide`, `zsh`), `core` (`bluetooth`, `sqlite`, `usbutils`, `zip`), `desktop` (`thunar`, `gnome_characters`, `gnome_file_roller`), `virtualization` (`distrobox`, `docker`, `virt_manager`)
+- **`apps.utility.accessories`**: `calculator`, `rime`, `rss`, `gnome_calculator`
+- **`desktop`**: `shells` (`igloo`), `tools` (`awww`, `borealis`, `igloo_cli`, `shards`)
 
 ---
 
-## Dotfiles Hot-Reloading
+## Dotfiles Hot-Reloading & Tapes v2 Ricing
 
-Frost supports live editing of dotfiles without full NixOS rebuilding. When enabled, dotfiles are linked out-of-store via `mkOutOfStoreSymlink`:
+Frost separates core developer dotfiles (managed via Home Manager `mkSource`) from swappable desktop rices (optional via **Tapes v2**):
+
+### 1. Out-of-Store Dotfiles (`configsPath`)
 
 ```nix
-frost.home = {
-  dotfiles = {
-    enableSymlinks = true;
-    symlinkSourcePath = "/home/youruser/Frost/configs/home";
-  };
+frost.home.environment = {
+  # String path -> mutable out-of-store symlinks (live hot-reload)
+  configsPath = "${config.home.homeDirectory}/Glacier/configs/home";
+
+  # Or Nix path literal -> immutable in-store copy (ideal for servers)
+  # configsPath = ../configs/home;
+  # mutable = false;
+
+  # Or omit / null -> Frost's built-in starter configs in configs/home/
 };
 ```
 
 Edits inside `configs/home/` take effect immediately on reload without triggering `nixos-rebuild switch`.
+
+### 2. Swapping Community Rices with Tapes v2
+
+Enable **Tapes v2** (`frost.home.apps.settings.desktop.tapes.enable = true`) to pull and atomically swap additional `~/.config` rices without touching your core dotfiles (`sled/`, `nvim/`, `zsh.d/`, browser profiles):
+
+```bash
+# Pull an official featured tape (e.g. Caelestia) or any git repository
+tapes install-featured caelestia
+tapes install https://github.com/some_user/rice --name my-rice
+
+# Inspect targets & hooks, swap atomically, and revert cleanly
+tapes show my-rice
+tapes insert my-rice
+tapes eject
+```
+
+> [!TIP]
+> If you manage `caelestia/` or `hypr/` exclusively through Tapes, set `frost.home.desktop.shells.igloo.manageConfig = false` so Home Manager never overlaps Tapes-managed targets. Always run `tapes eject` before `nixos-rebuild switch` if an active tape overrides any Home Manager target.
 
 ---
 
@@ -245,12 +277,12 @@ Edits inside `configs/home/` take effect immediately on reload without triggerin
 Frost integrates with [SOPS-nix](https://github.com/Mic92/sops-nix). All sensitive modules accept declarative path inputs:
 
 ```nix
-frost.security.sops_nix = {
+frost.security.secrets.sops_nix = {
   enable = true;
   defaultSopsFile = ./secrets/passwords.yaml;
 };
 
-frost.security.pam = {
+frost.security.auth.pam = {
   enable = true;
   sopsFile = ./secrets/pam.yaml;
 };

@@ -42,6 +42,24 @@ in {
       '';
     };
 
+    manageConfig = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = ''
+        Whether Home Manager should link `~/.config/caelestia` from `configsPath` (or Frost starter configs).
+        Set to `false` when managing desktop rices externally via Tapes (`frost.home.apps.settings.desktop.tapes`).
+      '';
+    };
+
+    manageHyprConfig = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Whether Home Manager should link `~/.config/hypr` from `configsPath` (e.g. Caelestia Lua Hyprland dots).
+        Leave `false` when managing Hyprland configs via Tapes or another compositor.
+      '';
+    };
+
     systemd = {
       enable = lib.mkOption {
         type = lib.types.bool;
@@ -81,14 +99,27 @@ in {
         . "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh"
       fi
 
-      # 2. Igloo (Caelestia) Qt & Platform overrides
+      # 2. Wayland toolkit backends
+      export GDK_BACKEND='wayland,x11'
+      export QT_QPA_PLATFORM='wayland;xcb'
+      export SDL_VIDEODRIVER='wayland,x11,windows'
+      export CLUTTER_BACKEND='wayland'
+      export ELECTRON_OZONE_PLATFORM_HINT='auto'
+      export _JAVA_AWT_WM_NONREPARENTING='1'
+
+      # 3. Igloo (Caelestia) Qt & Platform overrides
       export QT_QPA_PLATFORMTHEME='qtengine'
       export QT_WAYLAND_DISABLE_WINDOWDECORATION='1'
       export QT_AUTO_SCREEN_SCALE_FACTOR='1'
     '';
 
-    xdg.configFile."caelestia" = {
+    xdg.configFile."caelestia" = lib.mkIf cfg.manageConfig {
       source = config.frost.home.environment.mkSource "caelestia";
+      recursive = true;
+    };
+
+    xdg.configFile."hypr" = lib.mkIf cfg.manageHyprConfig {
+      source = config.frost.home.environment.mkSource "hypr";
       recursive = true;
     };
   };

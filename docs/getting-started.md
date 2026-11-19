@@ -119,10 +119,10 @@ Because `mkSystem` automatically injects Frost's system modules, base configurat
 
   frost = {
     desktop.wms.hyprland.enable = true;
-    hardware.pipewire.enable = true;
-    hardware.bluetooth.enable = true;
-    security.polkit.enable = true;
-    system.home_manager.enable = true;
+    hardware.audio.pipewire.enable = true;
+    hardware.peripherals.bluetooth.enable = true;
+    security.auth.polkit.enable = true;
+    system.runtime.home_manager.enable = true;
   };
 }
 ```

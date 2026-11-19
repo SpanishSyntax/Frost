@@ -93,32 +93,55 @@ nix flake lock --update-input nixpkgs
 
 ---
 
-## Dotfiles Hot-Reloading
+## Dotfiles Hot-Reloading & Tapes v2
 
-Frost allows you to modify application dotfiles without running `nixos-rebuild switch`.
+Frost supports two complementary dotfile layers: **out-of-store symlinks** for core/developer configs and **Tapes v2** for hot-swappable desktop rices.
 
-### Configuration
+### Out-of-Store Configuration (`configsPath`)
 
 In your Home Manager configuration:
 
 ```nix
-frost.home = {
-  dotfiles = {
-    enableSymlinks = true;
-    symlinkSourcePath = "/home/youruser/Frost/configs/home";
-  };
+frost.home.environment = {
+  # Mutable out-of-store symlinks (live hot-reload)
+  configsPath = "${config.home.homeDirectory}/Glacier/configs/home";
+
+  # Or pure in-store build (ideal for headless servers)
+  # configsPath = ../configs/home;
+  # mutable = false;
 };
 ```
 
-### Workflow
+1. Edit any tracked config inside `configs/home/` (e.g. `caelestia/shell.json`, `hypr/hyprland.lua`, `sled/sled.toml`, `zsh.d/custom.zsh`).
+2. Reload the application or compositor (`hyprctl reload`).
+3. Changes apply immediately without running `nixos-rebuild switch`.
 
-1. Navigate to `configs/home/`:
-   ```bash
-   cd ~/Frost/configs/home
-   ```
-2. Modify keybindings or themes (e.g. in `caelestia/shell.json` or `kitty/kitty.conf`).
-3. Reload the application directly or reload your Wayland compositor (`hyprctl reload`).
-4. Changes appear immediately because files are linked out-of-store directly to your repository clone.
+### Pulling & Swapping Rices with Tapes v2
+
+Frost ships starter templates in `configs/home/`, and you can pull additional community rices at runtime using **Tapes v2** (`frost.home.apps.settings.desktop.tapes.enable = true`):
+
+```bash
+# Install an official curated tape (from futurekismo-oss/featured-tapes)
+tapes install-featured caelestia
+
+# Or pull any public dotfile repository as a tape
+tapes install https://github.com/some_user/cyberpunk --name cyberpunk
+
+# Preview targets and insert/eject hooks before applying
+tapes show cyberpunk
+
+# Atomically swap ONLY the tape's targets into ~/.config (via renameat2)
+tapes insert cyberpunk
+
+# Restore your exact base ~/.config in one command
+tapes eject
+```
+
+> [!IMPORTANT]
+> **Home Manager + Tapes Safety**:
+> - Tapes swaps only the targets present in a tape (leaving `sled/`, `nvim/`, `zsh.d/`, `uwsm/`, and browser profiles intact).
+> - If you want Tapes to exclusively manage your desktop rice (`caelestia/`, `hypr/`), set `frost.home.desktop.shells.igloo.manageConfig = false` and `manageHyprConfig = false`.
+> - Always run `tapes eject` before `nixos-rebuild switch` if an inserted tape overrides any Home Manager-managed target.
 
 ---
 
@@ -157,12 +180,12 @@ sops secrets/passwords.yaml
 Declare the file path in your host configuration:
 
 ```nix
-frost.security.sops_nix = {
+frost.security.secrets.sops_nix = {
   enable = true;
   defaultSopsFile = ./secrets/passwords.yaml;
 };
 
-frost.services.syncthing = {
+frost.network.sync.syncthing = {
   enable = true;
   sopsFile = ./secrets/syncthing.yaml;
 };
