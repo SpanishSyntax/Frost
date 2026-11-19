@@ -12,6 +12,8 @@
     pkg,
     name,
     target ? null,
+    displayName ? null,
+    hideTarget ? true,
     env ? {},
   }: let
     targetBin =
@@ -31,6 +33,36 @@
         '')
         pkg
       ];
+      postBuild = ''
+        ${lib.optionalString (hideTarget && name != targetBin) ''
+          rm -f "$out/bin/${targetBin}"
+        ''}
+        if [ -f "$out/share/applications/${targetBin}.desktop" ]; then
+          if [ -L "$out/share" ]; then
+            target_share="$(readlink "$out/share")"
+            rm "$out/share"
+            mkdir -p "$out/share"
+            for item in "$target_share"/*; do
+              ln -s "$item" "$out/share/$(basename "$item")"
+            done
+          fi
+          if [ -L "$out/share/applications" ]; then
+            target_apps="$(readlink "$out/share/applications")"
+            rm "$out/share/applications"
+            mkdir -p "$out/share/applications"
+            for item in "$target_apps"/*; do
+              ln -s "$item" "$out/share/applications/$(basename "$item")"
+            done
+          fi
+          rm -f "$out/share/applications/${targetBin}.desktop"
+          cp "${pkg}/share/applications/${targetBin}.desktop" "$out/share/applications/${name}.desktop"
+          chmod u+w "$out/share/applications/${name}.desktop"
+          sed -i "s|^Exec=${targetBin}|Exec=${name}|g" "$out/share/applications/${name}.desktop"
+          ${lib.optionalString (displayName != null) ''
+            sed -i "s|^Name=.*|Name=${displayName}|g" "$out/share/applications/${name}.desktop"
+          ''}
+        fi
+      '';
     };
 
   helpers = {

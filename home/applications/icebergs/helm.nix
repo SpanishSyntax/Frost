@@ -13,11 +13,11 @@
     else pkgs.writeShellScriptBin "flightdeck" "echo 'helm input missing'; exit 1";
 in {
   options.frost.home.apps.icebergs.helm = {
-    enable = lib.mkEnableOption "Helm (FlightDeck) Hyprland configuration manager";
+    enable = lib.mkEnableOption "Helm Hyprland configuration manager";
     package = lib.mkOption {
       type = lib.types.package;
       default = pkg;
-      description = "The FlightDeck package to use.";
+      description = "The Helm package to use.";
     };
   };
 
@@ -27,6 +27,7 @@ in {
         pkg = cfg.package;
         name = "helm";
         target = "flightdeck";
+        displayName = "Helm";
       })
     ];
   };

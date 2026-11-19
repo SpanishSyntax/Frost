@@ -23,17 +23,22 @@
 in {
   options.frost.icebergs = {
     fjord = {
-      enable = lib.mkEnableOption "Fjord (Wormhole) Material 3 XDG desktop portal integration";
+      enable = lib.mkEnableOption "Fjord Material 3 XDG desktop portal integration";
       package = lib.mkOption {
         type = lib.types.nullOr lib.types.package;
         default = pkg;
-        description = "The Fjord (Wormhole) package to use.";
+        description = "The Fjord package to use.";
       };
     };
   };
 
   config = lib.mkIf (cfg.enable && cfg.package != null) {
     environment.systemPackages = [wrappedPkg];
+
+    systemd.user.services.xdg-desktop-portal-wormhole = {
+      overrideStrategy = "asDropin";
+      aliases = ["fjord.service"];
+    };
 
     frost.personalization.xdg = {
       enable = lib.mkDefault true;
