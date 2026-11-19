@@ -1714,15 +1714,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1795099980,
-        "narHash": "sha256-DGsx4QXdRTQ9p4GlolgEtEzziMRfx+kK/qbPcZe0XbQ=",
-        "owner": "futurekismo-oss",
+        "lastModified": 1795128936,
+        "narHash": "sha256-AOjfy3+cTiRzO73Z6WFPrGcOkTAPvjHfSRWVCnDs/6E=",
+        "owner": "SpanishSyntax",
         "repo": "tapes",
-        "rev": "f78ca38779ca641673a362a660246fd04ea2af53",
+        "rev": "486d74291dd7e2d1296fdb8e9015fc90eae8f1ea",
         "type": "github"
       },
       "original": {
-        "owner": "futurekismo-oss",
+        "owner": "SpanishSyntax",
         "repo": "tapes",
         "type": "github"
       }

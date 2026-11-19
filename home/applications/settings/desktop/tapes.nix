@@ -8,19 +8,7 @@
   cfg = config.frost.home.apps.settings.desktop.tapes;
   pkg =
     if inputs ? tapes
-    then
-      pkgs.rustPlatform.buildRustPackage {
-        pname = "tapes";
-        version = (builtins.fromTOML (builtins.readFile "${inputs.tapes}/Cargo.toml")).package.version;
-        src = inputs.tapes;
-        cargoLock.lockFile = "${inputs.tapes}/Cargo.lock";
-        env.RUSTC_WRAPPER = "";
-        meta = {
-          description = "Tapes v2 - Atomic per-target dotfile switcher";
-          homepage = "https://github.com/futurekismo-oss/tapes";
-          mainProgram = "tapes";
-        };
-      }
+    then inputs.tapes.packages.${pkgs.stdenv.hostPlatform.system}.default
     else pkgs.writeShellScriptBin "tapes" "echo 'tapes input missing'; exit 1";
 in {
   options.frost.home.apps.settings.desktop.tapes = {

@@ -71,7 +71,7 @@
     };
 
     tapes = {
-      url = "github:futurekismo-oss/tapes";
+      url = "github:SpanishSyntax/tapes";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
