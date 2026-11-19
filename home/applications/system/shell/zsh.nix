@@ -11,10 +11,16 @@ in {
     enable = lib.mkEnableOption "Zsh config";
 
     autostartFastfetch = lib.mkEnableOption "autostart fastfetch on interactive shell start";
+
+    manageConfig = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether Home Manager should link `~/.config/zsh.d` from `configsPath` (or Frost starter configs).";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    xdg.configFile."zsh.d" = {
+    xdg.configFile."zsh.d" = lib.mkIf cfg.manageConfig {
       source = config.frost.home.environment.mkSource "zsh.d";
       recursive = true;
     };

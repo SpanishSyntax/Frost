@@ -9,7 +9,6 @@
 in {
   options.frost.home.apps.ai.flox = {
     enable = lib.mkEnableOption "Flox";
-    manageConfig = lib.mkEnableOption "linking ~/.config/flox_ollama from configsPath";
   };
 
   config = lib.mkIf cfg.enable {
@@ -18,11 +17,6 @@ in {
     ];
     home.sessionVariables = {
       FLOX_DISABLE_TELEMETRY = "1";
-    };
-
-    xdg.configFile."flox_ollama" = lib.mkIf cfg.manageConfig {
-      source = config.frost.home.environment.mkSource "flox_ollama";
-      recursive = true;
     };
   };
 }

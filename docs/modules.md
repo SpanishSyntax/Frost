@@ -116,12 +116,12 @@ User modules live under `frost.home.apps.*` (following XDG desktop categories), 
 
 ### Desktop Shells & Tools (`frost.home.desktop.*`)
 
-- **`shells`**: `igloo` (`manageConfig`, `manageHyprConfig`, `compositor`, `systemd.enable`)
-- **`tools`**: `awww`, `borealis`, `igloo_cli`, `shards`
+- **`shells`**: `igloo` (`manageConfig`, `compositor`, `systemd.enable`)
+- **`tools`**: `awww`, `borealis` (`backend`, `interval`, `telemetryInterval`, `wallpaperDir`, `extraWallpaperDirs`, `settings`, `manageConfig`, `systemd.enable`), `igloo_cli`, `shards` (`systemd.enable`)
 
 ### Environment & Services (`frost.home.environment.*`, `frost.home.services.*`)
 
-- **`environment`**: `configsPath`, `mutable`, `mkSource`, `fonts`, `gtk`, `xdg`, `ignores`
+- **`environment`**: `configsPath`, `mutable`, `extraConfigs`, `mkSource`, `mkPureSource`, `mkImpureSource`, `fonts`, `gtk`, `xdg`, `ignores`
 - **`services`**: `google_drive`, `syncthing`
 
 ### Example Configuration
@@ -159,7 +159,6 @@ User modules live under `frost.home.apps.*` (following XDG desktop categories), 
       shells.igloo = {
         enable = true;
         manageConfig = true;
-        manageHyprConfig = false; # Set true if tracking hypr/ in configsPath
       };
       tools = {
         borealis.enable = true;
@@ -170,6 +169,7 @@ User modules live under `frost.home.apps.*` (following XDG desktop categories), 
 
     environment = {
       configsPath = "${config.home.homeDirectory}/Glacier/configs/home";
+      extraConfigs = ["hypr"];
       fonts.enable = true;
       gtk.enable = true;
       xdg.enable = true;

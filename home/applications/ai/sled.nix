@@ -5,12 +5,20 @@
   ...
 }: let
   cfg = config.frost.home.apps.ai.sled;
-  hasConfigs = config.frost.home.environment.configsPath != null;
 in {
   imports = [inputs.sled.homeManagerModules.default];
 
   options.frost.home.apps.ai.sled = {
     enable = lib.mkEnableOption "Enable Sled Central MCP Store & Server Bridge";
+
+    manageConfig = lib.mkOption {
+      type = lib.types.bool;
+      default = config.frost.home.environment.configsPath != null;
+      description = ''
+        Whether Home Manager should link `~/.config/sled` from `configsPath` via `mkSource`.
+        When `false`, Sled is configured purely declaratively via `packs`, `tools`, and `settings`.
+      '';
+    };
 
     packs = lib.mkOption {
       type = lib.types.listOf (lib.types.enum [
@@ -52,20 +60,20 @@ in {
     programs.sled = {
       enable = true;
       packs =
-        if hasConfigs
+        if cfg.manageConfig
         then null
         else cfg.packs;
       tools =
-        if hasConfigs
+        if cfg.manageConfig
         then null
         else cfg.tools;
       settings =
-        if hasConfigs
+        if cfg.manageConfig
         then {}
         else cfg.settings;
     };
 
-    xdg.configFile."sled" = lib.mkIf hasConfigs {
+    xdg.configFile."sled" = lib.mkIf cfg.manageConfig {
       source = config.frost.home.environment.mkSource "sled";
       recursive = true;
     };

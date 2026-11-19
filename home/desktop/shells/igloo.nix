@@ -51,15 +51,6 @@ in {
       '';
     };
 
-    manageHyprConfig = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        Whether Home Manager should link `~/.config/hypr` from `configsPath` (e.g. Caelestia Lua Hyprland dots).
-        Leave `false` when managing Hyprland configs via Tapes or another compositor.
-      '';
-    };
-
     systemd = {
       enable = lib.mkOption {
         type = lib.types.bool;
@@ -115,11 +106,6 @@ in {
 
     xdg.configFile."caelestia" = lib.mkIf cfg.manageConfig {
       source = config.frost.home.environment.mkSource "caelestia";
-      recursive = true;
-    };
-
-    xdg.configFile."hypr" = lib.mkIf cfg.manageHyprConfig {
-      source = config.frost.home.environment.mkSource "hypr";
       recursive = true;
     };
   };

@@ -77,22 +77,8 @@ in {
       };
       plugins = {
         dev.frost = {
-          pure =
-            if env.configsPath != null
-            then
-              if builtins.isPath env.configsPath
-              then builtins.path { path = env.configsPath + "/nvim"; name = "nvim-config"; }
-              else "${env.configsPath}/nvim"
-            else "${inputs.self}/configs/home/nvim";
-          impure =
-            if env.configsPath != null
-            then
-              if env.mutable && builtins.isString env.configsPath
-              then "${env.configsPath}/nvim"
-              else if builtins.isPath env.configsPath
-              then builtins.path { path = env.configsPath + "/nvim"; name = "nvim-config"; }
-              else "${env.configsPath}/nvim"
-            else "${inputs.self}/configs/home/nvim";
+          pure = env.mkPureSource "nvim";
+          impure = env.mkImpureSource "nvim";
         };
       };
     };

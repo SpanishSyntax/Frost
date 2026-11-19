@@ -140,7 +140,7 @@ tapes eject
 > [!IMPORTANT]
 > **Home Manager + Tapes Safety**:
 > - Tapes swaps only the targets present in a tape (leaving `sled/`, `nvim/`, `zsh.d/`, `uwsm/`, and browser profiles intact).
-> - If you want Tapes to exclusively manage your desktop rice (`caelestia/`, `hypr/`), set `frost.home.desktop.shells.igloo.manageConfig = false` and `manageHyprConfig = false`.
+> - If you want Tapes to exclusively manage your desktop rice (`caelestia/`, `hypr/`), set `frost.home.desktop.shells.igloo.manageConfig = false` and omit `"hypr"` from `frost.home.environment.extraConfigs`.
 > - Always run `tapes eject` before `nixos-rebuild switch` if an inserted tape overrides any Home Manager-managed target.
 
 ---
