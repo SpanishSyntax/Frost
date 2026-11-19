@@ -5,7 +5,7 @@
   ...
 }: let
   cfg = config.frost.desktop.wms.river;
-  polkitEnabled = config.frost.security.polkit.enable or false;
+  polkitEnabled = config.frost.security.auth.polkit.enable or false;
 in {
   options.frost.desktop.wms.river = {
     enable = lib.mkEnableOption "River dynamic tiling Wayland compositor";
@@ -28,7 +28,7 @@ in {
       };
     };
 
-    frost.personalization.xdg = {
+    frost.desktop.portals.xdg = {
       extraPortals = [pkgs.xdg-desktop-portal-wlr];
       sessions.river = ["wlr"];
     };

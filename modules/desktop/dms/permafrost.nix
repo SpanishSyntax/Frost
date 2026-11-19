@@ -44,7 +44,7 @@ in {
       "d /var/cache/astra-airlock 0755 greeter greeter -"
     ];
 
-    frost.storage.impermanence.directories = [
+    frost.system.storage.impermanence.directories = [
       {
         directory = "/var/cache/astra-airlock";
         user = "greeter";

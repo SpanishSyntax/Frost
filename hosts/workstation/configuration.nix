@@ -11,44 +11,44 @@
 
   # Frost OS Modular Configuration
   frost = {
-    desktop = {
-      des = {
-        gnome.enable = true;
+    system = {
+      boot.console.keymap = "us";
+      locale = {
+        datetime.autoTimezone = true;
+        fonts.enable = true;
+        locales.locale = "en_US.UTF-8";
       };
-      dms = {
-        sddm.enable = true;
-      };
-      wms = {
-        hyprland.enable = true;
-      };
+      runtime.home_manager.enable = true;
     };
+
     hardware = {
-      bluetooth.enable = true;
-      networking = {
-        hostname = "frost-workstation";
-        backend = "networkmanager";
-      };
-      pipewire = {
+      audio.pipewire = {
         enable = true;
         alsa.enable = true;
         jack.enable = true;
         pulse.enable = true;
       };
+      peripherals.bluetooth.enable = true;
       power.enable = true;
     };
-    personalization = {
-      fonts.enable = true;
-      locales.locale = "en_US.UTF-8";
-      xdg.enable = true;
+
+    network = {
+      stack.networking = {
+        hostname = "frost-workstation";
+        backend = "networkmanager";
+      };
     };
+
     security = {
-      gnome_keyring.enable = true;
-      polkit.enable = true;
+      auth.polkit.enable = true;
+      secrets.gnome_keyring.enable = true;
     };
-    system = {
-      keymap = "us";
-      home_manager.enable = true;
-      autoTimezone = true;
+
+    desktop = {
+      des.gnome.enable = true;
+      dms.sddm.enable = true;
+      wms.hyprland.enable = true;
+      portals.xdg.enable = true;
     };
   };
 }

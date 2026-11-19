@@ -11,34 +11,31 @@
 
   # Frost OS Modular Configuration
   frost = {
-    hardware = {
-      networking = {
+    system = {
+      boot.console.keymap = "us";
+      locale = {
+        fonts.enable = false;
+        locales.locale = "en_US.UTF-8";
+      };
+      runtime.home_manager.enable = true;
+      storage.impermanence.enable = false;
+    };
+
+    network = {
+      stack.networking = {
         hostname = "frost-server";
         backend = "networkmanager";
       };
-    };
-    personalization = {
-      fonts.enable = false;
-      locales.locale = "en_US.UTF-8";
-      xdg.enable = false;
-    };
-    services = {
-      ssh = {
+      remote.ssh = {
         user = "frost";
       };
-      tailscale.enable = false;
+      vpn.tailscale.enable = false;
     };
-    storage = {
-      impermanence = {
-        enable = false;
-      };
-    };
-    system = {
-      keymap = "us";
-      home_manager.enable = true;
-    };
+
+    desktop.portals.xdg.enable = false;
+
     virtualization = {
-      docker.enable = true;
+      containers.docker.enable = true;
     };
   };
 }

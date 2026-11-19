@@ -1,16 +1,10 @@
 {getFiles, ...}: {
   imports =
-    getFiles ./desktop
-    ++ getFiles ./environment
-    ++ getFiles ./flatpak
+    getFiles ./system
     ++ getFiles ./hardware
-    ++ getFiles ./icebergs
-    ++ getFiles ./leisure
-    ++ getFiles ./oci
-    ++ getFiles ./personalization
+    ++ getFiles ./network
     ++ getFiles ./security
-    ++ getFiles ./services
-    ++ getFiles ./storage
-    ++ getFiles ./system
-    ++ getFiles ./virtualization;
+    ++ getFiles ./desktop
+    ++ getFiles ./virtualization
+    ++ getFiles ./programs;
 }

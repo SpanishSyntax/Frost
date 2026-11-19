@@ -5,8 +5,8 @@
   ...
 }: let
   cfg = config.frost.desktop.wms.sway;
-  iioEnabled = config.frost.hardware.iio.enable or false;
-  polkitEnabled = config.frost.security.polkit.enable or false;
+  iioEnabled = config.frost.hardware.sensors.iio.enable or false;
+  polkitEnabled = config.frost.security.auth.polkit.enable or false;
 in {
   options.frost.desktop.wms.sway = {
     enable = lib.mkEnableOption "Sway tiling Wayland compositor";
@@ -48,7 +48,7 @@ in {
       };
     };
 
-    frost.personalization.xdg = {
+    frost.desktop.portals.xdg = {
       extraPortals = [pkgs.xdg-desktop-portal-wlr];
       sessions.sway = ["wlr"];
     };

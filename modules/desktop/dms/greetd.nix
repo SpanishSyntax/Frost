@@ -50,7 +50,7 @@ in {
     regreetCssFile = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
-      example = lib.literalExpression ''config.frost.environment.mkSource "regreet/regreet.css"'';
+      example = lib.literalExpression ''config.frost.system.runtime.environment.mkSource "regreet/regreet.css"'';
       description = "Optional CSS file for styling ReGreet (loaded via `programs.regreet.extraCss`).";
     };
   };
@@ -65,7 +65,7 @@ in {
         };
       };
 
-      frost.storage.impermanence.directories = [
+      frost.system.storage.impermanence.directories = [
         {
           directory = "/var/cache/tuigreet";
           user = "greeter";
@@ -90,7 +90,7 @@ in {
         };
       };
 
-      frost.storage.impermanence.directories = [
+      frost.system.storage.impermanence.directories = [
         {
           directory = "/var/cache/regreet";
           user = "greeter";

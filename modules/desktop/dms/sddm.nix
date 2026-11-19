@@ -106,7 +106,7 @@ in {
     frost.desktop.dms.defaultSession =
       lib.mkIf (config.frost.desktop.des.plasma.enable or false) (lib.mkDefault "plasma");
 
-    frost.storage.impermanence.directories = [
+    frost.system.storage.impermanence.directories = [
       "/var/lib/sddm"
     ];
   };

@@ -5,8 +5,8 @@
   ...
 }: let
   cfg = config.frost.desktop.wms.hyprland;
-  iioEnabled = config.frost.hardware.iio.enable or false;
-  polkitEnabled = config.frost.security.polkit.enable or false;
+  iioEnabled = config.frost.hardware.sensors.iio.enable or false;
+  polkitEnabled = config.frost.security.auth.polkit.enable or false;
 in {
   options.frost.desktop.wms = {
     hyprland = {
@@ -52,6 +52,6 @@ in {
       };
     };
 
-    frost.personalization.xdg.sessions.hyprland = ["hyprland"];
+    frost.desktop.portals.xdg.sessions.hyprland = ["hyprland"];
   };
 }

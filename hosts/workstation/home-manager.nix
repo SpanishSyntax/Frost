@@ -4,7 +4,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.frost.system.home_manager.enable {
+  config = lib.mkIf config.frost.system.runtime.home_manager.enable {
     home-manager.users.frost = {
       imports = [../../home/users/frost.nix];
       home.username = "frost";

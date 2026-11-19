@@ -5,7 +5,7 @@
   ...
 }: let
   cfg = config.frost.desktop.wms.i3;
-  polkitEnabled = config.frost.security.polkit.enable or false;
+  polkitEnabled = config.frost.security.auth.polkit.enable or false;
 in {
   options.frost.desktop.wms.i3 = {
     enable = lib.mkEnableOption "i3 tiling X11 window manager";
