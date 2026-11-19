@@ -26,6 +26,7 @@ in {
         partOf = ["graphical-session.target"];
         after = ["graphical-session.target"];
         wantedBy = ["graphical-session.target"];
+        path = [config.programs.hyprland.package];
         unitConfig.ConditionEnvironment = "HYPRLAND_INSTANCE_SIGNATURE";
         serviceConfig = {
           Type = "simple";

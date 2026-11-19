@@ -81,6 +81,11 @@
       inputs.tapes.follows = "tapes";
     };
 
+    featured-tapes = {
+      url = "github:SpanishSyntax/featured-tapes";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     #################################################################
     # Icebergs
     #################################################################
