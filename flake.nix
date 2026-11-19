@@ -75,6 +75,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    tapes-deck = {
+      url = "github:SpanishSyntax/tapes-deck";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.tapes.follows = "tapes";
+    };
+
     #################################################################
     # Icebergs
     #################################################################
