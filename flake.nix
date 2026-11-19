@@ -108,9 +108,16 @@
       inputs.prism.follows = "prism";
     };
 
+    igloo-cli = {
+      url = "github:caelestia-dots/cli";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.caelestia-shell.follows = "";
+    };
+
     igloo = {
       url = "github:SpanishSyntax/Igloo";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.caelestia-cli.follows = "igloo-cli";
     };
 
     lantern = {

@@ -14,5 +14,8 @@ in {
       enable = true;
       desktopManager.budgie.enable = true;
     };
+
+    # Upstream NixOS budgie.nix requires labwc = true while xfce.nix sets labwc = false.
+    programs.labwc.enable = lib.mkForce true;
   };
 }

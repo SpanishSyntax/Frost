@@ -182,30 +182,6 @@
         "type": "github"
       }
     },
-    "caelestia-cli": {
-      "inputs": {
-        "caelestia-shell": [
-          "igloo"
-        ],
-        "nixpkgs": [
-          "igloo",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1792841684,
-        "narHash": "sha256-e5NI28/bKQ6EmjC1E46LiSzU7yT04iXdT0T7liPSBGo=",
-        "owner": "caelestia-dots",
-        "repo": "cli",
-        "rev": "679af941c03f1899d017964c654f57d71cec47e5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "caelestia-dots",
-        "repo": "cli",
-        "type": "github"
-      }
-    },
     "clienteafirma-external-src": {
       "flake": false,
       "locked": {
@@ -795,7 +771,9 @@
     },
     "igloo": {
       "inputs": {
-        "caelestia-cli": "caelestia-cli",
+        "caelestia-cli": [
+          "igloo-cli"
+        ],
         "m3shapes": "m3shapes_2",
         "nixpkgs": [
           "nixpkgs"
@@ -812,6 +790,27 @@
       "original": {
         "owner": "SpanishSyntax",
         "repo": "Igloo",
+        "type": "github"
+      }
+    },
+    "igloo-cli": {
+      "inputs": {
+        "caelestia-shell": [],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795071285,
+        "narHash": "sha256-/EOVT1w7qUwqqkjIVvzqUsPYU80yPU+YdjIIlUmH460=",
+        "owner": "caelestia-dots",
+        "repo": "cli",
+        "rev": "fb6164ffcd2e82fabb02059f89227c2f8cd8cb05",
+        "type": "github"
+      },
+      "original": {
+        "owner": "caelestia-dots",
+        "repo": "cli",
         "type": "github"
       }
     },
@@ -1255,6 +1254,7 @@
         "helm": "helm",
         "home-manager": "home-manager_2",
         "igloo": "igloo",
+        "igloo-cli": "igloo-cli",
         "impermanence": "impermanence",
         "lantern": "lantern",
         "microvm": "microvm",
