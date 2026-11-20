@@ -20,7 +20,7 @@
 
   scaleFilter =
     if cfg.custom.maxHeight != null
-    then ",scale=-2:${toString cfg.custom.maxHeight}:flags=lanczos"
+    then ",scale=-2:'min(${toString cfg.custom.maxHeight},ih)':flags=lanczos"
     else "";
 
   customThemePkg = pkgs.runCommand "plymouth-theme-${cfg.theme}" {
@@ -66,6 +66,10 @@
     frame_count = $frameCount;
     fps = ${toString cfg.custom.fps};
     loop = ${if cfg.custom.loop then "1" else "0"};
+    fit_mode = "${cfg.custom.fit}";
+
+    win_w = Window.GetWidth();
+    win_h = Window.GetHeight();
 
     for (i = 0; i < frame_count; i++) {
       n = i + 1;
@@ -73,7 +77,27 @@
       else if (n < 100)  pad = "00" + n;
       else if (n < 1000) pad = "0" + n;
       else               pad = "" + n;
-      frames[i] = Image("frame-" + pad + ".png");
+      raw = Image("frame-" + pad + ".png");
+      if (fit_mode == "native") {
+        frames[i] = raw;
+      } else {
+        rw = raw.GetWidth();
+        rh = raw.GetHeight();
+        sx = win_w / rw;
+        sy = win_h / rh;
+        if (fit_mode == "cover") {
+          if (sx > sy) s = sx; else s = sy;
+        } else {
+          if (sx < sy) s = sx; else s = sy;
+        }
+        tw = Math.Int(rw * s);
+        th = Math.Int(rh * s);
+        if (tw == rw && th == rh) {
+          frames[i] = raw;
+        } else {
+          frames[i] = raw.Scale(tw, th);
+        }
+      }
     }
 
     sprite = Sprite();
@@ -89,8 +113,8 @@
       }
       img = frames[idx];
       sprite.SetImage(img);
-      sprite.SetX(Window.GetWidth() / 2 - img.GetWidth() / 2);
-      sprite.SetY(Window.GetHeight() / 2 - img.GetHeight() / 2);
+      sprite.SetX(win_w / 2 - img.GetWidth() / 2);
+      sprite.SetY(win_h / 2 - img.GetHeight() / 2);
       tick++;
     }
     Plymouth.SetRefreshFunction(refresh_callback);
@@ -193,9 +217,20 @@ in {
 
       maxHeight = lib.mkOption {
         type = lib.types.nullOr lib.types.ints.positive;
-        default = null;
-        example = 480;
-        description = "Optional vertical resolution cap (in px, preserves aspect ratio) when extracting video/GIF frames to keep initrd size small.";
+        default = 1080;
+        example = 1080;
+        description = "Optional vertical resolution cap (in px, never upscales, preserves aspect ratio) when extracting video/GIF frames.";
+      };
+
+      fit = lib.mkOption {
+        type = lib.types.enum ["contain" "cover" "native"];
+        default = "contain";
+        description = ''
+          How Plymouth scales frames onto the display at boot:
+          - `contain`: fill screen while preserving aspect ratio (recommended, no cropping or distortion).
+          - `cover`: fill screen edge-to-edge (crops slight edges if aspect ratios differ).
+          - `native`: draw at unscaled pixel size, centered on screen.
+        '';
       };
 
       loop = lib.mkOption {
