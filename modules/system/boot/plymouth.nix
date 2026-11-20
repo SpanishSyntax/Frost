@@ -18,12 +18,22 @@
   bgG = toString (builtins.elemAt cfg.custom.backgroundColor 1);
   bgB = toString (builtins.elemAt cfg.custom.backgroundColor 2);
 
+  maxH = cfg.custom.maxHeight;
+  maxW =
+    if cfg.custom.maxWidth != null
+    then cfg.custom.maxWidth
+    else if maxH != null
+    then (maxH * 16) / 9
+    else null;
+
   scaleFilter =
-    if cfg.custom.maxHeight != null
+    if maxH != null && maxW != null
     then
       if cfg.custom.fit == "native"
-      then ",scale=-2:'min(${toString cfg.custom.maxHeight},ih)':flags=lanczos"
-      else ",scale=-2:${toString cfg.custom.maxHeight}:flags=lanczos"
+      then ",scale=-2:'min(${toString maxH},ih)':flags=lanczos"
+      else if cfg.custom.fit == "cover"
+      then ",scale=${toString maxW}:${toString maxH}:force_original_aspect_ratio=increase:flags=lanczos,crop=${toString maxW}:${toString maxH}"
+      else ",scale=${toString maxW}:${toString maxH}:force_original_aspect_ratio=decrease:force_divisible_by=2:flags=lanczos"
     else "";
 
   customThemePkg = pkgs.runCommand "plymouth-theme-${cfg.theme}" {
@@ -88,23 +98,19 @@
       } else {
         rw = raw.GetWidth();
         rh = raw.GetHeight();
-        if (rw == win_w || rh == win_h) {
+        sx = win_w / rw;
+        sy = win_h / rh;
+        if (fit_mode == "cover") {
+          if (sx > sy) s = sx; else s = sy;
+        } else {
+          if (sx < sy) s = sx; else s = sy;
+        }
+        tw = Math.Int(rw * s);
+        th = Math.Int(rh * s);
+        if (Math.Abs(tw - rw) <= 2 && Math.Abs(th - rh) <= 2) {
           frames[i] = raw;
         } else {
-          sx = win_w / rw;
-          sy = win_h / rh;
-          if (fit_mode == "cover") {
-            if (sx > sy) s = sx; else s = sy;
-          } else {
-            if (sx < sy) s = sx; else s = sy;
-          }
-          tw = Math.Int(rw * s);
-          th = Math.Int(rh * s);
-          if (tw == rw && th == rh) {
-            frames[i] = raw;
-          } else {
-            frames[i] = raw.Scale(tw, th);
-          }
+          frames[i] = raw.Scale(tw, th);
         }
       }
       return frames[i];
@@ -233,11 +239,18 @@ in {
         description = "Frame extraction and playback rate (frames per second) for custom animations.";
       };
 
+      maxWidth = lib.mkOption {
+        type = lib.types.nullOr lib.types.ints.positive;
+        default = null;
+        example = 1920;
+        description = "Optional horizontal resolution target (in px) when pre-scaling video/GIF frames at build time. Defaults to `maxHeight * 16 / 9` (1920 when `maxHeight = 1080`).";
+      };
+
       maxHeight = lib.mkOption {
         type = lib.types.nullOr lib.types.ints.positive;
         default = 1080;
         example = 1080;
-        description = "Optional vertical resolution cap (in px, never upscales, preserves aspect ratio) when extracting video/GIF frames.";
+        description = "Vertical resolution target (in px) when pre-scaling video/GIF frames at build time.";
       };
 
       fit = lib.mkOption {
