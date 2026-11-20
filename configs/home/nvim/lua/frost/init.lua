@@ -1,5 +1,5 @@
 -- Frost Neovim Configuration (Starter / Template)
--- Real plugins and custom configurations live in Glacier configs/home/nvim/
+-- Custom plugins and user overrides live in your fleet's configs/home/nvim/
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "

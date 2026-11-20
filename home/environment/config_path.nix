@@ -30,11 +30,11 @@ in {
     configsPath = lib.mkOption {
       type = lib.types.nullOr (lib.types.either lib.types.str lib.types.path);
       default = null;
-      example = "\${config.home.homeDirectory}/Glacier/configs/home";
+      example = "\${config.home.homeDirectory}/Fleet/configs/home";
       description = ''
         Global filesystem base path for dotfile configs.
         Set to `null` to use pure flake store starter templates from Frost.
-        Set to a string path (e.g. `~/Glacier/configs/home`) for mutable out-of-store symlinks,
+        Set to a string path (e.g. `~/Fleet/configs/home`) for mutable out-of-store symlinks,
         or a Nix path literal (e.g. `../configs/home`) for pure in-store copies.
       '';
     };

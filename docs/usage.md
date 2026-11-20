@@ -104,7 +104,10 @@ In your Home Manager configuration:
 ```nix
 frost.home.environment = {
   # Mutable out-of-store symlinks (live hot-reload)
-  configsPath = "${config.home.homeDirectory}/Glacier/configs/home";
+  configsPath = "${config.home.homeDirectory}/Fleet/configs/home";
+
+  # Link extra WM/app config directories from configsPath into ~/.config/<name>
+  extraConfigs = ["hypr" "mango" "niri"];
 
   # Or pure in-store build (ideal for headless servers)
   # configsPath = ../configs/home;
@@ -118,7 +121,15 @@ frost.home.environment = {
 
 ### Pulling & Swapping Rices with Tapes v2
 
-Frost ships starter templates in `configs/home/`, and you can pull additional community rices at runtime using **Tapes v2** (`frost.home.apps.settings.desktop.tapes.enable = true`):
+Frost ships starter templates in `configs/home/`, and you can declaratively materialize or pull additional community rices using **Tapes v2** (`frost.home.apps.settings.desktop.tapes`):
+
+```nix
+frost.home.apps.settings.desktop.tapes = {
+  enable = true;
+  gui.enable = true; # Tapes-Deck GUI
+  featured = ["caelestia" "end-4" "nebula" "noctalia-libre" "serpantinum"];
+};
+```
 
 ```bash
 # Install an official curated tape (from futurekismo-oss/featured-tapes)

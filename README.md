@@ -51,11 +51,11 @@ Frost/
 │   ├── workstation/        # Starter graphical workstation (Hyprland + GNOME)
 │   └── server/             # Starter headless server (Docker + SSH)
 ├── modules/                # System-level 2-level modules (frost.* namespace)
-│   ├── system/             # Boot, locale, runtime (home_manager, fhs), storage (impermanence, zfs)
-│   ├── hardware/           # Audio (PipeWire), peripherals (Bluetooth, printing), power, sensors (IIO)
-│   ├── network/            # Stack, edge (Caddy, AdGuard), remote (SSH, WayVNC), sync, VPNs
+│   ├── system/             # Boot (console, custom Plymouth builder), locale, runtime, storage
+│   ├── hardware/           # Audio (PipeWire), peripherals, power, sensors (IIO, wluma ALS)
+│   ├── network/            # Stack (firewall, networking), edge, remote, sync, VPNs
 │   ├── security/           # Auth (PAM, Polkit, YubiKey) & secrets (SOPS, 1Password, keyring)
-│   ├── desktop/            # 8 DMs, 8 DEs, 8 WMs, and session-scoped XDG portals
+│   ├── desktop/            # 7 DMs, 8 DEs, 9 WMs, and session-scoped XDG portals
 │   ├── virtualization/     # Containers (Docker, Podman, OCI), VMs (MicroVM, Libvirt), stacks
 │   └── programs/           # Flatpak, gaming (Steam), system utilities
 ├── configs/                # Starter dotfiles & system configs (out-of-store or in-store)
@@ -63,9 +63,9 @@ Frost/
 │   └── system/             # Starter system configs (caddy)
 └── home/                   # User-level Home Manager modules (frost.home.* namespace)
     ├── home.nix            # Central user module collector
-    ├── applications/       # 110+ XDG-categorized app modules (ai, dev, graphics, media, office, ...)
+    ├── applications/       # 110+ XDG-categorized app modules (ai, dev, gaming, graphics, ...)
     ├── desktop/            # Wayland shells (igloo) & desktop tools (borealis, shards, igloo_cli)
-    ├── environment/        # configsPath / mkSource, fonts, GTK, XDG, global ignores
+    ├── environment/        # configsPath / extraConfigs / mkSource, fonts, GTK, XDG, ignores
     ├── services/           # User services (syncthing, google_drive)
     └── users/              # User profiles
         └── frost.nix       # Generic starter user environment
@@ -205,42 +205,52 @@ All system modules follow a strict 2-level hierarchy (`frost.<domain>.<category>
 
 | Namespace | Capabilities |
 | :--- | :--- |
-| `frost.system` | `boot` (`console`, `plymouth`), `locale` (`datetime`, `fonts`, `locales`), `runtime` (`environment`, `fhs`, `home_manager`), `storage` (`btrfs_rollback`, `impermanence`, `trash`, `zfs`) |
-| `frost.hardware` | `audio` (`pipewire`), `peripherals` (`bluetooth`, `printing`, `uinput`), `power`, `sensors` (`iio`) |
-| `frost.network` | `stack` (`firewall`, `networking`), `edge` (`adguard`, `caddy`, `cloudflared`), `remote` (`kde_connect`, `ssh`, `wayvnc`), `sync` (`google_drive`, `syncthing`), `vpn` (`eduvpn`, `openvpn`, `tailscale`, `wireguard`) |
+| `frost.system` | `boot` (`console`, `plymouth` with `adi1090x`/`bgrt`/`catppuccin`/`builtin`/`custom` video & GIF builder), `locale` (`datetime`, `fonts`, `locales`), `runtime` (`environment`, `fhs`, `home_manager`), `storage` (`btrfs_rollback`, `impermanence`, `trash`, `zfs`) |
+| `frost.hardware` | `audio` (`pipewire`), `peripherals` (`bluetooth`, `printing`, `uinput`), `power`, `sensors` (`iio`, `wluma` Wayland ALS auto-brightness) |
+| `frost.network` | `stack` (`firewall`, `networking` with non-blocking `waitOnline`), `edge` (`adguard`, `caddy`, `cloudflared`), `remote` (`kde_connect`, `ssh`, `wayvnc`), `sync` (`google_drive`, `syncthing`), `vpn` (`eduvpn`, `openvpn`, `tailscale`, `wireguard`) |
 | `frost.security` | `auth` (`pam`, `polkit`, `yubikey`), `secrets` (`gnome_keyring`, `onepassword`, `sops_nix`) |
-| `frost.desktop` | `dms` (`permafrost`, `greetd`, `sddm`, `gdm`, `ly`, `lightdm`, `cosmic_greeter` + unified `defaultSession`), `des` (`gnome`, `plasma`, `cosmic`, `xfce`, `cinnamon`, `mate`, `lxqt`, `budgie`), `wms` (`hyprland`, `niri`, `sway`, `river`, `i3`, `bspwm`, `awesome`, `qtile`), `portals` (`xdg`, `fjord`) |
-| `frost.virtualization` | `containers` (`docker`, `podman`, `oci`, `compose2nix`), `vms` (`libvirt`, `microvm`, `virtualbox`), `stacks` (`immich`, `jellyfin`, `pgadmin`) |
+| `frost.desktop` | `dms` (`permafrost`, `greetd`, `sddm`, `gdm`, `ly`, `lightdm`, `cosmic_greeter` + unified `defaultSession`), `des` (`gnome`, `plasma`, `cosmic`, `xfce`, `cinnamon`, `mate`, `lxqt`, `budgie`), `wms` (`hyprland`, `niri`, `sway`, `river`, `mango`, `i3`, `bspwm`, `awesome`, `qtile`), `portals` (`xdg`, `fjord`) |
+| `frost.virtualization` | `containers` (`docker` with `enableOnBoot` & `autoPrune`, `podman`, `oci`, `compose2nix`), `vms` (`libvirt`, `microvm`, `virtualbox`), `stacks` (`immich`, `jellyfin`, `pgadmin`) |
 | `frost.programs` | `flatpak` (`bottles`, `flatseal`, `museum`), `gaming` (`steam`), `utilities` (`gnome_disks`, `gnome_disk_usage`, `iamb`) |
 
 ### User Options (`frost.home.*`)
 
-Over 110 modular application wrappers organized by XDG desktop categories under `frost.home.apps.*`, plus desktop shells/tools under `frost.home.desktop.*`:
+Over 110 modular application wrappers organized by XDG desktop categories under `frost.home.apps.*`, plus decoupled desktop shells and tools under `frost.home.desktop.*`:
 
 - **`apps.ai`**: `antigravity`, `beacon`, `flox`, `n8n`, `opencode`, `sled`
 - **`apps.development`**: `editors` (`nvim`, `vscode`, `zed`, `android_studio`), `tools` (`basecamp`, `git`, `heimdall`, `postman`, `prism`, `dbeaver`), `langs` (`bash`, `cpp`, `go`, `java`, `js`, `latex`, `lua`, `markdown`, `nginx`, `nix`, `python`, `rust`, `toml`, `typst`, `yaml`)
+- **`apps.gaming.launchers`**: `gamemode`, `heroic`, `waylandcraft` (native Wayland Minecraft Fabric mod + Prism Launcher stack)
 - **`apps.graphics`**: `raster` (`gimp`, `sly`), `vector` (`inkscape`), `cad` (`blender`, `model_viewer`), `viewers` (`gnome_image_viewer`, `gnome_image_editor`), `scanning` (`gnome_scanner`, `gnome_ocr`)
 - **`apps.media`**: `audio` (`cozy`, `skald`, `spotify`, `pwvucontrol`, `gnome_radio`), `video` (`anime`, `netflix`, `obs`, `kdenlive`, `gnome_video_player`)
 - **`apps.network`**: `browsers` (`chrome`, `firefox`, `tor`, `zen`), `chat` (`discord`, `teams`, `telegram`, `tut`, `whatsapp`), `remote` (`dnsutils`, `eduvpn`, `iperf`, `kde_connect`, `mappers`, `openssl`, `remmina`), `transfer` (`aria2`, `gnome_torrents`, `parabolic`)
 - **`apps.office`**: `docs` (`libreoffice`, `obsidian`, `marktext`, `rnote`), `readers` (`calibre`, `foliate`, `goggles`, `sioyek`, `zathura`, `zlibrary`), `tools` (`autofirma`, `ghostscript`, `mermaid`, `pandoc`, `searchlight`, `snowpack`, `stirling`, `zotero`)
 - **`apps.science`**: `diagrams` (`drawio`, `lantern`), `electronics` (`kicad`), `gis` (`qgis`), `math` (`barograph`, `octave`)
-- **`apps.settings`**: `desktop` (`helm`, `nwg_look`, `tapes`), `packages` (`gnome_software`), `security` (`gnome_seahorse`, `onepassword`, `pass`, `sops`, `vulnix`)
+- **`apps.settings`**: `desktop` (`helm`, `nwg_look`, `tapes` with `gui.enable` & declarative `featured` rices), `packages` (`gnome_software`), `security` (`gnome_seahorse`, `onepassword`, `pass`, `sops`, `vulnix`)
 - **`apps.system`**: `shell` (`bat`, `curl`, `eza`, `fastfetch`, `fzf`, `glow`, `jq`, `kitty`, `ripgrep`, `starship`, `tmux`, `zoxide`, `zsh`), `core` (`bluetooth`, `sqlite`, `usbutils`, `zip`), `desktop` (`thunar`, `gnome_characters`, `gnome_file_roller`), `virtualization` (`distrobox`, `docker`, `virt_manager`)
 - **`apps.utility.accessories`**: `calculator`, `rime`, `rss`, `gnome_calculator`
 - **`desktop`**: `shells` (`igloo`), `tools` (`awww`, `borealis`, `igloo_cli`, `shards`)
 
 ---
 
-## Dotfiles Hot-Reloading & Tapes v2 Ricing
+## Decoupled Desktop Architecture, Dotfiles, & Tapes v2
 
-Frost separates core developer dotfiles (managed via Home Manager `mkSource`) from swappable desktop rices (optional via **Tapes v2**):
+Frost cleanly separates five desktop layers so multiple Desktop Environments, Window Managers, and shells can coexist on the same host without conflict:
 
-### 1. Out-of-Store Dotfiles (`configsPath`)
+1. **Display Managers (`frost.desktop.dms.*`)**: `permafrost`, `greetd`, `sddm`, `gdm`, `ly`, `lightdm`, and `cosmic_greeter` are decoupled from any specific DE/WM and share unified `frost.desktop.dms.defaultSession` resolution.
+2. **Desktop Environments (`frost.desktop.des.*`)**: 8 full DEs (`gnome`, `plasma`, `cosmic`, `xfce`, `cinnamon`, `mate`, `lxqt`, `budgie`) that can be co-installed alongside standalone WMs.
+3. **Window Managers (`frost.desktop.wms.*`)**: 9 standalone WMs (`hyprland`, `niri`, `sway`, `river`, `mango`, `i3`, `bspwm`, `awesome`, `qtile`) with session-scoped Polkit agents (`ConditionEnvironment`) and IIO screen rotation (`hyprland` Lua/legacy + `iioTabletModeOnly`, `sway` `rot8`).
+4. **Session-Scoped Portals (`frost.desktop.portals.*`)**: `xdg` generates per-compositor `<session>-portals.conf` files so custom portals like `fjord` apply only to registered WMs and never hijack full DEs like GNOME or Plasma.
+5. **User Shells & Rices (`frost.home.desktop.*` & `tapes`)**: `igloo` injectors target `~/.config/uwsm/env-<compositor>`, while user daemons (`borealis`, `shards`) respect `manageConfig` and `systemd.enable`.
+
+### 1. Out-of-Store Dotfiles (`configsPath` & `extraConfigs`)
 
 ```nix
 frost.home.environment = {
   # String path -> mutable out-of-store symlinks (live hot-reload)
-  configsPath = "${config.home.homeDirectory}/Glacier/configs/home";
+  configsPath = "${config.home.homeDirectory}/Fleet/configs/home";
+
+  # Link additional WM/app directories from configsPath into ~/.config/<name>
+  extraConfigs = ["hypr" "mango" "niri"];
 
   # Or Nix path literal -> immutable in-store copy (ideal for servers)
   # configsPath = ../configs/home;
@@ -254,10 +264,18 @@ Edits inside `configs/home/` take effect immediately on reload without triggerin
 
 ### 2. Swapping Community Rices with Tapes v2
 
-Enable **Tapes v2** (`frost.home.apps.settings.desktop.tapes.enable = true`) to pull and atomically swap additional `~/.config` rices without touching your core dotfiles (`sled/`, `nvim/`, `zsh.d/`, browser profiles):
+Enable **Tapes v2** (`frost.home.apps.settings.desktop.tapes`) to pull, declaratively materialize, and atomically swap `~/.config` rices without touching your core developer dotfiles (`sled/`, `nvim/`, `zsh.d/`, browser profiles):
+
+```nix
+frost.home.apps.settings.desktop.tapes = {
+  enable = true;
+  gui.enable = true; # Installs the official Tapes-Deck Slint GUI
+  featured = ["caelestia" "end-4" "nebula" "noctalia-libre" "serpantinum"];
+};
+```
 
 ```bash
-# Pull an official featured tape (e.g. Caelestia) or any git repository
+# Or pull any community tape at runtime via CLI (or launch tapes-deck)
 tapes install-featured caelestia
 tapes install https://github.com/some_user/rice --name my-rice
 

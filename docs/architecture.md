@@ -66,11 +66,11 @@ Frost/
 │   ├── workstation/        # Starter graphical workstation profile
 │   └── server/             # Starter headless server profile
 ├── modules/                # System-level 2-level modules (frost.* namespace)
-│   ├── system/             # Boot, locale, runtime (home_manager, fhs), storage (impermanence, zfs)
-│   ├── hardware/           # PipeWire audio, peripherals (Bluetooth, printing), power, sensors (IIO)
-│   ├── network/            # Stack, edge (Caddy, AdGuard), remote (SSH, WayVNC), sync, VPNs
+│   ├── system/             # Boot (console, custom Plymouth builder), locale, runtime, storage
+│   ├── hardware/           # PipeWire audio, peripherals, power, sensors (IIO, wluma ALS)
+│   ├── network/            # Stack (firewall, networking), edge, remote, sync, VPNs
 │   ├── security/           # Auth (PAM, Polkit, YubiKey) & secrets (SOPS, 1Password, keyring)
-│   ├── desktop/            # 8 DMs, 8 DEs, 8 WMs, and session-scoped XDG portals
+│   ├── desktop/            # 7 DMs, 8 DEs, 9 WMs, and session-scoped XDG portals
 │   ├── virtualization/     # Containers (Docker, Podman, OCI), VMs (MicroVM, Libvirt), stacks
 │   └── programs/           # Flatpak, gaming (Steam), system utilities
 ├── configs/                # Starter dotfiles & system configs
@@ -78,13 +78,42 @@ Frost/
 │   └── system/             # Starter system configs (caddy)
 └── home/                   # User-level Home Manager modules (frost.home.* namespace)
     ├── home.nix            # Central user module collector
-    ├── applications/       # 110+ XDG-categorized app modules (ai, dev, graphics, media, office, ...)
+    ├── applications/       # 110+ XDG-categorized app modules (ai, dev, gaming, graphics, ...)
     ├── desktop/            # Wayland shells (igloo) & desktop tools (borealis, shards, igloo_cli)
-    ├── environment/        # configsPath / mkSource, fonts, GTK, XDG, global ignores
+    ├── environment/        # configsPath / extraConfigs / mkSource, fonts, GTK, XDG, ignores
     ├── services/           # User services (syncthing, google_drive)
     └── users/              # User profiles
         └── frost.nix       # Generic starter user environment
 ```
+
+---
+
+## Decoupled Desktop Stack (DMs, DEs, WMs, Portals, & Shells)
+
+Frost enforces strict separation across the graphical desktop stack so any combination of Display Managers, full Desktop Environments, standalone Window Managers, and custom Wayland shells can be co-installed on the same host without conflict:
+
+```mermaid
+graph TD
+    DM["Display Managers (frost.desktop.dms.*)<br/>permafrost, greetd, sddm, gdm, ly, lightdm, cosmic_greeter<br/>+ unified defaultSession"]
+    DE["Desktop Environments (frost.desktop.des.*)<br/>gnome, plasma, cosmic, xfce, cinnamon, mate, lxqt, budgie"]
+    WM["Window Managers (frost.desktop.wms.*)<br/>hyprland, niri, sway, river, mango, i3, bspwm, awesome, qtile"]
+    Portals["Session-Scoped Portals (frost.desktop.portals.*)<br/>xdg (<session>-portals.conf) + fjord (Wormhole)"]
+    Shells["User Shells & Daemons (frost.home.desktop.*)<br/>igloo (uwsm/env-<compositor>), borealis, shards, igloo_cli"]
+    Tapes["Tapes v2 & Dotfiles<br/>mkSource / extraConfigs + tapes / tapes-deck / featured-tapes"]
+
+    DM -->|launches| DE
+    DM -->|launches| WM
+    WM -->|registers session| Portals
+    WM -->|hosts| Shells
+    Tapes -->|configures| Shells
+    Tapes -->|configures| WM
+```
+
+1. **Display Managers (`frost.desktop.dms.*`)**: Display managers never force-enable a coupled DE or WM. `frost.desktop.dms.defaultSession` provides a single point of truth for the default login session across all 7 DMs.
+2. **Desktop Environments (`frost.desktop.des.*`)**: Full DEs (GNOME, Plasma, COSMIC, XFCE, etc.) remain isolated from standalone WM overrides.
+3. **Window Managers (`frost.desktop.wms.*`)**: All 9 WMs (`hyprland`, `niri`, `sway`, `river`, `mango`, `i3`, `bspwm`, `awesome`, `qtile`) guard their user services (Polkit authentication agents, IIO screen rotation daemons) with compositor-specific `ConditionEnvironment` checks (`HYPRLAND_INSTANCE_SIGNATURE`, `NIRI_SOCKET`, `SWAYSOCK`, `XDG_CURRENT_DESKTOP=mango`, `XDG_CURRENT_DESKTOP=river`).
+4. **Session-Scoped Portals (`frost.desktop.portals.*`)**: Instead of emitting a global `xdg.portal.config.common` that hijacks GNOME or KDE file choosers, `frost.desktop.portals.xdg` emits per-compositor `<session>-portals.conf` rules (`portalOrder ++ ["gtk"] ++ fallbacks`) only for registered WMs.
+5. **Shells & Daemons (`frost.home.desktop.*`)**: `frost.home.desktop.shells.igloo` scopes its Wayland toolkit environment exports to `~/.config/uwsm/env-${cfg.compositor}` and exposes independent `manageConfig` and `systemd.enable` toggles matching `borealis` and `shards`.
 
 ---
 
@@ -119,7 +148,10 @@ Iterating on Wayland configurations or desktop dotfiles traditionally requires a
 ```nix
 frost.home.environment = {
   # String path -> mutable out-of-store symlinks (live hot-reloading)
-  configsPath = "${config.home.homeDirectory}/Glacier/configs/home";
+  configsPath = "${config.home.homeDirectory}/Fleet/configs/home";
+
+  # Extra WM/app config directories under configsPath linked into ~/.config/<name>
+  extraConfigs = ["hypr" "mango" "niri"];
 
   # Nix path literal -> immutable in-store copy (pure server builds)
   # configsPath = ../configs/home;
@@ -129,4 +161,5 @@ frost.home.environment = {
 
 - When `configsPath` is a string and `mutable = true`, `mkSource` delegates to `config.lib.file.mkOutOfStoreSymlink`, so edits take effect immediately on save without invoking `nixos-rebuild`.
 - When `configsPath` is `null`, Frost falls back to its built-in starter templates in `configs/home/`.
-- For desktop/WM rices (`hypr/`, `caelestia/`, `waybar/`, etc.), Frost also packages **Tapes v2** (`frost.home.apps.settings.desktop.tapes.enable = true`), allowing users to pull and atomically swap additional `~/.config` rices without disturbing Home Manager-owned tool configs (`sled/`, `nvim/`, `zsh.d/`).
+- `extraConfigs` links any additional subdirectories from `configsPath` (such as `hypr/`, `mango/`, `niri/`, `waybar/`) directly into `~/.config/<name>` via `mkSource`.
+- For hot-swappable desktop/WM rices, Frost integrates **Tapes v2** (`frost.home.apps.settings.desktop.tapes`), including the **Tapes-Deck** Slint GUI (`gui.enable = true`) and declarative **Featured Tapes** (`featured = ["caelestia" "end-4" "nebula" "noctalia-libre" "serpantinum"]`), allowing users to materialize and atomically swap `~/.config` rices without disturbing Home Manager-owned tool configs (`sled/`, `nvim/`, `zsh.d/`).

@@ -1,5 +1,5 @@
 # Example Sled MCP Bridge Descriptor (Template)
-# Place real bridges here or in Glacier configs/home/sled/bridges/
+# Place real bridges here or in your fleet's configs/home/sled/bridges/
 #
 # name = "example"
 # binary = "example"

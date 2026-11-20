@@ -10,7 +10,7 @@ Frost provides a strict 2-level option hierarchy for system-level NixOS modules 
 
 | Category | Modules | Description |
 | :--- | :--- | :--- |
-| `boot` | `console`, `plymouth` | TTY console settings and graphical boot splash |
+| `boot` | `console`, `plymouth` | TTY console settings and Plymouth boot splash (`source = "adi1090x" \| "bgrt" \| "catppuccin" \| "builtin" \| "custom"` with build-time Lanczos `.webm`/`.mp4`/`.gif`/PNG-dir compiler, `fit = "contain" \| "cover" \| "native"`, and lazy frame loading) |
 | `locale` | `datetime`, `fonts`, `locales` | Timezone, NTP, system font stack, and locale defaults |
 | `runtime` | `environment`, `fhs`, `home_manager` | Base system packages, `nix-ld` / FHS compatibility, and Home Manager integration |
 | `storage` | `btrfs_rollback`, `impermanence`, `trash`, `zfs` | Ephemeral root rollback, `/persist` bind-mounts, trash management, and OpenZFS |
@@ -21,8 +21,8 @@ Frost provides a strict 2-level option hierarchy for system-level NixOS modules 
 | :--- | :--- | :--- |
 | `dms` | `permafrost`, `greetd`, `sddm`, `gdm`, `ly`, `lightdm`, `cosmic_greeter` | Decoupled display managers with unified `frost.desktop.dms.defaultSession` resolution |
 | `des` | `gnome`, `plasma`, `cosmic`, `xfce`, `cinnamon`, `mate`, `lxqt`, `budgie` | Full desktop environments (co-installable without portal or service conflicts) |
-| `wms` | `hyprland`, `niri`, `sway`, `river`, `i3`, `bspwm`, `awesome`, `qtile` | Wayland and X11 window managers with session-scoped services |
-| `portals` | `xdg`, `fjord` | Session-scoped XDG Desktop Portal unifier (`<session>-portals.conf`) and Fjord portal |
+| `wms` | `hyprland`, `niri`, `sway`, `river`, `mango`, `i3`, `bspwm`, `awesome`, `qtile` | Wayland and X11 window managers with session-scoped Polkit agents, IIO rotation (`hyprland.iioOutput`, `hyprland.iioTabletModeOnly`, `sway` `rot8`), and XWayland toggles (`niri.xwayland.enable`, `mango.xwayland.enable`) |
+| `portals` | `xdg`, `fjord` | Session-scoped XDG Desktop Portal unifier (`<session>-portals.conf`) and Fjord (Wormhole Material 3) portal |
 
 ### Hardware (`frost.hardware.*`)
 
@@ -30,14 +30,14 @@ Frost provides a strict 2-level option hierarchy for system-level NixOS modules 
 | :--- | :--- | :--- |
 | `audio` | `pipewire` | Low-latency PipeWire sound server with ALSA, PulseAudio, and JACK emulation |
 | `peripherals` | `bluetooth`, `printing`, `uinput` | BlueZ stack, CUPS printing + discovery, and `uinput` device permissions |
-| `power` | `power` (`frost.hardware.power`) | Laptop power profiles, TLP / thermal management |
-| `sensors` | `iio`, `wluma` | `iio-sensor-proxy` accelerometer/ALS support and `wluma` Wayland auto-brightness daemon |
+| `power` | `power` (`frost.hardware.power`) | Laptop power profiles, TLP / thermal management, and battery charge thresholds |
+| `sensors` | `iio`, `wluma` | `iio-sensor-proxy` accelerometer/ALS daemon and `wluma` Wayland auto-brightness (`capturer = "none" \| "wayland"`, `keyboardBacklight`, udev backlight rules) |
 
 ### Network (`frost.network.*`)
 
 | Category | Modules | Description |
 | :--- | :--- | :--- |
-| `stack` | `firewall`, `networking` | Declarative nftables/iptables firewall and NetworkManager / networkd |
+| `stack` | `firewall`, `networking` | Declarative nftables/iptables firewall and NetworkManager / networkd (with non-blocking `waitOnline` boot toggle) |
 | `edge` | `adguard`, `caddy`, `cloudflared` | DNS sinkhole, automatic HTTPS reverse proxy, and Cloudflare Zero Trust tunnels |
 | `remote` | `kde_connect`, `ssh`, `wayvnc` | Hardened OpenSSH daemon, KDE Connect firewall/daemon, and WayVNC |
 | `sync` | `google_drive`, `syncthing` | System-level Syncthing and Google Drive sync helpers |
@@ -54,9 +54,9 @@ Frost provides a strict 2-level option hierarchy for system-level NixOS modules 
 
 | Category | Modules | Description |
 | :--- | :--- | :--- |
-| `containers` | `compose2nix`, `docker`, `oci`, `podman` | Docker, Podman, and declarative OCI container runtimes |
+| `containers` | `compose2nix`, `docker`, `oci`, `podman` | Docker (with `enableOnBoot` socket activation & weekly `autoPrune`), Podman, and declarative OCI container runtimes |
 | `vms` | `libvirt`, `microvm`, `virtualbox` | KVM/QEMU hypervisor, declarative MicroVMs, and VirtualBox |
-| `stacks` | `immich`, `jellyfin`, `pgadmin` | Pre-wired self-hosted containerized service stacks |
+| `stacks` | `immich`, `jellyfin`, `pgadmin` | Pre-wired self-hosted containerized service stacks (with `pgadmin.autoStart`) |
 
 ### Programs (`frost.programs.*`)
 
@@ -104,7 +104,7 @@ User modules live under `frost.home.apps.*` (following XDG desktop categories), 
   - `gis`: `qgis`
   - `math`: `barograph`, `octave`
 - **`settings`**:
-  - `desktop`: `helm`, `nwg_look`, `tapes`
+  - `desktop`: `helm`, `nwg_look`, `tapes` (`enable`, `gui.enable` for `tapes-deck`, `featured = ["caelestia" "end-4" "nebula" "noctalia-libre" "serpantinum"]`)
   - `packages`: `gnome_software`
   - `security`: `gnome_seahorse`, `onepassword`, `pass`, `sops`, `vulnix`
 - **`system`**:
@@ -168,7 +168,7 @@ User modules live under `frost.home.apps.*` (following XDG desktop categories), 
     };
 
     environment = {
-      configsPath = "${config.home.homeDirectory}/Glacier/configs/home";
+      configsPath = "${config.home.homeDirectory}/Fleet/configs/home";
       extraConfigs = ["hypr"];
       fonts.enable = true;
       gtk.enable = true;

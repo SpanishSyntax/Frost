@@ -12,7 +12,7 @@
       description = ''
         Global filesystem base path or flake directory path for OS/system daemon configs.
         Set to `null` by default. Fleets can point this to their system config directory
-        (e.g. Glacier/configs/system) so system services can auto-discover their modular config directories.
+        (e.g. `configs/system`) so system services can auto-discover their modular config directories.
       '';
     };
 

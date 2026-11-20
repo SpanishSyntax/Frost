@@ -1,4 +1,4 @@
 -- Frost Caelestia Hyprland Overrides (Starter / Template)
--- Override default variables defined in hypr/variables.lua here or in Glacier.
+-- Override default variables defined in hypr/variables.lua here or in your fleet repository.
 return {
 }

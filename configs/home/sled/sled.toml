@@ -1,5 +1,5 @@
 # Frost Sled MCP Starter Configuration (Example / Template)
-# Configure enabled packs and tools here or in Glacier configs/home/sled/sled.toml
+# Configure enabled packs and tools here or in your fleet's configs/home/sled/sled.toml
 
 [packs]
 # enabled = ["fs", "git", "system", "docker", "systemd", "nixos", "network", "dev"]
