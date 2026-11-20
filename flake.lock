@@ -349,11 +349,11 @@
         "serpantinum-dots": "serpantinum-dots"
       },
       "locked": {
-        "lastModified": 1795182613,
-        "narHash": "sha256-mPl93QR/z8kYlEnFUf0s3gHuvrUVRqkz/DKektfqEgY=",
+        "lastModified": 1795184275,
+        "narHash": "sha256-GFulQucEb7rbUX9ySn8HYJEYEwLwwXxVbk7d9wutMvc=",
         "owner": "SpanishSyntax",
         "repo": "featured-tapes",
-        "rev": "a16630c818e97dcac32f2777e1bb4853430afe40",
+        "rev": "a0740a1aef2fdf2a4beea879f62300bb6fdf0c16",
         "type": "github"
       },
       "original": {
