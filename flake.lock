@@ -2003,13 +2003,13 @@
       "locked": {
         "lastModified": 1795151850,
         "narHash": "sha256-m5Jg32rGGORPlcQ4TtKE1AABi7tqWli9S+PWp2kjLRg=",
-        "owner": "futurekismo-oss",
+        "owner": "SpanishSyntax",
         "repo": "tapes",
         "rev": "e6baf1ddf07c2b17df0c6da238e14044b0d7221c",
         "type": "github"
       },
       "original": {
-        "owner": "futurekismo-oss",
+        "owner": "SpanishSyntax",
         "repo": "tapes",
         "type": "github"
       }
@@ -2027,13 +2027,13 @@
       "locked": {
         "lastModified": 1795155218,
         "narHash": "sha256-Url9nQ5jaRtzIWwjGwzjHFBn8C89UOgW5fBWbscU33I=",
-        "owner": "LilaccFlowerr",
+        "owner": "SpanishSyntax",
         "repo": "tapes-deck",
         "rev": "2f10e87e001899127546f7f518554adf08e970d1",
         "type": "github"
       },
       "original": {
-        "owner": "LilaccFlowerr",
+        "owner": "SpanishSyntax",
         "repo": "tapes-deck",
         "type": "github"
       }

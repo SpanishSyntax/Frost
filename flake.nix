@@ -71,12 +71,12 @@
     };
 
     tapes = {
-      url = "github:futurekismo-oss/tapes";
+      url = "github:SpanishSyntax/tapes";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     tapes-deck = {
-      url = "github:LilaccFlowerr/tapes-deck";
+      url = "github:SpanishSyntax/tapes-deck";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.tapes.follows = "tapes";
     };
