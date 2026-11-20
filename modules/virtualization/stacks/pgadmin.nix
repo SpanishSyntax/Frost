@@ -36,13 +36,19 @@ in {
       default = true;
       description = "Whether to open the pgAdmin port in the firewall.";
     };
+
+    autoStart = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to start the pgAdmin container automatically on boot (set `false` on laptops to avoid pulling `docker.service` at boot).";
+    };
   };
 
   config = lib.mkIf cfg.enable {
     assertions = [
       {
         assertion = config.frost.virtualization.containers.oci.enable;
-        message = "frost.oci.pgadmin requires frost.virtualization.containers.oci.enable = true;";
+        message = "frost.virtualization.stacks.pgadmin requires frost.virtualization.containers.oci.enable = true;";
       }
     ];
 
@@ -63,6 +69,7 @@ in {
     ];
 
     virtualisation.oci-containers.containers.pgadmin = {
+      inherit (cfg) autoStart;
       image = "docker.io/dpage/pgadmin4:latest";
       ports = ["${toString cfg.port}:80"];
       volumes = [

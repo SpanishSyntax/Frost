@@ -71,7 +71,8 @@
     win_w = Window.GetWidth();
     win_h = Window.GetHeight();
 
-    for (i = 0; i < frame_count; i++) {
+    fun load_frame(i) {
+      if (frames[i]) return frames[i];
       n = i + 1;
       if (n < 10)        pad = "000" + n;
       else if (n < 100)  pad = "00" + n;
@@ -98,6 +99,7 @@
           frames[i] = raw.Scale(tw, th);
         }
       }
+      return frames[i];
     }
 
     sprite = Sprite();
@@ -111,7 +113,7 @@
       } else if (idx >= frame_count) {
         idx = frame_count - 1;
       }
-      img = frames[idx];
+      img = load_frame(idx);
       sprite.SetImage(img);
       sprite.SetX(win_w / 2 - img.GetWidth() / 2);
       sprite.SetY(win_h / 2 - img.GetHeight() / 2);
