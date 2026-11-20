@@ -74,55 +74,100 @@ User modules live under `frost.home.apps.*` (following XDG desktop categories), 
 
 ### Applications (`frost.home.apps.*`)
 
-- **`ai`**: `antigravity`, `beacon`, `flox`, `n8n`, `opencode`, `sled`
-- **`development`**:
-  - `editors`: `nvim`, `vscode`, `zed`, `android_studio`
-  - `tools`: `basecamp`, `dbeaver`, `git`, `heimdall`, `postman`, `prism`
-  - `langs`: `bash`, `cpp`, `go`, `java`, `js`, `latex`, `lua`, `markdown`, `nginx`, `nix`, `python`, `rust`, `toml`, `typst`, `yaml`
-- **`gaming.launchers`**: `gamemode`, `heroic`, `waylandcraft`
-- **`graphics`**:
-  - `cad`: `blender`, `model_viewer`
-  - `raster`: `gimp`, `sly`
-  - `scanning`: `gnome_ocr`, `gnome_scanner`
-  - `vector`: `inkscape`
-  - `viewers`: `gnome_image_editor`, `gnome_image_viewer`
-- **`media`**:
-  - `audio`: `cozy`, `gnome_radio`, `pwvucontrol`, `skald`, `spotify`
-  - `video`: `anime`, `gnome_video_player`, `kdenlive`, `netflix`, `obs`
-- **`network`**:
-  - `browsers`: `chrome`, `firefox`, `tor`, `zen`
-  - `chat`: `discord`, `teams`, `telegram`, `tut`, `whatsapp`
-  - `remote`: `dnsutils`, `eduvpn`, `gnome_network_displays`, `iperf`, `kde_connect`, `mappers`, `openssl`, `remmina`
-  - `transfer`: `aria2`, `gnome_torrents`, `parabolic`
-- **`office`**:
-  - `docs`: `gnome_markdown`, `libreoffice`, `marktext`, `obsidian`, `rnote`, `todoist`
-  - `readers`: `calibre`, `foliate`, `gnome_document_viewer`, `goggles`, `sioyek`, `zathura`, `zlibrary`
-  - `tools`: `autofirma`, `bento_pdf`, `ghostscript`, `gnome_pomodoro`, `mermaid`, `pandoc`, `searchlight`, `snowpack`, `stirling`, `zotero`
-- **`science`**:
-  - `diagrams`: `drawio`, `lantern`
-  - `electronics`: `kicad`
-  - `gis`: `qgis`
-  - `math`: `barograph`, `octave`
-- **`settings`**:
-  - `desktop`: `helm`, `nwg_look`, `tapes` (`enable`, `gui.enable` for `tapes-deck`, `featured = ["caelestia" "end-4" "nebula" "noctalia-libre" "serpantinum"]`)
-  - `packages`: `gnome_software`
-  - `security`: `gnome_seahorse`, `onepassword`, `pass`, `sops`, `vulnix`
-- **`system`**:
-  - `core`: `bluetooth`, `sqlite`, `usbutils`, `zip`
-  - `desktop`: `gnome_characters`, `gnome_file_roller`, `gnome_files`, `gnome_system_monitor`, `thunar`
-  - `shell`: `bat`, `curl`, `eza`, `fastfetch`, `file`, `fzf`, `glow`, `jq`, `kitty`, `magika`, `pay_respects`, `pdfgrep`, `ripgrep`, `starship`, `tmux`, `tree`, `wget`, `zoxide`, `zsh`
-  - `virtualization`: `boxbuddy`, `devbox`, `distrobox`, `docker`, `kontainer`, `virt_manager`
-- **`utility.accessories`**: `calculator`, `gnome_calculator`, `gnome_calendar`, `gnome_clocks`, `gnome_fretboard`, `gnome_typing`, `gnome_weather`, `memorado`, `rime`, `rss`
+#### AI & Agent Tooling (`frost.home.apps.ai.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `ai` | `antigravity`, `beacon`, `flox`, `n8n`, `opencode`, `sled` | AI coding agents, Sled atomic MCP server bridge, learning harness, and workflow automation |
+
+#### Development (`frost.home.apps.development.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `editors` | `nvim`, `vscode`, `zed`, `android_studio` | Modal terminal and graphical IDEs with out-of-store config support |
+| `tools` | `basecamp`, `dbeaver`, `git`, `heimdall`, `postman`, `prism` | DevShell scaffolding, Git/SSH signing, database & API clients, and terminal UI engine |
+| `langs` | `bash`, `cpp`, `go`, `java`, `js`, `latex`, `lua`, `markdown`, `nginx`, `nix`, `python`, `rust`, `toml`, `typst`, `yaml` | Language toolchains, LSP servers, formatters, and linters |
+
+#### Gaming (`frost.home.apps.gaming.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `launchers` | `gamemode`, `heroic`, `waylandcraft` | Feral GameMode, Heroic Games Launcher, and native Wayland Minecraft Fabric stack (`prismlauncher` + `waylandcraft.jar`) |
+
+#### Graphics (`frost.home.apps.graphics.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `cad` | `blender`, `model_viewer` | 3D modeling, rendering, and mesh inspection |
+| `raster` | `gimp`, `sly` | Raster image editing and photography suites |
+| `scanning` | `gnome_ocr`, `gnome_scanner` | Document scanning and optical character recognition |
+| `vector` | `inkscape` | Vector graphics and SVG authoring |
+| `viewers` | `gnome_image_editor`, `gnome_image_viewer` | Fast desktop image viewing and quick annotation |
+
+#### Media (`frost.home.apps.media.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `audio` | `cozy`, `gnome_radio`, `pwvucontrol`, `skald`, `spotify` | Audiobook players, PipeWire mixer, Skald neural M4B audiobook compiler, and streaming |
+| `video` | `anime`, `gnome_video_player`, `kdenlive`, `netflix`, `obs` | Non-linear video editing, OBS screen recording/streaming, and media playback |
+
+#### Network (`frost.home.apps.network.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `browsers` | `chrome`, `firefox`, `tor`, `zen` | Hardened and daily-driver web browsers |
+| `chat` | `discord`, `teams`, `telegram`, `tut`, `whatsapp` | Desktop and TUI messaging clients |
+| `remote` | `dnsutils`, `eduvpn`, `gnome_network_displays`, `iperf`, `kde_connect`, `mappers`, `openssl`, `remmina` | Network diagnostics, VPN clients, Miracast displays, and RDP/VNC clients |
+| `transfer` | `aria2`, `gnome_torrents`, `parabolic` | Multi-connection downloaders, BitTorrent, and media streams |
+
+#### Office & Publishing (`frost.home.apps.office.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `docs` | `gnome_markdown`, `libreoffice`, `marktext`, `obsidian`, `rnote`, `todoist` | Office suite, knowledge graphs, handwritten notes, and task management |
+| `readers` | `calibre`, `foliate`, `gnome_document_viewer`, `goggles`, `sioyek`, `zathura`, `zlibrary` | Academic PDF readers (`sioyek`, `zathura`), e-book managers, and Goggles native GFM viewer |
+| `tools` | `autofirma`, `bento_pdf`, `ghostscript`, `gnome_pomodoro`, `mermaid`, `pandoc`, `searchlight`, `snowpack`, `stirling`, `zotero` | Snowpack Typst/LaTeX compiler, Searchlight fuzzy PDF search, Zotero citations, and PDF tooling |
+
+#### Science & Engineering (`frost.home.apps.science.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `diagrams` | `drawio`, `lantern` | Technical diagramming and Lantern interactive simulation explainer compiler |
+| `electronics` | `kicad` | Schematic capture and PCB layout suite |
+| `gis` | `qgis` | Geographic information system and spatial analysis |
+| `math` | `barograph`, `octave` | Barograph multi-backend figure extraction engine and numerical computing |
+
+#### Settings & Ricing (`frost.home.apps.settings.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `desktop` | `helm`, `nwg_look`, `tapes` | Helm Hyprland configuration studio, GTK theme switcher, and Tapes v2 (`enable`, `gui.enable`, `featured`) |
+| `packages` | `gnome_software` | Graphical software center |
+| `security` | `gnome_seahorse`, `onepassword`, `pass`, `sops`, `vulnix` | Password managers, PGP/SSH keyrings, SOPS CLI, and Nix vulnerability scanner |
+
+#### System & Utilities (`frost.home.apps.system.*`, `frost.home.apps.utility.*`)
+
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `core` | `bluetooth`, `sqlite`, `usbutils`, `zip` | Core CLI and archive utilities |
+| `desktop` | `gnome_characters`, `gnome_file_roller`, `gnome_files`, `gnome_system_monitor`, `thunar` | Graphical file managers, archive extractors, and system monitors |
+| `shell` | `bat`, `curl`, `eza`, `fastfetch`, `file`, `fzf`, `glow`, `jq`, `kitty`, `magika`, `pay_respects`, `pdfgrep`, `ripgrep`, `starship`, `tmux`, `tree`, `wget`, `zoxide`, `zsh` | GPU-accelerated terminal (`kitty`), Zsh + Starship prompt, and modern Unix CLI replacements |
+| `virtualization` | `boxbuddy`, `devbox`, `distrobox`, `docker`, `kontainer`, `virt_manager` | Distrobox container management, Devbox environments, and Libvirt GUI |
+| `accessories` | `calculator`, `gnome_calculator`, `gnome_calendar`, `gnome_clocks`, `gnome_fretboard`, `gnome_typing`, `gnome_weather`, `memorado`, `rime`, `rss` | Rime batch filename sanitizer, desktop calculators, clocks, and flashcards |
 
 ### Desktop Shells & Tools (`frost.home.desktop.*`)
 
-- **`shells`**: `igloo` (`manageConfig`, `compositor`, `systemd.enable`)
-- **`tools`**: `awww`, `borealis` (`backend`, `interval`, `telemetryInterval`, `wallpaperDir`, `extraWallpaperDirs`, `settings`, `manageConfig`, `systemd.enable`), `igloo_cli`, `shards` (`systemd.enable`)
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `shells` | `igloo` | Caelestia Quickshell desktop shell (`compositor`, `manageConfig`, `systemd.enable`) |
+| `tools` | `awww`, `borealis`, `igloo_cli`, `shards` | Dynamic atmospheric wallpaper daemon (`borealis`), Wayland clipboard/emoji overlay (`shards`), and shell CLI |
 
 ### Environment & Services (`frost.home.environment.*`, `frost.home.services.*`)
 
-- **`environment`**: `configsPath`, `mutable`, `extraConfigs`, `mkSource`, `mkPureSource`, `mkImpureSource`, `fonts`, `gtk`, `xdg`, `ignores`
-- **`services`**: `google_drive`, `syncthing`
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `environment` | `configsPath`, `mutable`, `extraConfigs`, `mkSource`, `fonts`, `gtk`, `xdg`, `ignores` | Centralized dotfile path resolver (pure store vs live out-of-store symlinks), theming, and XDG directories |
+| `services` | `google_drive`, `syncthing` | User-level Rclone Google Drive FUSE mount and Syncthing continuous file synchronization |
 
 ### Example Configuration
 

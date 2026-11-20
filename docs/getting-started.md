@@ -20,10 +20,10 @@ This guide walks through deploying a system using Frost, either as a standalone 
 
 Frost supports two primary architectural workflows:
 
-| Model | Target Use Case | Repository Structure |
+| Model | Repository Structure | Target Use Case |
 | :--- | :--- | :--- |
-| **Starter Template (Fork & Clone)** | Standalone desktop or single machine where configuration and modules live together | Fork of `SpanishSyntax/Frost` |
-| **External Flake Library (Private Fleet)** | Multi-machine fleet with encrypted private secrets, distinct hardware profiles, and private git tracking | Private repo importing `inputs.frost` |
+| `starter-template` | `SpanishSyntax/Frost` (fork & clone) | Standalone desktop or single machine where host configuration and modules live together |
+| `flake-library` | `inputs.frost` (external flake input) | Multi-machine private fleet with encrypted secrets, distinct hardware profiles, and decoupled git tracking |
 
 ---
 

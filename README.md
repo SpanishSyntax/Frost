@@ -203,32 +203,36 @@ sudo nixos-enter
 
 All system modules follow a strict 2-level hierarchy (`frost.<domain>.<category>.<module>`):
 
-| Namespace | Capabilities |
-| :--- | :--- |
-| `frost.system` | `boot` (`console`, `plymouth` with `adi1090x`/`bgrt`/`catppuccin`/`builtin`/`custom` video & GIF builder), `locale` (`datetime`, `fonts`, `locales`), `runtime` (`environment`, `fhs`, `home_manager`), `storage` (`btrfs_rollback`, `impermanence`, `trash`, `zfs`) |
-| `frost.hardware` | `audio` (`pipewire`), `peripherals` (`bluetooth`, `printing`, `uinput`), `power`, `sensors` (`iio`, `wluma` Wayland ALS auto-brightness) |
-| `frost.network` | `stack` (`firewall`, `networking` with non-blocking `waitOnline`), `edge` (`adguard`, `caddy`, `cloudflared`), `remote` (`kde_connect`, `ssh`, `wayvnc`), `sync` (`google_drive`, `syncthing`), `vpn` (`eduvpn`, `openvpn`, `tailscale`, `wireguard`) |
-| `frost.security` | `auth` (`pam`, `polkit`, `yubikey`), `secrets` (`gnome_keyring`, `onepassword`, `sops_nix`) |
-| `frost.desktop` | `dms` (`permafrost`, `greetd`, `sddm`, `gdm`, `ly`, `lightdm`, `cosmic_greeter` + unified `defaultSession`), `des` (`gnome`, `plasma`, `cosmic`, `xfce`, `cinnamon`, `mate`, `lxqt`, `budgie`), `wms` (`hyprland`, `niri`, `sway`, `river`, `mango`, `i3`, `bspwm`, `awesome`, `qtile`), `portals` (`xdg`, `fjord`) |
-| `frost.virtualization` | `containers` (`docker` with `enableOnBoot` & `autoPrune`, `podman`, `oci`, `compose2nix`), `vms` (`libvirt`, `microvm`, `virtualbox`), `stacks` (`immich`, `jellyfin`, `pgadmin`) |
-| `frost.programs` | `flatpak` (`bottles`, `flatseal`, `museum`), `gaming` (`steam`), `utilities` (`gnome_disks`, `gnome_disk_usage`, `iamb`) |
+| Namespace | Categories & Modules | Description |
+| :--- | :--- | :--- |
+| `frost.system` | `boot` (`console`, `plymouth`), `locale` (`datetime`, `fonts`, `locales`), `runtime` (`environment`, `fhs`, `home_manager`), `storage` (`btrfs_rollback`, `impermanence`, `trash`, `zfs`) | Bootloader, custom video/GIF Plymouth splash builder, locale stack, FHS/Home Manager runtime, and Btrfs/ZFS impermanence |
+| `frost.hardware` | `audio` (`pipewire`), `peripherals` (`bluetooth`, `printing`, `uinput`), `power`, `sensors` (`iio`, `wluma`) | Low-latency PipeWire audio, Bluetooth/CUPS peripherals, laptop power management, IIO sensors, and `wluma` ALS auto-brightness |
+| `frost.network` | `stack` (`firewall`, `networking`), `edge` (`adguard`, `caddy`, `cloudflared`), `remote` (`kde_connect`, `ssh`, `wayvnc`), `sync` (`google_drive`, `syncthing`), `vpn` (`eduvpn`, `openvpn`, `tailscale`, `wireguard`) | Declarative firewall, NetworkManager/networkd (`waitOnline`), reverse proxies, SSH/WayVNC, sync daemons, and mesh VPNs |
+| `frost.security` | `auth` (`pam`, `polkit`, `yubikey`), `secrets` (`gnome_keyring`, `onepassword`, `sops_nix`) | PAM U2F/FIDO2 authentication, Polkit, YubiKey smartcard rules, SOPS-nix secrets, and 1Password |
+| `frost.desktop` | `dms` (`permafrost`, `greetd`, `sddm`, `gdm`, `ly`, `lightdm`, `cosmic_greeter`, `defaultSession`), `des` (`gnome`, `plasma`, `cosmic`, `xfce`, `cinnamon`, `mate`, `lxqt`, `budgie`), `wms` (`hyprland`, `niri`, `sway`, `river`, `mango`, `i3`, `bspwm`, `awesome`, `qtile`), `portals` (`xdg`, `fjord`) | Decoupled display managers, co-installable desktop environments, standalone window managers, and session-scoped XDG portals |
+| `frost.virtualization` | `containers` (`docker`, `podman`, `oci`, `compose2nix`), `vms` (`libvirt`, `microvm`, `virtualbox`), `stacks` (`immich`, `jellyfin`, `pgadmin`) | Socket-activated Docker (`enableOnBoot`, `autoPrune`), Podman/OCI containers, KVM/MicroVMs, and self-hosted stacks |
+| `frost.programs` | `flatpak` (`bottles`, `flatseal`, `museum`), `gaming` (`steam`), `utilities` (`gnome_disks`, `gnome_disk_usage`, `iamb`) | System-level Flatpak management, Steam gaming stack, and disk utilities |
 
 ### User Options (`frost.home.*`)
 
 Over 110 modular application wrappers organized by XDG desktop categories under `frost.home.apps.*`, plus decoupled desktop shells and tools under `frost.home.desktop.*`:
 
-- **`apps.ai`**: `antigravity`, `beacon`, `flox`, `n8n`, `opencode`, `sled`
-- **`apps.development`**: `editors` (`nvim`, `vscode`, `zed`, `android_studio`), `tools` (`basecamp`, `git`, `heimdall`, `postman`, `prism`, `dbeaver`), `langs` (`bash`, `cpp`, `go`, `java`, `js`, `latex`, `lua`, `markdown`, `nginx`, `nix`, `python`, `rust`, `toml`, `typst`, `yaml`)
-- **`apps.gaming.launchers`**: `gamemode`, `heroic`, `waylandcraft` (native Wayland Minecraft Fabric mod + Prism Launcher stack)
-- **`apps.graphics`**: `raster` (`gimp`, `sly`), `vector` (`inkscape`), `cad` (`blender`, `model_viewer`), `viewers` (`gnome_image_viewer`, `gnome_image_editor`), `scanning` (`gnome_scanner`, `gnome_ocr`)
-- **`apps.media`**: `audio` (`cozy`, `skald`, `spotify`, `pwvucontrol`, `gnome_radio`), `video` (`anime`, `netflix`, `obs`, `kdenlive`, `gnome_video_player`)
-- **`apps.network`**: `browsers` (`chrome`, `firefox`, `tor`, `zen`), `chat` (`discord`, `teams`, `telegram`, `tut`, `whatsapp`), `remote` (`dnsutils`, `eduvpn`, `iperf`, `kde_connect`, `mappers`, `openssl`, `remmina`), `transfer` (`aria2`, `gnome_torrents`, `parabolic`)
-- **`apps.office`**: `docs` (`libreoffice`, `obsidian`, `marktext`, `rnote`), `readers` (`calibre`, `foliate`, `goggles`, `sioyek`, `zathura`, `zlibrary`), `tools` (`autofirma`, `ghostscript`, `mermaid`, `pandoc`, `searchlight`, `snowpack`, `stirling`, `zotero`)
-- **`apps.science`**: `diagrams` (`drawio`, `lantern`), `electronics` (`kicad`), `gis` (`qgis`), `math` (`barograph`, `octave`)
-- **`apps.settings`**: `desktop` (`helm`, `nwg_look`, `tapes` with `gui.enable` & declarative `featured` rices), `packages` (`gnome_software`), `security` (`gnome_seahorse`, `onepassword`, `pass`, `sops`, `vulnix`)
-- **`apps.system`**: `shell` (`bat`, `curl`, `eza`, `fastfetch`, `fzf`, `glow`, `jq`, `kitty`, `ripgrep`, `starship`, `tmux`, `zoxide`, `zsh`), `core` (`bluetooth`, `sqlite`, `usbutils`, `zip`), `desktop` (`thunar`, `gnome_characters`, `gnome_file_roller`), `virtualization` (`distrobox`, `docker`, `virt_manager`)
-- **`apps.utility.accessories`**: `calculator`, `rime`, `rss`, `gnome_calculator`
-- **`desktop`**: `shells` (`igloo`), `tools` (`awww`, `borealis`, `igloo_cli`, `shards`)
+| Category | Modules | Description |
+| :--- | :--- | :--- |
+| `apps.ai` | `antigravity`, `beacon`, `flox`, `n8n`, `opencode`, `sled` | AI coding agents, Sled atomic MCP server bridge, learning harness, and workflow automation |
+| `apps.development` | `editors` (`nvim`, `vscode`, `zed`, `android_studio`), `tools` (`basecamp`, `git`, `heimdall`, `postman`, `prism`, `dbeaver`), `langs` (`bash`, `cpp`, `go`, `java`, `js`, `latex`, `lua`, `markdown`, `nginx`, `nix`, `python`, `rust`, `toml`, `typst`, `yaml`) | IDEs, DevShell scaffolding (`basecamp`), terminal UI (`prism`), and 15 language toolchains/LSPs |
+| `apps.gaming` | `launchers` (`gamemode`, `heroic`, `waylandcraft`) | GameMode, Heroic Launcher, and native Wayland Minecraft Fabric stack (`prismlauncher` + `waylandcraft`) |
+| `apps.graphics` | `raster` (`gimp`, `sly`), `vector` (`inkscape`), `cad` (`blender`, `model_viewer`), `viewers` (`gnome_image_viewer`, `gnome_image_editor`), `scanning` (`gnome_scanner`, `gnome_ocr`) | 2D/3D graphics authoring, CAD, OCR, and image viewers |
+| `apps.media` | `audio` (`cozy`, `skald`, `spotify`, `pwvucontrol`, `gnome_radio`), `video` (`anime`, `netflix`, `obs`, `kdenlive`, `gnome_video_player`) | Audio/video production, Skald neural M4B audiobook compiler, OBS Studio, and media players |
+| `apps.network` | `browsers` (`chrome`, `firefox`, `tor`, `zen`), `chat` (`discord`, `teams`, `telegram`, `tut`, `whatsapp`), `remote` (`dnsutils`, `eduvpn`, `iperf`, `kde_connect`, `mappers`, `openssl`, `remmina`), `transfer` (`aria2`, `gnome_torrents`, `parabolic`) | Web browsers, messaging clients, remote desktop/network diagnostics, and file transfer |
+| `apps.office` | `docs` (`libreoffice`, `obsidian`, `marktext`, `rnote`), `readers` (`calibre`, `foliate`, `goggles`, `sioyek`, `zathura`, `zlibrary`), `tools` (`autofirma`, `ghostscript`, `mermaid`, `pandoc`, `searchlight`, `snowpack`, `stirling`, `zotero`) | Snowpack Typst/LaTeX compiler, Searchlight PDF search, Goggles GFM viewer, and document readers |
+| `apps.science` | `diagrams` (`drawio`, `lantern`), `electronics` (`kicad`), `gis` (`qgis`), `math` (`barograph`, `octave`) | Lantern interactive simulation compiler, Barograph figure extractor, KiCad, and QGIS |
+| `apps.settings` | `desktop` (`helm`, `nwg_look`, `tapes`), `packages` (`gnome_software`), `security` (`gnome_seahorse`, `onepassword`, `pass`, `sops`, `vulnix`) | Helm Hyprland studio, Tapes v2 (`tapes`, `tapes-deck`, `featured-tapes`), and secret managers |
+| `apps.system` | `shell` (`bat`, `curl`, `eza`, `fastfetch`, `fzf`, `glow`, `jq`, `kitty`, `ripgrep`, `starship`, `tmux`, `zoxide`, `zsh`), `core` (`bluetooth`, `sqlite`, `usbutils`, `zip`), `desktop` (`thunar`, `gnome_characters`, `gnome_file_roller`), `virtualization` (`distrobox`, `docker`, `virt_manager`) | Terminal emulators, modern Unix CLI stack, file managers, and Distrobox/VM frontends |
+| `apps.utility` | `accessories` (`calculator`, `rime`, `rss`, `gnome_calculator`) | Rime batch filename sanitizer, desktop calculators, and utilities |
+| `desktop` | `shells` (`igloo`), `tools` (`awww`, `borealis`, `igloo_cli`, `shards`) | Decoupled Wayland desktop shell (`igloo`), atmospheric wallpaper daemon (`borealis`), and clipboard overlay (`shards`) |
+| `environment` | `configsPath`, `mutable`, `extraConfigs`, `mkSource`, `fonts`, `gtk`, `xdg`, `ignores` | Centralized dotfile source resolver (live out-of-store symlinks vs pure Nix store) |
+| `services` | `google_drive`, `syncthing` | User-level Google Drive mount and Syncthing synchronization |
 
 ---
 
