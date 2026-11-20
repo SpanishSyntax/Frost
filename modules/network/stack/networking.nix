@@ -41,6 +41,16 @@ in {
       description = "Networking backend to use.";
     };
 
+    waitOnline = lib.mkOption {
+      type = lib.types.bool;
+      default = !isNM;
+      description = ''
+        Whether to block `network-online.target` on `NetworkManager-wait-online.service`
+        or `systemd-networkd-wait-online.service` during boot.
+        Defaults to `false` for `networkmanager` (workstations/laptops) and `true` for `networkd` (servers).
+      '';
+    };
+
     hosts = lib.mkOption {
       type = lib.types.attrsOf (lib.types.listOf lib.types.str);
       default = {};
@@ -202,6 +212,7 @@ in {
           "podman*"
         ];
       };
+      systemd.services.NetworkManager-wait-online.enable = lib.mkDefault cfg.waitOnline;
       systemd.network.enable = lib.mkDefault false;
 
       frost.system.storage.impermanence.directories = [
@@ -238,6 +249,7 @@ in {
       services.resolved.enable = lib.mkDefault true;
       systemd.network.enable = lib.mkDefault true;
       systemd.network.wait-online = {
+        enable = lib.mkDefault cfg.waitOnline;
         anyInterface = lib.mkDefault true;
         timeout = lib.mkDefault 15;
         ignoredInterfaces = [
