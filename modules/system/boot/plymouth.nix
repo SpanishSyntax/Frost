@@ -20,7 +20,10 @@
 
   scaleFilter =
     if cfg.custom.maxHeight != null
-    then ",scale=-2:'min(${toString cfg.custom.maxHeight},ih)':flags=lanczos"
+    then
+      if cfg.custom.fit == "native"
+      then ",scale=-2:'min(${toString cfg.custom.maxHeight},ih)':flags=lanczos"
+      else ",scale=-2:${toString cfg.custom.maxHeight}:flags=lanczos"
     else "";
 
   customThemePkg = pkgs.runCommand "plymouth-theme-${cfg.theme}" {
@@ -39,6 +42,7 @@
     else
       ffmpeg -v error -i "${cfg.custom.media}" \
         -vf "fps=${toString cfg.custom.fps}${scaleFilter}" \
+        -pix_fmt rgb24 -pred none -compression_level 1 \
         "$themeDir/frame-%04d.png"
     fi
 
@@ -84,19 +88,23 @@
       } else {
         rw = raw.GetWidth();
         rh = raw.GetHeight();
-        sx = win_w / rw;
-        sy = win_h / rh;
-        if (fit_mode == "cover") {
-          if (sx > sy) s = sx; else s = sy;
-        } else {
-          if (sx < sy) s = sx; else s = sy;
-        }
-        tw = Math.Int(rw * s);
-        th = Math.Int(rh * s);
-        if (tw == rw && th == rh) {
+        if (rw == win_w || rh == win_h) {
           frames[i] = raw;
         } else {
-          frames[i] = raw.Scale(tw, th);
+          sx = win_w / rw;
+          sy = win_h / rh;
+          if (fit_mode == "cover") {
+            if (sx > sy) s = sx; else s = sy;
+          } else {
+            if (sx < sy) s = sx; else s = sy;
+          }
+          tw = Math.Int(rw * s);
+          th = Math.Int(rh * s);
+          if (tw == rw && th == rh) {
+            frames[i] = raw;
+          } else {
+            frames[i] = raw.Scale(tw, th);
+          }
         }
       }
       return frames[i];
@@ -105,6 +113,8 @@
     sprite = Sprite();
     tick = 0;
     step = 50.0 / fps;
+    last_idx = -1;
+    positioned = 0;
 
     fun refresh_callback() {
       idx = Math.Int(tick / step);
@@ -113,11 +123,17 @@
       } else if (idx >= frame_count) {
         idx = frame_count - 1;
       }
+      tick++;
+      if (idx == last_idx) return;
+      last_idx = idx;
+
       img = load_frame(idx);
       sprite.SetImage(img);
-      sprite.SetX(win_w / 2 - img.GetWidth() / 2);
-      sprite.SetY(win_h / 2 - img.GetHeight() / 2);
-      tick++;
+      if (positioned == 0) {
+        sprite.SetX(Math.Int(win_w / 2 - img.GetWidth() / 2));
+        sprite.SetY(Math.Int(win_h / 2 - img.GetHeight() / 2));
+        positioned = 1;
+      }
     }
     Plymouth.SetRefreshFunction(refresh_callback);
 
