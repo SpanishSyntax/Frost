@@ -352,11 +352,11 @@
         "serpantinum-dots": "serpantinum-dots"
       },
       "locked": {
-        "lastModified": 1795132384,
-        "narHash": "sha256-nIsyphcxZKe4TxdwXA3K4I6KvmNjUt4cxhbOqTzBpPw=",
+        "lastModified": 1795163372,
+        "narHash": "sha256-OUFlZi3jb9SOlrfo4ABBRsr+wYaHSvbn9zBuBXtTLFQ=",
         "owner": "SpanishSyntax",
         "repo": "featured-tapes",
-        "rev": "ab86c747d1eaec44a874256e836ab1a21514b034",
+        "rev": "fc8bbaaa5c7f601daafda80b10e3ed0a82f231c6",
         "type": "github"
       },
       "original": {
@@ -2001,15 +2001,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1795128936,
-        "narHash": "sha256-AOjfy3+cTiRzO73Z6WFPrGcOkTAPvjHfSRWVCnDs/6E=",
-        "owner": "SpanishSyntax",
+        "lastModified": 1795151850,
+        "narHash": "sha256-m5Jg32rGGORPlcQ4TtKE1AABi7tqWli9S+PWp2kjLRg=",
+        "owner": "futurekismo-oss",
         "repo": "tapes",
-        "rev": "486d74291dd7e2d1296fdb8e9015fc90eae8f1ea",
+        "rev": "e6baf1ddf07c2b17df0c6da238e14044b0d7221c",
         "type": "github"
       },
       "original": {
-        "owner": "SpanishSyntax",
+        "owner": "futurekismo-oss",
         "repo": "tapes",
         "type": "github"
       }
@@ -2025,15 +2025,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1795130288,
+        "lastModified": 1795155218,
         "narHash": "sha256-Url9nQ5jaRtzIWwjGwzjHFBn8C89UOgW5fBWbscU33I=",
-        "owner": "SpanishSyntax",
+        "owner": "LilaccFlowerr",
         "repo": "tapes-deck",
-        "rev": "d55e7317b014d250b4414302948dd18296bb314c",
+        "rev": "2f10e87e001899127546f7f518554adf08e970d1",
         "type": "github"
       },
       "original": {
-        "owner": "SpanishSyntax",
+        "owner": "LilaccFlowerr",
         "repo": "tapes-deck",
         "type": "github"
       }
