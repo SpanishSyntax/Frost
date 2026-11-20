@@ -31,8 +31,8 @@ graph TD
 
     subgraph Fleet["Private Fleet Repository"]
         Flake["flake.nix"]
-        PrivateHosts["hosts/<machine>/configuration.nix"]
-        PrivateDisko["hosts/<machine>/disko.nix"]
+        PrivateHosts["hosts/{machine}/configuration.nix"]
+        PrivateDisko["hosts/{machine}/disko.nix"]
         PrivateSecrets["secrets/ (sops-nix encrypted files)"]
     end
 
@@ -94,12 +94,12 @@ Frost enforces strict separation across the graphical desktop stack so any combi
 
 ```mermaid
 graph TD
-    DM["Display Managers (frost.desktop.dms.*)<br/>permafrost, greetd, sddm, gdm, ly, lightdm, cosmic_greeter<br/>+ unified defaultSession"]
-    DE["Desktop Environments (frost.desktop.des.*)<br/>gnome, plasma, cosmic, xfce, cinnamon, mate, lxqt, budgie"]
-    WM["Window Managers (frost.desktop.wms.*)<br/>hyprland, niri, sway, river, mango, i3, bspwm, awesome, qtile"]
-    Portals["Session-Scoped Portals (frost.desktop.portals.*)<br/>xdg (<session>-portals.conf) + fjord (Wormhole)"]
-    Shells["User Shells & Daemons (frost.home.desktop.*)<br/>igloo (uwsm/env-<compositor>), borealis, shards, igloo_cli"]
-    Tapes["Tapes v2 & Dotfiles<br/>mkSource / extraConfigs + tapes / tapes-deck / featured-tapes"]
+    DM["Display Managers (frost.desktop.dms.*) - 7 DMs + defaultSession"]
+    DE["Desktop Environments (frost.desktop.des.*) - 8 Full DEs"]
+    WM["Window Managers (frost.desktop.wms.*) - 9 Standalone WMs"]
+    Portals["Session-Scoped Portals (frost.desktop.portals.*) - xdg + fjord"]
+    Shells["User Shells and Daemons (frost.home.desktop.*) - igloo, borealis, shards"]
+    Tapes["Tapes v2 and Dotfiles - mkSource, extraConfigs, tapes, tapes-deck"]
 
     DM -->|launches| DE
     DM -->|launches| WM
