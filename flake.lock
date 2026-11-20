@@ -1629,11 +1629,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794436196,
-        "narHash": "sha256-tg4+oduenOyLhuk0/cszkHdEYGkWb1xRpqrmjEdlqz8=",
+        "lastModified": 1795168904,
+        "narHash": "sha256-OwSuR0MLWnjGeimIAY4qt0+UpHoqqXXfrf7jQHTTesw=",
         "owner": "SpanishSyntax",
         "repo": "Sled",
-        "rev": "1fe6c3e57ad74dfa91bd570ef827979a516af9cd",
+        "rev": "4f32ce2139e0413e541cacc0d09be9ac21597c9b",
         "type": "github"
       },
       "original": {
