@@ -74,11 +74,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794436165,
-        "narHash": "sha256-s3ms0ffBZBXNh3X69nFtJao6V9TdtZktQlBAb2t5KTk=",
+        "lastModified": 1795171866,
+        "narHash": "sha256-9cSvQCzPL65ZK+HrNrWs8hfLTpdVuuPJnIUEU6wF72Q=",
         "owner": "SpanishSyntax",
         "repo": "Barograph",
-        "rev": "8b4ed26309d8f17e8b81580dd1b5eb7309cfdb58",
+        "rev": "49c8cc693176e183b9cbb7ec9f148410cac49347",
         "type": "github"
       },
       "original": {
@@ -124,11 +124,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794482223,
-        "narHash": "sha256-G5rSdEja2ooKyuKJCqnf49Q354du8C4Cq/kwraULlNU=",
+        "lastModified": 1795171869,
+        "narHash": "sha256-irocY1fyM33mw8STN8EqeTFzg/8UlwaWg0i4iBkBG0k=",
         "owner": "SpanishSyntax",
         "repo": "Basecamp",
-        "rev": "cd1660fc7d063fc4a32010dc3e58d6c6ec410e83",
+        "rev": "17333229acecd06d6f2055fdf9faf6a15924a1fb",
         "type": "github"
       },
       "original": {
@@ -169,11 +169,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794436173,
-        "narHash": "sha256-5D+BzQrZ1BsRSPyp/NRcOFgeywnrPiCPW3ms9JCBbpU=",
+        "lastModified": 1795171871,
+        "narHash": "sha256-VGTcTc1L9Q5ef0nNzlt7HZ36brkFr5DWVuPwesThxXI=",
         "owner": "SpanishSyntax",
         "repo": "Borealis",
-        "rev": "8e3e2db91e03f61e916f1ad669be653d11636796",
+        "rev": "7a50e904818080974ccb0e271e6647450a545713",
         "type": "github"
       },
       "original": {
@@ -394,11 +394,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794850814,
-        "narHash": "sha256-j8twwzCbH/9qSxQ1QtUoJ4huyyEodjsAYyLlOxs9lmQ=",
+        "lastModified": 1795171873,
+        "narHash": "sha256-IRG7yooMbDRXoyAH8tZOZ8/Qo/B7AhEiKQ22c0iBxa8=",
         "owner": "SpanishSyntax",
         "repo": "Fjord",
-        "rev": "b16bb213cd1d1b16854d50b7ae6296a93ce3e0e8",
+        "rev": "a5b1b1656b58df067a66d9dc86f46d82bf119251",
         "type": "github"
       },
       "original": {
@@ -821,11 +821,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794436175,
-        "narHash": "sha256-l8Kh7LduAeESZAZolX9GQ7fnT7ikHN7/8X/0qzGC7o0=",
+        "lastModified": 1795171879,
+        "narHash": "sha256-XFEriN5h0r80oKhl8xeIAuQ7bvnpM3VBrz5mYPTynZc=",
         "owner": "SpanishSyntax",
         "repo": "Goggles",
-        "rev": "a5b71da41ef7f781a34011eafa5e14ef914d7a4e",
+        "rev": "3f95a260804ae899093976172e4df7316916c597",
         "type": "github"
       },
       "original": {
@@ -842,11 +842,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794846222,
-        "narHash": "sha256-0ittFulz/gphwYZPk96k+WK20VbDZY4zh0Ep+fnS8/c=",
+        "lastModified": 1795171881,
+        "narHash": "sha256-SYQQSg5uLJC+lFyehbewN9WMa7/zDY+sSRxlEGg4Ftw=",
         "owner": "SpanishSyntax",
         "repo": "Helm",
-        "rev": "cdeb007ca3d1d2d12fc8b18b2ef7790e7c7edcc3",
+        "rev": "124bdc85a12f6ce152b43f19c9e2e8419673450b",
         "type": "github"
       },
       "original": {
@@ -1010,11 +1010,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795022913,
-        "narHash": "sha256-zgRw3bJ1E/mgeBbcOR7QHv1JCWImAai+Uj5VaJXQECA=",
+        "lastModified": 1795171883,
+        "narHash": "sha256-vkiTvuZpCIiT9XbY9kMLToiUI73Ho66PnGl9qXfpgQY=",
         "owner": "SpanishSyntax",
         "repo": "Lantern",
-        "rev": "1ede7073ba4f2e2595d7a47bf85f14ca6bb38e36",
+        "rev": "3ac5dbfd1f56a1a3f76aebf47344a63789714413",
         "type": "github"
       },
       "original": {
@@ -1418,11 +1418,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794436185,
-        "narHash": "sha256-b9jlqd4zft7wCIPqaYQvTI3VfXRUtj+3kAmYxJsbBZY=",
+        "lastModified": 1795171885,
+        "narHash": "sha256-HNdpo27fl4P4nQIp2oEWUTr1HrmLQE3TR4/joeIqCFo=",
         "owner": "SpanishSyntax",
         "repo": "Prism",
-        "rev": "1cc83fce8d90c581fd6c8074fe48aab82ec04559",
+        "rev": "8d67ea6fb350bc954c84ddd4c761a77faf13cc6a",
         "type": "github"
       },
       "original": {
@@ -1464,11 +1464,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794436188,
-        "narHash": "sha256-toRW/5kjWMhO+X8OAUixmcLKeKQkOS35Uw04OZr7DGo=",
+        "lastModified": 1795171887,
+        "narHash": "sha256-YTFN1ZSkjMQySyCMXvgGNYMU4LP4ZAW+GYqURpAh3fE=",
         "owner": "SpanishSyntax",
         "repo": "Rime",
-        "rev": "98fa757e67510d34813d9164ec8c879493c45a96",
+        "rev": "047a3a66ea9c6a3e1010a52161a248b4b9fc9dfc",
         "type": "github"
       },
       "original": {
@@ -1545,11 +1545,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794436191,
-        "narHash": "sha256-Hn8FPsPFVXqXTFc96SNq0C1ZgHPhpZfKW2ptouK+DMw=",
+        "lastModified": 1795171890,
+        "narHash": "sha256-o/6fCg1XxvTC+qPIEATc9nZm3ourtjcSlsU/tYTFLIE=",
         "owner": "SpanishSyntax",
         "repo": "Searchlight",
-        "rev": "2ba4ce536eeed52271e307d887ce2973b58228b4",
+        "rev": "6d91c8d27d73ae8b22f62168276a09aa4ef117cf",
         "type": "github"
       },
       "original": {
@@ -1581,11 +1581,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794846797,
-        "narHash": "sha256-jViRpxOLy3Phyyo4lLfaRfJTb+BkmpvymFSjamqNWKM=",
+        "lastModified": 1795171892,
+        "narHash": "sha256-VKQOY0JP7vph/L60Uh7CkisdIzzm4DGYCm+QRhtT7KE=",
         "owner": "SpanishSyntax",
         "repo": "Shards",
-        "rev": "adf7c7cf006f40614cf34bc2a8661ef6ddd85dd9",
+        "rev": "28efefb6aa68fc3149d842e2007289755293fc82",
         "type": "github"
       },
       "original": {
@@ -1605,11 +1605,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794436194,
-        "narHash": "sha256-P1MMOYbPiuuO6GE6ieg5tRj/z1X3bBAnT4i5WFIcmII=",
+        "lastModified": 1795171895,
+        "narHash": "sha256-UnV/MnQS77TpnJSkN5shtLZKpN7PrjwQ3EDPT9RybLo=",
         "owner": "SpanishSyntax",
         "repo": "Skald",
-        "rev": "4a64d104ab04af649fd956ef2ebc28c9dafa7de2",
+        "rev": "ebeca17146eaf16ef76c7f7b14d39359c2bbd132",
         "type": "github"
       },
       "original": {
@@ -1629,11 +1629,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795168904,
-        "narHash": "sha256-OwSuR0MLWnjGeimIAY4qt0+UpHoqqXXfrf7jQHTTesw=",
+        "lastModified": 1795171897,
+        "narHash": "sha256-9qWbT2KS6WjFCbEjrRlF96gdjxVwCLj0t8iwSa/bzIs=",
         "owner": "SpanishSyntax",
         "repo": "Sled",
-        "rev": "4f32ce2139e0413e541cacc0d09be9ac21597c9b",
+        "rev": "d857d3adc97ab02adb7f23bc929a8148f012510d",
         "type": "github"
       },
       "original": {
@@ -1653,11 +1653,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794436199,
-        "narHash": "sha256-vYmnW6K2KLLI0JD5izWrf1yyBaM4HX8CWi9Lkx+dIVo=",
+        "lastModified": 1795171900,
+        "narHash": "sha256-BTgCGiJuy3HXX0qAVxEKJ4c/+8QOV0pXTOJs3p6AoOw=",
         "owner": "SpanishSyntax",
         "repo": "Snowpack",
-        "rev": "d8f7a2076e6b0bebbb0a487603069ea87fcb72ab",
+        "rev": "fff6690026608d8e38ff33f68961ec0c3e4ac77c",
         "type": "github"
       },
       "original": {
