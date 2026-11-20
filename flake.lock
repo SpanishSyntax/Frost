@@ -1374,11 +1374,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794831526,
+        "lastModified": 1794859319,
         "narHash": "sha256-PnkXIsRV5SSAcnLYQknKA5G8fWnJuYTtmRAVYLifAkQ=",
         "owner": "SpanishSyntax",
         "repo": "PermaFrost",
-        "rev": "d4ea805324541a9e0be5cada6bbdde18c2c0a8c6",
+        "rev": "9fe1b47625a77ca950b72bf84de6bd19ea7db1c0",
         "type": "github"
       },
       "original": {
