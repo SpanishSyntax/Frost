@@ -35,7 +35,7 @@
       ];
       postBuild = ''
         ${lib.optionalString (hideTarget && name != targetBin) ''
-          rm -f "$out/bin/${targetBin}"
+          rm -f "$out/bin/${targetBin}" "$out/bin/.${targetBin}-wrapped"
         ''}
         if [ -f "$out/share/applications/${targetBin}.desktop" ]; then
           if [ -L "$out/share" ]; then

@@ -20,11 +20,17 @@
     pkg = cfg.package;
     name = "igloo-shell";
     target = "caelestia-shell";
-    hideTarget = false;
+    hideTarget = cfg.hideTarget;
   };
 in {
   options.frost.home.desktop.shells.igloo = {
     enable = lib.mkEnableOption "Igloo (Caelestia) desktop shell";
+
+    hideTarget = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Hide the underlying caelestia-shell binary inside igloo-shell-wrapped when another module provides caelestia-shell directly.";
+    };
 
     package = lib.mkOption {
       type = lib.types.package;

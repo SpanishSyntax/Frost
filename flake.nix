@@ -84,6 +84,7 @@
     featured-tapes = {
       url = "github:SpanishSyntax/featured-tapes";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.caelestia-shell.follows = "igloo";
     };
 
     #################################################################
