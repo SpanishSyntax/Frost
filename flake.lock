@@ -332,6 +332,22 @@
         "type": "github"
       }
     },
+    "end-4-rounded-polygon": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771173575,
+        "narHash": "sha256-p1Ia0oQCWnik2saVMgv7IABkaJV43PoY7uuwXjXlc+Q=",
+        "owner": "end-4",
+        "repo": "rounded-polygon-qmljs",
+        "rev": "e31ec4cb4ebf6a46b267f5c42eabf6874916fa16",
+        "type": "github"
+      },
+      "original": {
+        "owner": "end-4",
+        "repo": "rounded-polygon-qmljs",
+        "type": "github"
+      }
+    },
     "featured-tapes": {
       "inputs": {
         "caelestia-dots": "caelestia-dots",
@@ -339,6 +355,7 @@
           "caelestia-shell"
         ],
         "end-4-dots": "end-4-dots",
+        "end-4-rounded-polygon": "end-4-rounded-polygon",
         "flake-utils": "flake-utils_7",
         "m3shapes": "m3shapes_2",
         "nebula-dots": "nebula-dots",
@@ -349,11 +366,11 @@
         "serpantinum-dots": "serpantinum-dots"
       },
       "locked": {
-        "lastModified": 1795184275,
-        "narHash": "sha256-GFulQucEb7rbUX9ySn8HYJEYEwLwwXxVbk7d9wutMvc=",
+        "lastModified": 1795185451,
+        "narHash": "sha256-d3WAHHNrgQ3/C7PIMouxqRFqYx+NFfIRxVZ7c+zLVhc=",
         "owner": "SpanishSyntax",
         "repo": "featured-tapes",
-        "rev": "a0740a1aef2fdf2a4beea879f62300bb6fdf0c16",
+        "rev": "8b737f6f87b499efad3e8cede5a30044bf32b878",
         "type": "github"
       },
       "original": {
