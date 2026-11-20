@@ -31,7 +31,7 @@ Frost provides a strict 2-level option hierarchy for system-level NixOS modules 
 | `audio` | `pipewire` | Low-latency PipeWire sound server with ALSA, PulseAudio, and JACK emulation |
 | `peripherals` | `bluetooth`, `printing`, `uinput` | BlueZ stack, CUPS printing + discovery, and `uinput` device permissions |
 | `power` | `power` (`frost.hardware.power`) | Laptop power profiles, TLP / thermal management |
-| `sensors` | `iio` | `iio-sensor-proxy` accelerometer / auto-rotation support |
+| `sensors` | `iio`, `wluma` | `iio-sensor-proxy` accelerometer/ALS support and `wluma` Wayland auto-brightness daemon |
 
 ### Network (`frost.network.*`)
 
@@ -79,7 +79,7 @@ User modules live under `frost.home.apps.*` (following XDG desktop categories), 
   - `editors`: `nvim`, `vscode`, `zed`, `android_studio`
   - `tools`: `basecamp`, `dbeaver`, `git`, `heimdall`, `postman`, `prism`
   - `langs`: `bash`, `cpp`, `go`, `java`, `js`, `latex`, `lua`, `markdown`, `nginx`, `nix`, `python`, `rust`, `toml`, `typst`, `yaml`
-- **`gaming.launchers`**: `gamemode`, `heroic`
+- **`gaming.launchers`**: `gamemode`, `heroic`, `waylandcraft`
 - **`graphics`**:
   - `cad`: `blender`, `model_viewer`
   - `raster`: `gimp`, `sly`
