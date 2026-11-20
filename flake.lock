@@ -349,11 +349,11 @@
         "serpantinum-dots": "serpantinum-dots"
       },
       "locked": {
-        "lastModified": 1795163372,
-        "narHash": "sha256-OUFlZi3jb9SOlrfo4ABBRsr+wYaHSvbn9zBuBXtTLFQ=",
+        "lastModified": 1795181945,
+        "narHash": "sha256-jpOyNGKsX4GzwE9cG9TcBcovzHC6sg8BIWPOW8h92jg=",
         "owner": "SpanishSyntax",
         "repo": "featured-tapes",
-        "rev": "fc8bbaaa5c7f601daafda80b10e3ed0a82f231c6",
+        "rev": "47d462091488caee29c4807375749bb88f96733b",
         "type": "github"
       },
       "original": {
@@ -1908,11 +1908,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795151850,
-        "narHash": "sha256-m5Jg32rGGORPlcQ4TtKE1AABi7tqWli9S+PWp2kjLRg=",
+        "lastModified": 1795181940,
+        "narHash": "sha256-XgN2LmaXQnEc0DGCjMlo2TNgK1QzsrTaxVKRAy0kAlQ=",
         "owner": "SpanishSyntax",
         "repo": "tapes",
-        "rev": "e6baf1ddf07c2b17df0c6da238e14044b0d7221c",
+        "rev": "f3d904b32a172e505ab9b728ae85a44f878d0c38",
         "type": "github"
       },
       "original": {
@@ -1932,11 +1932,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795155218,
-        "narHash": "sha256-Url9nQ5jaRtzIWwjGwzjHFBn8C89UOgW5fBWbscU33I=",
+        "lastModified": 1795181943,
+        "narHash": "sha256-/M6OmBUs0WTOxDBTmqDgo42wxzfg9jBS5IqGMnuW8Jc=",
         "owner": "SpanishSyntax",
         "repo": "tapes-deck",
-        "rev": "2f10e87e001899127546f7f518554adf08e970d1",
+        "rev": "723ea2dac787258f397ad5c3202feb0d7467ce56",
         "type": "github"
       },
       "original": {

@@ -130,9 +130,16 @@ Frost ships starter templates in `configs/home/`, and you can declaratively mate
 frost.home.apps.settings.desktop.tapes = {
   enable = true;
   gui.enable = true; # Tapes-Deck GUI
+  # buildFromSource = false; # default: uses fast patchelf release binary (auto-falls back to source); set true to force local Rust builds
   featured = ["caelestia" "end-4" "nebula" "noctalia-libre" "serpantinum"];
+  # Optional: opt-in version-controlled tapes from <configsPath>/tapes/<name>
+  # localTapes = ["niri-noctalia" "sway-minimal"];
 };
 ```
+
+> [!NOTE]
+> Custom/experimental tapes can live untracked directly inside `~/.tapes/` (created via `tapes install`, `tapes-deck`, or manually) with full write access. Whenever you want to track a custom tape in your fleet repo, move it to `<configsPath>/tapes/<name>` and add `"<name>"` to `localTapes` (symlinked out-of-store so `tapes-deck` and runtime theming tools can still edit it).
+> For non-colliding baseline WM configs (`niri`, `sway`, `river`, `mango`, `i3`, `bspwm`, `awesome`, `qtile`), prefer `frost.home.environment.extraConfigs` rather than Tapes.
 
 ```bash
 # Install an official curated tape (from futurekismo-oss/featured-tapes)
