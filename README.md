@@ -180,8 +180,11 @@ sudo nix run github:SpanishSyntax/Frost#install -- workstation
 sudo nix run .#install -- workstation
 ```
 
-> [!WARNING]
-> `frost-install` reformats the target drives specified in the host's `disko.nix`. Verify target device paths before proceeding.
+> [!CAUTION]
+> **Destructive Disk Wipe & Liability Disclaimer**
+> - **Full-Disk Repartitioning**: `frost-install` invokes Disko to repartition and format the target drives declared in your host's `disko.nix`, **permanently destroying all existing partitions and data** on those devices.
+> - **No Liability for Data Loss**: This tool is provided strictly **"as is"** without warranty of any kind. The author and contributors assume **no responsibility or liability whatsoever for any data loss, filesystem corruption, unbootable systems, or hardware damage** resulting from the use or misuse of `frost-install` or `frost-recover`.
+> - **Mandatory Backups & Full-Reset Readiness**: Before running `frost-install`, you are solely responsible for creating and verifying external backups of all important data, double-checking target device identifiers (`/dev/nvme0n1`, `/dev/sda`, etc.), and ensuring the target system is **100% ready for a complete destructive reset**.
 
 ### 2. frost-recover — Dynamic Rescue Mounting
 

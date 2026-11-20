@@ -29,8 +29,11 @@ sudo nix run github:SpanishSyntax/Frost#install -- <host> [flake-uri]
    - Prints the host's age public key derived via `ssh-to-age`.
 5. **NixOS Install**: Invokes `nixos-install --flake "<flake-uri>#<host>" --no-root-passwd`.
 
-> [!WARNING]
-> Running `frost-install` reformats the target drives defined in the host's `disko.nix`. Ensure device identifiers (`/dev/nvme0n1`, `/dev/sda`) match your target machine before running.
+> [!CAUTION]
+> **Destructive Disk Wipe & Liability Disclaimer**
+> - **Full-Disk Repartitioning**: `frost-install` invokes Disko to repartition and format the target drives declared in your host's `disko.nix`, **permanently destroying all existing partitions and data** on those devices.
+> - **No Liability for Data Loss**: This tool is provided strictly **"as is"** without warranty of any kind. The author and contributors assume **no responsibility or liability whatsoever for any data loss, filesystem corruption, unbootable systems, or hardware damage** resulting from the use or misuse of `frost-install` or `frost-recover`.
+> - **Mandatory Backups & Full-Reset Readiness**: Before running `frost-install`, you are solely responsible for creating and verifying external backups of all important data, double-checking target device identifiers (`/dev/nvme0n1`, `/dev/sda`, etc.), and ensuring the target system is **100% ready for a complete destructive reset**.
 
 ---
 
@@ -49,11 +52,11 @@ sudo nix run github:SpanishSyntax/Frost#recover
 
 - **LUKS Discovery**: Automatically discovers encrypted LUKS partitions on `/dev/nvme*` or `/dev/sd*` and prompts for passphrase unlock.
 - **Btrfs Subvolume Mounting**: Mounts subvolumes in correct hierarchy to `/mnt`:
-  - `@` $\rightarrow$ `/mnt`
-  - `@nix` $\rightarrow$ `/mnt/nix`
-  - `@persist` $\rightarrow$ `/mnt/persist`
-  - `@home` $\rightarrow$ `/mnt/home`
-  - ESP boot partition $\rightarrow$ `/mnt/boot`
+  - `@` → `/mnt`
+  - `@nix` → `/mnt/nix`
+  - `@persist` → `/mnt/persist`
+  - `@home` → `/mnt/home`
+  - ESP boot partition → `/mnt/boot`
 - **Chroot Access**: Once mounted, enter the system environment via:
   ```bash
   sudo nixos-enter
