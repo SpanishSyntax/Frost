@@ -159,8 +159,8 @@ User modules live under `frost.home.apps.*` (following XDG desktop categories), 
 
 | Category | Modules | Description |
 | :--- | :--- | :--- |
-| `shells` | `igloo` | Caelestia Quickshell desktop shell (`compositor`, `manageConfig`, `systemd.enable`) |
-| `tools` | `awww`, `borealis`, `igloo_cli`, `shards` | Dynamic atmospheric wallpaper daemon (`borealis`), Wayland clipboard/emoji overlay (`shards`), and shell CLI |
+| `shells` | `caelestia` | Caelestia Quickshell desktop shell (`compositor`, `manageConfig`, `systemd.enable`) |
+| `tools` | `awww`, `borealis`, `caelestia_cli`, `shards` | Dynamic atmospheric wallpaper daemon (`borealis`), Wayland clipboard/emoji overlay (`shards`), and shell CLI |
 
 ### Environment & Services (`frost.home.environment.*`, `frost.home.services.*`)
 
@@ -201,13 +201,13 @@ User modules live under `frost.home.apps.*` (following XDG desktop categories), 
     };
 
     desktop = {
-      shells.igloo = {
+      shells.caelestia = {
         enable = true;
         manageConfig = true;
       };
       tools = {
         borealis.enable = true;
-        igloo_cli.enable = true;
+        caelestia_cli.enable = true;
         shards.enable = true;
       };
     };

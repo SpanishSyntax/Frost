@@ -69,8 +69,6 @@ in {
         enable = true;
         tapes = cfg.featured;
       };
-      # When Igloo is already enabled, avoid installing a duplicate unwrapped caelestia-shell in home.packages
-      frost.home.desktop.shells.igloo.hideTarget = lib.mkIf (builtins.elem "caelestia" cfg.featured) true;
     })
   ]);
 }

@@ -79,7 +79,7 @@ Frost/
 └── home/                   # User-level Home Manager modules (frost.home.* namespace)
     ├── home.nix            # Central user module collector
     ├── applications/       # 110+ XDG-categorized app modules (ai, dev, gaming, graphics, ...)
-    ├── desktop/            # Wayland shells (igloo) & desktop tools (borealis, shards, igloo_cli)
+    ├── desktop/            # Wayland shells (caelestia) & desktop tools (borealis, shards, caelestia_cli)
     ├── environment/        # configsPath / extraConfigs / mkSource, fonts, GTK, XDG, ignores
     ├── services/           # User services (syncthing, google_drive)
     └── users/              # User profiles
@@ -98,7 +98,7 @@ graph TD
     DE["Desktop Environments (frost.desktop.des.*) - 8 Full DEs"]
     WM["Window Managers (frost.desktop.wms.*) - 9 Standalone WMs"]
     Portals["Session-Scoped Portals (frost.desktop.portals.*) - xdg + fjord"]
-    Shells["User Shells and Daemons (frost.home.desktop.*) - igloo, borealis, shards"]
+    Shells["User Shells and Daemons (frost.home.desktop.*) - caelestia, borealis, shards"]
     Tapes["Tapes v2 and Dotfiles - mkSource, extraConfigs, tapes, tapes-deck"]
 
     DM -->|launches| DE
@@ -113,7 +113,7 @@ graph TD
 2. **Desktop Environments (`frost.desktop.des.*`)**: Full DEs (GNOME, Plasma, COSMIC, XFCE, etc.) remain isolated from standalone WM overrides.
 3. **Window Managers (`frost.desktop.wms.*`)**: All 9 WMs (`hyprland`, `niri`, `sway`, `river`, `mango`, `i3`, `bspwm`, `awesome`, `qtile`) guard their user services (Polkit authentication agents, IIO screen rotation daemons) with compositor-specific `ConditionEnvironment` checks (`HYPRLAND_INSTANCE_SIGNATURE`, `NIRI_SOCKET`, `SWAYSOCK`, `XDG_CURRENT_DESKTOP=mango`, `XDG_CURRENT_DESKTOP=river`).
 4. **Session-Scoped Portals (`frost.desktop.portals.*`)**: Instead of emitting a global `xdg.portal.config.common` that hijacks GNOME or KDE file choosers, `frost.desktop.portals.xdg` emits per-compositor `<session>-portals.conf` rules (`portalOrder ++ ["gtk"] ++ fallbacks`) only for registered WMs.
-5. **Shells & Daemons (`frost.home.desktop.*`)**: `frost.home.desktop.shells.igloo` scopes its Wayland toolkit environment exports to `~/.config/uwsm/env-${cfg.compositor}` and exposes independent `manageConfig` and `systemd.enable` toggles matching `borealis` and `shards`.
+5. **Shells & Daemons (`frost.home.desktop.*`)**: `frost.home.desktop.shells.caelestia` scopes its Wayland toolkit environment exports to `~/.config/uwsm/env-${cfg.compositor}` and exposes independent `manageConfig` and `systemd.enable` toggles matching `borealis` and `shards`.
 
 ---
 

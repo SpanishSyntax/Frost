@@ -84,7 +84,7 @@
     featured-tapes = {
       url = "github:SpanishSyntax/featured-tapes";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.caelestia-shell.follows = "igloo";
+      inputs.caelestia-shell.follows = "caelestia-shell";
     };
 
     #################################################################
@@ -120,16 +120,16 @@
       inputs.prism.follows = "prism";
     };
 
-    igloo-cli = {
+    caelestia-cli = {
       url = "github:caelestia-dots/cli";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.caelestia-shell.follows = "";
     };
 
-    igloo = {
+    caelestia-shell = {
       url = "github:SpanishSyntax/Igloo";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.caelestia-cli.follows = "igloo-cli";
+      inputs.caelestia-cli.follows = "caelestia-cli";
     };
 
     lantern = {

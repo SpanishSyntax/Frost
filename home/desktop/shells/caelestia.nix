@@ -3,39 +3,30 @@
   pkgs,
   lib,
   inputs,
-  wrapBin,
   ...
 }: let
-  cfg = config.frost.home.desktop.shells.igloo;
-  cliEnabled = config.frost.home.desktop.tools.igloo_cli.enable or false;
+  cfg = config.frost.home.desktop.shells.caelestia;
+  cliEnabled = config.frost.home.desktop.tools.caelestia_cli.enable or false;
   system = pkgs.stdenv.hostPlatform.system;
   defaultPkg =
-    if inputs ? igloo
+    if inputs ? caelestia-shell
     then
-      if cliEnabled
-      then inputs.igloo.packages.${system}.with-cli
-      else inputs.igloo.packages.${system}.default
-    else pkgs.writeShellScriptBin "caelestia-shell" "echo 'igloo input missing'; exit 1";
-  wrappedShell = wrapBin pkgs {
-    pkg = cfg.package;
-    name = "igloo-shell";
-    target = "caelestia-shell";
-    hideTarget = cfg.hideTarget;
-  };
+      if cliEnabled && (inputs.caelestia-shell.packages.${system} ? with-cli)
+      then inputs.caelestia-shell.packages.${system}.with-cli
+      else inputs.caelestia-shell.packages.${system}.default
+    else pkgs.writeShellScriptBin "caelestia-shell" "echo 'caelestia-shell input missing'; exit 1";
+  featuredTapes = config.frost.home.apps.settings.desktop.tapes.featured or [];
+  caelestiaTapeEnabled =
+    (config.frost.home.apps.settings.desktop.tapes.enable or false)
+    && builtins.elem "caelestia" featuredTapes;
 in {
-  options.frost.home.desktop.shells.igloo = {
-    enable = lib.mkEnableOption "Igloo (Caelestia) desktop shell";
-
-    hideTarget = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Hide the underlying caelestia-shell binary inside igloo-shell-wrapped when another module provides caelestia-shell directly.";
-    };
+  options.frost.home.desktop.shells.caelestia = {
+    enable = lib.mkEnableOption "Caelestia desktop shell";
 
     package = lib.mkOption {
       type = lib.types.package;
       default = defaultPkg;
-      description = "The Igloo (Caelestia) shell package to use.";
+      description = "The Caelestia shell package to use.";
     };
 
     compositor = lib.mkOption {
@@ -61,24 +52,25 @@ in {
       enable = lib.mkOption {
         type = lib.types.bool;
         default = false;
-        description = "Whether to autostart the Igloo shell via a systemd user service.";
+        description = "Whether to autostart the Caelestia shell via a systemd user service.";
       };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [wrappedShell];
+    # Avoid duplicate caelestia-shell package in home.packages when the caelestia featured tape already provides it
+    home.packages = lib.optional (!caelestiaTapeEnabled) cfg.package;
 
-    systemd.user.services.igloo = lib.mkIf cfg.systemd.enable {
+    systemd.user.services.caelestia = lib.mkIf cfg.systemd.enable {
       Unit = {
-        Description = "Igloo Desktop Shell";
+        Description = "Caelestia Desktop Shell";
         PartOf = ["graphical-session.target"];
         After = ["graphical-session.target"];
         ConditionEnvironment = "!XDG_CURRENT_DESKTOP=GNOME";
       };
       Service = {
         Type = "exec";
-        ExecStart = "${wrappedShell}/bin/igloo-shell";
+        ExecStart = "${cfg.package}/bin/caelestia-shell";
         Restart = "on-failure";
         RestartSec = "5s";
         TimeoutStopSec = "5s";
@@ -104,7 +96,7 @@ in {
       export ELECTRON_OZONE_PLATFORM_HINT='auto'
       export _JAVA_AWT_WM_NONREPARENTING='1'
 
-      # 3. Igloo (Caelestia) Qt & Platform overrides
+      # 3. Caelestia Qt & Platform overrides
       export QT_QPA_PLATFORMTHEME='qtengine'
       export QT_WAYLAND_DISABLE_WINDOWDECORATION='1'
       export QT_AUTO_SCREEN_SCALE_FACTOR='1'

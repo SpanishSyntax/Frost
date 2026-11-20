@@ -64,7 +64,7 @@ Frost/
 └── home/                   # User-level Home Manager modules (frost.home.* namespace)
     ├── home.nix            # Central user module collector
     ├── applications/       # 110+ XDG-categorized app modules (ai, dev, gaming, graphics, ...)
-    ├── desktop/            # Wayland shells (igloo) & desktop tools (borealis, shards, igloo_cli)
+    ├── desktop/            # Wayland shells (caelestia) & desktop tools (borealis, shards, caelestia_cli)
     ├── environment/        # configsPath / extraConfigs / mkSource, fonts, GTK, XDG, ignores
     ├── services/           # User services (syncthing, google_drive)
     └── users/              # User profiles
@@ -233,7 +233,7 @@ Over 110 modular application wrappers organized by XDG desktop categories under 
 | `apps.settings` | `desktop` (`helm`, `nwg_look`, `tapes`), `packages` (`gnome_software`), `security` (`gnome_seahorse`, `onepassword`, `pass`, `sops`, `vulnix`) | Helm Hyprland studio, Tapes v2 (`tapes`, `tapes-deck`, `featured-tapes`), and secret managers |
 | `apps.system` | `shell` (`bat`, `curl`, `eza`, `fastfetch`, `fzf`, `glow`, `jq`, `kitty`, `ripgrep`, `starship`, `tmux`, `zoxide`, `zsh`), `core` (`bluetooth`, `sqlite`, `usbutils`, `zip`), `desktop` (`thunar`, `gnome_characters`, `gnome_file_roller`), `virtualization` (`distrobox`, `docker`, `virt_manager`) | Terminal emulators, modern Unix CLI stack, file managers, and Distrobox/VM frontends |
 | `apps.utility` | `accessories` (`calculator`, `rime`, `rss`, `gnome_calculator`) | Rime batch filename sanitizer, desktop calculators, and utilities |
-| `desktop` | `shells` (`igloo`), `tools` (`awww`, `borealis`, `igloo_cli`, `shards`) | Decoupled Wayland desktop shell (`igloo`), atmospheric wallpaper daemon (`borealis`), and clipboard overlay (`shards`) |
+| `desktop` | `shells` (`caelestia`), `tools` (`awww`, `borealis`, `caelestia_cli`, `shards`) | Decoupled Wayland desktop shell (`caelestia`), atmospheric wallpaper daemon (`borealis`), and clipboard overlay (`shards`) |
 | `environment` | `configsPath`, `mutable`, `extraConfigs`, `mkSource`, `fonts`, `gtk`, `xdg`, `ignores` | Centralized dotfile source resolver (live out-of-store symlinks vs pure Nix store) |
 | `services` | `google_drive`, `syncthing` | User-level Google Drive mount and Syncthing synchronization |
 
@@ -247,7 +247,7 @@ Frost cleanly separates five desktop layers so multiple Desktop Environments, Wi
 2. **Desktop Environments (`frost.desktop.des.*`)**: 8 full DEs (`gnome`, `plasma`, `cosmic`, `xfce`, `cinnamon`, `mate`, `lxqt`, `budgie`) that can be co-installed alongside standalone WMs.
 3. **Window Managers (`frost.desktop.wms.*`)**: 9 standalone WMs (`hyprland`, `niri`, `sway`, `river`, `mango`, `i3`, `bspwm`, `awesome`, `qtile`) with session-scoped Polkit agents (`ConditionEnvironment`) and IIO screen rotation (`hyprland` Lua/legacy + `iioTabletModeOnly`, `sway` `rot8`).
 4. **Session-Scoped Portals (`frost.desktop.portals.*`)**: `xdg` generates per-compositor `<session>-portals.conf` files so custom portals like `fjord` apply only to registered WMs and never hijack full DEs like GNOME or Plasma.
-5. **User Shells & Rices (`frost.home.desktop.*` & `tapes`)**: `igloo` injectors target `~/.config/uwsm/env-<compositor>`, while user daemons (`borealis`, `shards`) respect `manageConfig` and `systemd.enable`.
+5. **User Shells & Rices (`frost.home.desktop.*` & `tapes`)**: `caelestia` injectors target `~/.config/uwsm/env-<compositor>`, while user daemons (`borealis`, `shards`) respect `manageConfig` and `systemd.enable`.
 
 ### 1. Out-of-Store Dotfiles (`configsPath` & `extraConfigs`)
 
@@ -293,7 +293,7 @@ tapes eject
 ```
 
 > [!TIP]
-> If you manage `caelestia/` or `hypr/` exclusively through Tapes, set `frost.home.desktop.shells.igloo.manageConfig = false` so Home Manager never overlaps Tapes-managed targets. Always run `tapes eject` before `nixos-rebuild switch` if an active tape overrides any Home Manager target.
+> If you manage `caelestia/` or `hypr/` exclusively through Tapes, set `frost.home.desktop.shells.caelestia.manageConfig = false` so Home Manager never overlaps Tapes-managed targets. Always run `tapes eject` before `nixos-rebuild switch` if an active tape overrides any Home Manager target.
 
 ---
 
