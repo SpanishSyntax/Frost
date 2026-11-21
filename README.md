@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="assets/banner.png" alt="Delicate frost needle crystals coating moorland heather beneath a winter dawn sky" width="100%" />
-</p>
+<img src="assets/banner.png" alt="Delicate frost needle crystals coating moorland heather beneath a winter dawn sky" width="100%" />
 
 # Frost ❄️
 
