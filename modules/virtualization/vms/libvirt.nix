@@ -18,22 +18,7 @@ in {
         runAsRoot = true;
         swtpm.enable = true;
       };
-    };
-
-    # Force-disable the monolithic service & socket
-    systemd.services.libvirtd.enable = false;
-    systemd.sockets.libvirtd.enable = false;
-    systemd.sockets."libvirtd-ro".enable = false;
-    systemd.sockets."libvirtd-admin".enable = false;
-
-    # Enable the modular sockets instead
-    systemd.sockets = {
-      "virtqemud".wantedBy = ["sockets.target"];
-      "virtnetworkd".wantedBy = ["sockets.target"];
-      "virtnodedevd".wantedBy = ["sockets.target"];
-      "virtstoraged".wantedBy = ["sockets.target"];
-      "virtsecretd".wantedBy = ["sockets.target"];
-      "virtnwfilterd".wantedBy = ["sockets.target"];
+      spiceUSBRedirection.enable = true;
     };
 
     frost.system.storage.impermanence.directories = [
