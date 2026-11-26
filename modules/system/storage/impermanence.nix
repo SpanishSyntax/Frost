@@ -43,6 +43,7 @@ in {
       files =
         [
           "/etc/machine-id"
+          "/var/lib/systemd/credential.secret"
         ]
         ++ cfg.files;
     };
