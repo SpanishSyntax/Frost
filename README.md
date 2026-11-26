@@ -21,7 +21,7 @@ Frost is an opinionated, modular NixOS framework and starter distribution. It se
 
 ---
 
-## Why "Frost"? (The Lore)
+## Why "Frost"?
 
 > **frost** (`/frɔːst/`) — *noun:* The crystalline deposit of delicate ice needles that binds cold surfaces together, transforming raw terrain into a unified, resilient winter landscape.
 

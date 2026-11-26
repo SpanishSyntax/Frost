@@ -6,7 +6,7 @@
   - [External Flake Library](getting-started.md#workflow-b-external-flake-library)
 
 - **Architecture & Foundation**
-  - [The Lore](architecture.md#why-frost-the-lore)
+  - [The Lore](architecture.md#why-frost)
   - [Flake & Fleet Separation](architecture.md#flake--fleet-separation)
   - [Directory Hierarchy](architecture.md#directory-hierarchy)
   - [Decoupled Desktop Stack](architecture.md#decoupled-desktop-stack-dms-des-wms-portals--shells)

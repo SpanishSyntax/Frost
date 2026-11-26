@@ -4,7 +4,7 @@ Frost implements a modular architecture designed to decouple system and user env
 
 ---
 
-## Why "Frost"? (The Lore)
+## Why "Frost"?
 
 > **frost** (`/frɔːst/`) — *noun:* The crystalline deposit of delicate ice needles that binds cold surfaces together, transforming raw terrain into a unified, resilient winter landscape.
 
